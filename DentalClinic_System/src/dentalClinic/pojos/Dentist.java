@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+//A POJO has... 
 public class Dentist implements Serializable{
 
 	/**
