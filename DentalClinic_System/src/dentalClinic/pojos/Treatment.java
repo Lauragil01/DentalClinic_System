@@ -14,16 +14,17 @@ public class Treatment implements Serializable {
 	private static final long serialVersionUID = -2391513895154656638L;
 	private Integer id;
 	private String diagnosis;
-	private String medication;
 	private Integer consultDuration;
 	private Date startDate;
 	private Date finishDate;
 	 //one to many relationship
 	private List<Patient> patients;
+	private List<Medication> medications;
 	
 	public Treatment() {
 		super();
 		patients=new ArrayList<Patient>();
+		setMedications(new ArrayList<Medication>());
 	}
 
 	public Integer getId() {
@@ -40,14 +41,6 @@ public class Treatment implements Serializable {
 
 	public void setDiagnosis(String diagnosis) {
 		this.diagnosis = diagnosis;
-	}
-
-	public String getMedication() {
-		return medication;
-	}
-
-	public void setMedication(String medication) {
-		this.medication = medication;
 	}
 
 	public Integer getConsultDuration() {
@@ -81,6 +74,13 @@ public class Treatment implements Serializable {
 	public void setPatients(List<Patient> patients) {
 		this.patients = patients;
 	}
+	public List<Medication> getMedications() {
+		return medications;
+	}
+
+	public void setMedications(List<Medication> medications) {
+		this.medications = medications;
+	}
 
 	@Override
 	public int hashCode() {
@@ -101,9 +101,9 @@ public class Treatment implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Treatment [id=" + id + ", diagnosis=" + diagnosis + ", medication=" + medication + ", consultDuration="
+		return "Treatment [id=" + id + ", diagnosis=" + diagnosis + ", consultDuration="
 				+ consultDuration + ", startDate=" + startDate + ", finishDate=" + finishDate + ", patients=" + patients
-				+ "]";
+				+ ", medications=" + medications + "]";
 	}
 	
 	

@@ -18,10 +18,12 @@ public class Dentist implements Serializable{
 	private String turn;
 	private String speciality;
 	private List<Patient> patients;
+	private List<Appointment> appointments;
 	
 	public Dentist() {
 		super();
 		patients=new ArrayList<Patient>();
+		appointments=new ArrayList<Appointment>();
 	}
 
 	public Integer getId() {
@@ -72,6 +74,15 @@ public class Dentist implements Serializable{
 		this.patients = patients;
 	}
 
+	public List<Appointment> getAppointments() {
+		return appointments;
+	}
+
+	public void setAppointments(List<Appointment> appointments) {
+		this.appointments = appointments;
+	}
+	
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -94,6 +105,7 @@ public class Dentist implements Serializable{
 		return "Dentist [id=" + id + ", name=" + name + ", surname=" + surname + ", turn=" + turn + ", speciality="
 				+ speciality + ", patients=" + patients + "]";
 	}
+
 	
 	
 	

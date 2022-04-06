@@ -19,18 +19,21 @@ public class Patient implements Serializable {
 	private String gender;
 	private Date bithDate;
 	private String address;
-	private String bloodType;
+	private String bloodType; //deberia ser enum??
 	private String allergies;
 	private String blackground;
 	//Many to one relationship
-	private Treatment treatment;
+	private List<Treatment> treatments;
 	//Many to many relationship
 	private List<Dentist> dentists;
+	private List<Appointment> appointments;
 	
 	//empty constructor
 	public Patient() {
 		super();
 		dentists=new ArrayList<Dentist>();
+		appointments=new ArrayList<Appointment>();
+		treatments=new ArrayList<Treatment>();
 	}
 	
 	//equals
@@ -51,12 +54,12 @@ public class Patient implements Serializable {
 		return Objects.equals(id, other.id);
 	}
 	
-	//toString method
 	@Override
 	public String toString() {
 		return "Patient [id=" + id + ", name=" + name + ", surname=" + surname + ", gender=" + gender + ", bithDate="
 				+ bithDate + ", address=" + address + ", bloodType=" + bloodType + ", allergies=" + allergies
-				+ ", blackground=" + blackground + "]";
+				+ ", blackground=" + blackground + ", treatments=" + treatments + ", dentists=" + dentists
+				+ ", appointments=" + appointments + "]";
 	}
 	
 	//getters and setters
@@ -115,20 +118,28 @@ public class Patient implements Serializable {
 		this.blackground = blackground;
 	}
 
-	public Treatment getTreatment() {
-		return treatment;
-	}
-
-	public void setTreatment(Treatment treatment) {
-		this.treatment = treatment;
-	}
-
 	public List<Dentist> getDentists() {
 		return dentists;
 	}
 
 	public void setDentists(List<Dentist> dentists) {
 		this.dentists = dentists;
+	}
+
+	public List<Treatment> getTreatments() {
+		return treatments;
+	}
+
+	public void setTreatments(List<Treatment> treatments) {
+		this.treatments = treatments;
+	}
+
+	public List<Appointment> getAppointments() {
+		return appointments;
+	}
+
+	public void setAppointments(List<Appointment> appointments) {
+		this.appointments = appointments;
 	}
 	
 	
