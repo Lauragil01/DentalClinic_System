@@ -41,36 +41,36 @@ public class JDBCManager {
 			// Create Tables
 			try {
 			Statement stmt = c.createStatement();
-			String sql = "CREATE TABLE patient ("
+			String sql = "CREATE TABLE patients ("
 			+ "	id	    INTEGER PRIMARY KEY AUTOINCREMENT,"
 			+ "	name	TEXT NOT NULL,"
 			+ " surname  TEXT NOT NULL,"
 			+ "	gender	TEXT NOT NULL,"
 			+ "	dob		DATE NOT NULL,"
-			+ "	address	TEXT NOT NULL"
-			+ " bloodType TEXT NOT NULL"
-			+ " allergies TEXT"
+			+ "	address	TEXT NOT NULL,"
+			+ " bloodType TEXT NOT NULL,"
+			+ " allergies TEXT,"
 			+ " background TEXT"
 			+ ");";
 			stmt.executeUpdate(sql);
-			sql = "CREATE TABLE treatment ("
+			sql = "CREATE TABLE treatments ("
 			+ "	id INTEGER PRIMARY KEY AUTOINCREMENT,"
 			+ "	diagnosis	TEXT NOT NULL,"
 			+ "	duration TEXT NOT NULL,"
 			+ "	startDate DATE NOT NULL,"
 			+ "	finishDate DATE NOT NULL,"
-			+ "	FOREIGN KEY(patientId) REFERENCES patients(id) ON DELETE CASCADE,"
+			+ "	FOREIGN KEY(patientId) REFERENCES patients(id) ON DELETE CASCADE"
 			+ ");";
 			stmt.executeUpdate(sql);
-			sql = "CREATE TABLE dentist ("
+			sql = "CREATE TABLE dentists ("
 			+ "	id 		INTEGER PRIMARY KEY AUTOINCREMENT,"
 			+ "	name	TEXT NOT NULL,"
-			+ "	surname	TEXT NOT NULL"
-			+ "	turn	TEXT NOT NULL"
+			+ "	surname	TEXT NOT NULL,"
+			+ "	turn	TEXT NOT NULL,"
 			+ "	speciality	TEXT NOT NULL"
 			+ ");";
 			stmt.executeUpdate(sql);
-			sql = "CREATE TABLE appointment ("
+			sql = "CREATE TABLE appointments ("
 			+ "	id	INTEGER PRIMARY KEY AUTOINCREMENT,"
 			+ "	type	TEXT NOT NULL,"
 			+ " date DATE NOT NULL,"
@@ -78,13 +78,13 @@ public class JDBCManager {
 			+ " dentist TEXT NOT NULL,"
 			+ " duration INTEGER NOT NULL,"
 			+ "	FOREIGN KEY(patientId) REFERENCES patients(id) ON DELETE CASCADE,"
-			+ "	FOREIGN KEY(dentistId) REFERENCES dentists(id) ON DELETE CASCADE,"
+			+ "	FOREIGN KEY(dentistId) REFERENCES dentists(id) ON DELETE CASCADE"
 			+ ");";
 			stmt.executeUpdate(sql);
-			sql = "CREATE TABLE medication ("
+			sql = "CREATE TABLE medications ("
 			+ "	id	INTEGER PRIMARY KEY AUTOINCREMENT,"
 			+ "	name	TEXT NOT NULL,"
-			+ " dosis INTEGER NOT NULL,"
+			+ " dosis INTEGER NOT NULL"
 			+ ");";
 			stmt.executeUpdate(sql);
 			sql = "CREATE TABLE examines ("
@@ -102,5 +102,11 @@ public class JDBCManager {
 					e.printStackTrace();
 				}
 			}
+		}
+
+
+		public static void main(String[] args) {
+			JDBCManager manager= new JDBCManager();
+			manager.createTables();
 		}
 }

@@ -3,6 +3,8 @@ package ui;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
+import jdbc.JDBCManager;
+
 public class Menu {
 
 	private static BufferedReader reader = new BufferedReader (new InputStreamReader(System.in));
@@ -31,7 +33,6 @@ public class Menu {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-	}
 
+	}
 }
