@@ -26,6 +26,15 @@ public class Treatment implements Serializable {
 		patients=new ArrayList<Patient>();
 		setMedications(new ArrayList<Medication>());
 	}
+	public Treatment(int id, String diagnosis, int duration , Date startDate, Date finishDate) throws Exception {
+		super();
+		setId(id);
+		setDiagnosis(diagnosis);
+		setConsultDuration(duration);
+		this.startDate= startDate;
+		this.finishDate = finishDate;
+	}
+	
 
 	public Integer getId() {
 		return id;

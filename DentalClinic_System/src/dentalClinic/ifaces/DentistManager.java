@@ -9,10 +9,9 @@ import dentalClinic.pojos.Treatment;
 
 
 public interface DentistManager {
-	//Adding a new patient
-	public void addPatient (Patient p); 
+	
 	//Search patients
-	public List<Patient> searchPatientByName(Patient p);
+	public List<Patient> searchPatientByName(String name);
 	//See list of patients
 	public List<Patient> seePatients();
 	//Add a treatment
