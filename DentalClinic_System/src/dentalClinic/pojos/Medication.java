@@ -18,6 +18,13 @@ public class Medication implements Serializable {
 		super();
 	}
 	
+	public Medication(int id, String name, int dosis, Treatment treatment) {
+		this.id = id;
+		this.name = name; 
+		this.dosis = dosis;
+		this.treatment = treatment;
+	}
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);

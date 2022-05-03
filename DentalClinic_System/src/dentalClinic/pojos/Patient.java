@@ -17,11 +17,11 @@ public class Patient implements Serializable {
 	private String name;
 	private String surname;
 	private String gender;
-	private Date bithDate;
+	private Date birthDate;
 	private String address;
 	private String bloodType; //deberia ser enum??
 	private String allergies;
-	private String blackground;
+	private String background;
 	//Many to one relationship
 	private List<Treatment> treatments;
 	//Many to many relationship
@@ -34,6 +34,39 @@ public class Patient implements Serializable {
 		dentists=new ArrayList<Dentist>();
 		appointments=new ArrayList<Appointment>();
 		treatments=new ArrayList<Treatment>();
+	}
+	
+	public Patient (int id, String name, String surname, String gender, Date birthDate, 
+			String address, String bloodType, String allergies, String background) {
+		super();
+		this.id = id;
+		this.name = name; 
+		this.surname = surname;
+		this.gender = gender;
+		this.birthDate = birthDate; 
+		this.address = address;
+		this.bloodType = bloodType;
+		this.allergies = allergies; 
+		this.background = background;
+		dentists=new ArrayList<Dentist>();
+		appointments=new ArrayList<Appointment>();
+		treatments=new ArrayList<Treatment>();			
+	}
+	
+	public Patient (String name, String surname, String gender, Date birthDate, 
+			String address, String bloodType, String allergies, String background) {
+		super();
+		this.name = name;
+		this.surname = surname;
+		this.gender = gender;
+		this.birthDate = birthDate; 
+		this.address = address;
+		this.bloodType = bloodType;
+		this.allergies = allergies; 
+		this.background = background;
+		dentists=new ArrayList<Dentist>();
+		appointments=new ArrayList<Appointment>();
+		treatments=new ArrayList<Treatment>();			
 	}
 	
 	//equals
@@ -57,8 +90,8 @@ public class Patient implements Serializable {
 	@Override
 	public String toString() {
 		return "Patient [id=" + id + ", name=" + name + ", surname=" + surname + ", gender=" + gender + ", bithDate="
-				+ bithDate + ", address=" + address + ", bloodType=" + bloodType + ", allergies=" + allergies
-				+ ", blackground=" + blackground + ", treatments=" + treatments + ", dentists=" + dentists
+				+ birthDate + ", address=" + address + ", bloodType=" + bloodType + ", allergies=" + allergies
+				+ ", blackground=" + background + ", treatments=" + treatments + ", dentists=" + dentists
 				+ ", appointments=" + appointments + "]";
 	}
 	
@@ -88,10 +121,10 @@ public class Patient implements Serializable {
 		this.gender = gender;
 	}
 	public Date getBithDate() {
-		return bithDate;
+		return birthDate;
 	}
 	public void setBithDate(Date bithDate) {
-		this.bithDate = bithDate;
+		this.birthDate = bithDate;
 	}
 	public String getAddress() {
 		return address;
@@ -112,10 +145,10 @@ public class Patient implements Serializable {
 		this.allergies = allergies;
 	}
 	public String getBlackground() {
-		return blackground;
+		return background;
 	}
 	public void setBlackground(String blackground) {
-		this.blackground = blackground;
+		this.background = blackground;
 	}
 
 	public List<Dentist> getDentists() {
