@@ -17,13 +17,12 @@ public class Treatment implements Serializable {
 	private Integer consultDuration;
 	private Date startDate;
 	private Date finishDate;
-	 //one to many relationship
-	private List<Patient> patients;
+	//many to one relationship
+	private int patientId;
 	private List<Medication> medications;
 	
 	public Treatment() {
 		super();
-		patients=new ArrayList<Patient>();
 		setMedications(new ArrayList<Medication>());
 	}
 	public Treatment(int id, String diagnosis, int duration , Date startDate, Date finishDate) throws Exception {
@@ -76,12 +75,12 @@ public class Treatment implements Serializable {
 		this.finishDate = finishDate;
 	}
 
-	public List<Patient> getPatients() {
-		return patients;
+	public int getPatientId() {
+		return patientId;
 	}
 
-	public void setPatients(List<Patient> patients) {
-		this.patients = patients;
+	public void setPatient(int patientId) {
+		this.patientId = patientId;
 	}
 	public List<Medication> getMedications() {
 		return medications;
@@ -111,7 +110,7 @@ public class Treatment implements Serializable {
 	@Override
 	public String toString() {
 		return "Treatment [id=" + id + ", diagnosis=" + diagnosis + ", consultDuration="
-				+ consultDuration + ", startDate=" + startDate + ", finishDate=" + finishDate + ", patients=" + patients
+				+ consultDuration + ", startDate=" + startDate + ", finishDate=" + finishDate + ", patientId="
 				+ ", medications=" + medications + "]";
 	}
 	

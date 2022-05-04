@@ -22,9 +22,9 @@ public class Patient implements Serializable {
 	private String bloodType; //deberia ser enum??
 	private String allergies;
 	private String background;
-	//Many to one relationship
+	//one to many relationship
 	private List<Treatment> treatments;
-	//Many to many relationship
+	//many to many relationship
 	private List<Dentist> dentists;
 	private List<Appointment> appointments;
 	
