@@ -22,37 +22,6 @@ public class JDBCDentistManager implements DentistManager {
 	public JDBCDentistManager(JDBCManager m) {
 		this.manager = m;
 	}
-
-	@Override
-	public Patient searchPatientById(int id) {
-		Patient p = null;
-		try {
-			Statement stmt = manager.getConnection().createStatement();
-			String sql = "SELECT * FROM patients WHERE id="+id;
-			ResultSet rs = stmt.executeQuery(sql);
-			while (rs.next()) {
-				String name = rs.getString("name");
-				String surname = rs.getString("surname");
-				String gender = rs.getString("gender");
-				Date birthDate = rs.getDate("birthDate");
-				String address = rs.getString("address");
-				String bloodType = rs.getString("bloodType");
-				String allergies = rs.getString("allergies");
-				String background = rs.getString("background");
-				p = new Patient(name, surname, gender, birthDate, address, 
-						bloodType, allergies, background);
-		        // para que las listas de treatments, dentists y appointments del paciente no est�n vac�as 
-				//p.setTreatments(this.getTreamentsOfPatient(name));
-				//p.setDentists(this.getDentistsOfPatient(name));
-				//p.setAppointments(this.getAppointmentsOfPatient(name));
-			}
-			rs.close();
-			stmt.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return p;
-	}
 	
 	@Override
 	public void addTreatment(Treatment t, int patientId) throws SQLException{ //PATIENT ID???
@@ -124,26 +93,6 @@ public class JDBCDentistManager implements DentistManager {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-	
-	public List<Dentist> getDentistsOfPatient(int patientId)throws SQLException{ 
-		String sql = "SELECT * FROM dentist WHERE patientId=? ";
-		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
-		prep.setInt(1, patientId);
-		ResultSet rs = prep.executeQuery(sql);
-		List <Dentist> dentists = new ArrayList<Dentist>();
-		while (rs.next()) {
-			int id = rs.getInt("id");
-			String name = rs.getString("name");
-			String surname = rs.getString("surname");
-			String turn = rs.getString("turn");
-			String specialty = rs.getString("specialty");
-			Dentist dentist = new Dentist(id, name, surname, turn, specialty);
-			dentists.add(dentist);		
-		}
-		prep.close();
-		rs.close();
-		return dentists;
 	}
 	
 	public List<Patient> getPatientsOfDentist(int patientId)throws SQLException{

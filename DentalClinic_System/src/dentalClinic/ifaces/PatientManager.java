@@ -1,9 +1,11 @@
 package dentalClinic.ifaces;
 
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 
 import dentalClinic.pojos.Appointment;
+import dentalClinic.pojos.Dentist;
 import dentalClinic.pojos.Medication;
 import dentalClinic.pojos.Patient;
 import dentalClinic.pojos.Treatment;
@@ -31,6 +33,15 @@ public interface PatientManager {
 	public void assign_Treatment (int treatmentId, int patientId)throws SQLException;
 	public void assign_Medication (int medicationId, int treatmentId)throws SQLException;
 	
+	public List<Patient> searchPatientbyName (String name) throws SQLException;
+	public List<Treatment> searchTreatmentbyName (String name) throws SQLException;
+	public List <Medication> searchMedicationbyName (String name) throws SQLException;
+	public List <Appointment> searchAppointmentbyDate (Date date) throws SQLException;
+	
+	public List <Patient> listAllPatients() throws SQLException;
+	
+	public Patient searchPatientById(int patientId) throws SQLException, Exception;
+	public List<Dentist> getDentistsOfPatient(int patientId)throws SQLException;
 	
 	
-}
+ }

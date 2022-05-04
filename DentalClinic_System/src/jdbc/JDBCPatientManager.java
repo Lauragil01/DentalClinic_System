@@ -12,6 +12,7 @@ import java.sql.Time;
 
 import dentalClinic.ifaces.PatientManager;
 import dentalClinic.pojos.Appointment;
+import dentalClinic.pojos.Dentist;
 import dentalClinic.pojos.Medication;
 import dentalClinic.pojos.Patient;
 import dentalClinic.pojos.Treatment;
@@ -37,6 +38,35 @@ public class JDBCPatientManager implements PatientManager {
 		prep.setString(8, p.getBlackground());
 		prep.executeUpdate();
 		prep.close();
+	}
+	
+	@Override
+	public Patient searchPatientById(int id) throws SQLException, Exception {
+		Patient p = null;
+		String sql = "SELECT * FROM patients WHERE id= ?";
+		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+		prep.setInt(1, id);
+		ResultSet rs = prep.executeQuery(sql);
+		while (rs.next()) {
+			String name = rs.getString("name");
+			String surname = rs.getString("surname");
+			String gender = rs.getString("gender");
+			Date birthDate = rs.getDate("birthDate");
+			String address = rs.getString("address");
+			String bloodType = rs.getString("bloodType");
+			String allergies = rs.getString("allergies");
+			String background = rs.getString("background");
+			p = new Patient(name, surname, gender, birthDate, address, bloodType, allergies, background);
+			p.setTreatments(this.listofTreatments(id));
+			p.setAppointments(this.listofAppointments(id));
+			p.setDentists(this.getDentistsOfPatient(id));
+		}
+		
+	// para que las listas de treatments, dentists y appointments del paciente no est�n vac�as 
+		rs.close();
+		prep.close();
+		return p;
+
 	}
 	
 	@Override
@@ -72,6 +102,26 @@ public class JDBCPatientManager implements PatientManager {
 		rs.close();
 		return treatments;
 	}
+	@Override
+	public List<Dentist> getDentistsOfPatient(int patientId)throws SQLException{ 
+		String sql = "SELECT * FROM dentist WHERE patientId=? ";
+		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+		prep.setInt(1, patientId);
+		ResultSet rs = prep.executeQuery(sql);
+		List <Dentist> dentists = new ArrayList<Dentist>();
+		while (rs.next()) {
+			int id = rs.getInt("id");
+			String name = rs.getString("name");
+			String surname = rs.getString("surname");
+			String turn = rs.getString("turn");
+			String specialty = rs.getString("specialty");
+			Dentist dentist = new Dentist(id, name, surname, turn, specialty);
+			dentists.add(dentist);		
+		}
+		prep.close();
+		rs.close();
+		return dentists;
+	}
 	
 	@Override
 	public List<Medication> listofMedications (int treatmentId) throws SQLException {
@@ -94,7 +144,7 @@ public class JDBCPatientManager implements PatientManager {
 	
 	@Override
 	public List<Appointment> listofAppointments(int patientId) throws SQLException {
-		String sql = "SELECT * FROM appointments WHERE patientId=? ";
+		String sql = "SELECT * FROM appointments WHERE patientId=? ORDER BY date ";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setInt(1, patientId);
 		ResultSet rs = prep.executeQuery(sql);
