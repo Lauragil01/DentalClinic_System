@@ -22,7 +22,16 @@ public class Appointment implements Serializable {
 	public Appointment() {
 		super();
 	}
-
+	
+	public Appointment(Integer id, Date date, String type, Integer duration, Time time) {
+		super();
+		this.id = id;
+		this.date = date;
+		this.type = type;
+		this.duration = duration;
+		this.time = time;
+	}
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);

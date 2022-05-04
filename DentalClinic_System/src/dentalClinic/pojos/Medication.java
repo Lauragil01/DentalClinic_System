@@ -24,6 +24,11 @@ public class Medication implements Serializable {
 		this.dosis = dosis;
 		this.treatment = treatment;
 	}
+	public Medication(int id, String name, int dosis) {
+		this.id = id;
+		this.name = name; 
+		this.dosis = dosis;
+	}
 	
 	@Override
 	public int hashCode() {
