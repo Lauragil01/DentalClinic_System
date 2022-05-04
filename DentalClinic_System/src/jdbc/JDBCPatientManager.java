@@ -61,12 +61,10 @@ public class JDBCPatientManager implements PatientManager {
 			p.setAppointments(this.listofAppointments(id));
 			p.setDentists(this.getDentistsOfPatient(id));
 		}
-		
-	// para que las listas de treatments, dentists y appointments del paciente no est�n vac�as 
+	// para que las listas de treatments, dentists y appointments del paciente no esten vacias 
 		rs.close();
 		prep.close();
 		return p;
-
 	}
 	
 	@Override
@@ -81,116 +79,26 @@ public class JDBCPatientManager implements PatientManager {
 			prep.executeUpdate();
 			prep.close();
 	}
-	
-	@Override
-	public List<Treatment> listofTreatments (int patientId) throws SQLException, Exception {
-		String sql = "SELECT * FROM treatments WHERE patientId=? ";
-		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
-		prep.setInt(1, patientId);
-		ResultSet rs = prep.executeQuery(sql);
-		List <Treatment> treatments = new ArrayList<Treatment>();
-		while (rs.next()) {
-			int id = rs.getInt("id");
-			String diagnosis = rs.getString("diagnosis");
-			int duration = rs.getInt("duration");
-			Date startDate = rs.getDate("startDate");
-			Date finishDate = rs.getDate("finishDate");
-			Treatment treatment = new Treatment(id,diagnosis,duration,startDate,finishDate);
-			treatments.add(treatment);		
-		}
-		prep.close();
-		rs.close();
-		return treatments;
-	}
-	@Override
-	public List<Dentist> getDentistsOfPatient(int patientId)throws SQLException{ 
-		String sql = "SELECT * FROM dentist WHERE patientId=? ";
-		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
-		prep.setInt(1, patientId);
-		ResultSet rs = prep.executeQuery(sql);
-		List <Dentist> dentists = new ArrayList<Dentist>();
-		while (rs.next()) {
-			int id = rs.getInt("id");
-			String name = rs.getString("name");
-			String surname = rs.getString("surname");
-			String turn = rs.getString("turn");
-			String specialty = rs.getString("specialty");
-			Dentist dentist = new Dentist(id, name, surname, turn, specialty);
-			dentists.add(dentist);		
-		}
-		prep.close();
-		rs.close();
-		return dentists;
-	}
-	
-	@Override
-	public List<Medication> listofMedications (int treatmentId) throws SQLException {
-		String sql = "SELECT * FROM medications WHERE treatmentId=? ";
-		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
-		prep.setInt(1, treatmentId);
-		ResultSet rs = prep.executeQuery(sql);
-		List <Medication> medications = new ArrayList<Medication>();
-		while (rs.next()) {
-			int id = rs.getInt("id");
-			String name = rs.getString("name");
-			int dosis = rs.getInt("dosis");
-			Medication medication = new Medication(id,name,dosis);
-			medications.add(medication);		
-		}
-		prep.close();
-		rs.close();
-		return medications;
-	}
-	
-	@Override
-	public List<Appointment> listofAppointments(int patientId) throws SQLException {
-		String sql = "SELECT * FROM appointments WHERE patientId=? ORDER BY date ";
-		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
-		prep.setInt(1, patientId);
-		ResultSet rs = prep.executeQuery(sql);
-		List <Appointment> appointments = new ArrayList<Appointment>();
-		while (rs.next()) {
-			int id = rs.getInt("id");
-			Date date = rs.getDate("date");
-			String type = rs.getString ("type");
-			int duration = rs.getInt("duration");
-			Time time = rs.getTime("time");
-			Appointment appointment = new Appointment(id,date,type,duration,time);
-			appointments.add(appointment);		
-		}
-		prep.close();
-		rs.close();
-		return appointments;
-	}
-	
-	@Override
-	public void deleteAppointment(int appointmentId) throws SQLException {
-			String sql = "DELETE FROM appointment WHERE appointmentId = ?";
-			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
-			prep.setInt(1, appointmentId);
-			prep.executeUpdate();
-			prep.close();
-	}
-	
-	@Override
-	public void assign_Dentist(int dentistId, int patientId) throws SQLException {
-		// TODO Auto-generated method stub
 		
-	}
 	@Override
 	public void assign_Patient(int patientId, int dentistId) throws SQLException {
 		// TODO Auto-generated method stub
 		
 	}
 	@Override
-	public void assign_Treatment(int treatmentId, int patientId) throws SQLException {
+	public List<Patient> searchPatientbyName(String name) throws SQLException {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 	@Override
-	public void assign_Medication(int medicationId, int treatmentId) throws SQLException {
+	public List<Patient> listAllPatients() throws SQLException {
 		// TODO Auto-generated method stub
-		
+		return null;
+	}
+	@Override
+	public List<Patient> getPatientsOfDentist(int dentistId) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }
