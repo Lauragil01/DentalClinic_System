@@ -26,6 +26,20 @@ public class Patient implements Serializable {
 	private List<Treatment> treatments;
 	//many to many relationship
 	private List<Dentist> dentists;
+	public Patient(Integer id, String name, String surname, String gender, Date birthDate, String address,
+			String bloodType, String allergies, String background) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.surname = surname;
+		this.gender = gender;
+		this.birthDate = birthDate;
+		this.address = address;
+		this.bloodType = bloodType;
+		this.allergies = allergies;
+		this.background = background;
+	}
+
 	private List<Appointment> appointments;
 	
 	//empty constructor

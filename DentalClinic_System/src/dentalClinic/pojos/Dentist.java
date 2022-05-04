@@ -16,7 +16,7 @@ public class Dentist implements Serializable{
 	private String name;
 	private String surname;
 	private String turn;
-	private String speciality;
+	private String specialty;
 	private List<Patient> patients;
 	private List<Appointment> appointments;
 	
@@ -24,6 +24,15 @@ public class Dentist implements Serializable{
 		super();
 		patients=new ArrayList<Patient>();
 		appointments=new ArrayList<Appointment>();
+	}
+	
+	public Dentist(Integer id, String name, String surname, String turn, String specialty) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.surname = surname;
+		this.turn = turn;
+		this.specialty = specialty;
 	}
 
 	public Integer getId() {
@@ -59,11 +68,11 @@ public class Dentist implements Serializable{
 	}
 
 	public String getSpeciality() {
-		return speciality;
+		return specialty;
 	}
 
-	public void setSpeciality(String speciality) {
-		this.speciality = speciality;
+	public void setSpeciality(String specialty) {
+		this.specialty = specialty;
 	}
 
 	public List<Patient> getPatients() {
@@ -103,7 +112,7 @@ public class Dentist implements Serializable{
 	@Override
 	public String toString() {
 		return "Dentist [id=" + id + ", name=" + name + ", surname=" + surname + ", turn=" + turn + ", speciality="
-				+ speciality + ", patients=" + patients + "]";
+				+ specialty + ", patients=" + patients + "]";
 	}
 
 	

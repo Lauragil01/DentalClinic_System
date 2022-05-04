@@ -74,8 +74,7 @@ public class JDBCDentistManager implements DentistManager {
 		prep.setString(2, m.getName());
 		prep.setInt(3, m.getDosis());		
 		prep.executeUpdate();
-		prep.close();
-		
+		prep.close();	
 	}
 	
 	@Override
@@ -99,180 +98,114 @@ public class JDBCDentistManager implements DentistManager {
 		prep.setDate(3, t.getFinishDate());
 		prep.executeUpdate();
 		prep.close();
-		
 	}
 
-	/*@Override
-	public List<Patient> seePatients() {
-		List<Patient> patients = new ArrayList<Patient>();
+	@Override
+	public void deleteTreatment(int treatmentId) {
 		try {
-			Statement stmt = manager.getConnection().createStatement();
-			String sql = "SELECT * FROM patients";
-			ResultSet rs = stmt.executeQuery(sql);
-			while (rs.next()) {
-				Integer id = rs.getInt("id");
-				String name = rs.getString("name");
-				String surname = rs.getString("surname");
-				String gender = rs.getString("gender");
-				Date birthDate = rs.getDate("birthDate");
-				String address = rs.getString("address");
-				String bloodType = rs.getString("bloodType");
-				String allergies = rs.getString("allergies");
-				String background = rs.getString("background");
-				Patient p = new Patient(id, name, surname, gender, birthDate, address, 
-						bloodType, allergies, background);
-				patients.add(p);
-			}
-			rs.close();
-			stmt.close();
+			String sql = "DELETE FROM treatments WHERE treatmentId = ?";
+			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+			prep.setInt(1, treatmentId);
+			prep.executeUpdate();
+			prep.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void deleteMedication(int medicationId) {
+		try {
+			String sql = "DELETE FROM medications WHERE medicationId = ?";
+			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+			prep.setInt(1, medicationId);
+			prep.executeUpdate();
+			prep.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public List<Dentist> getDentistsOfPatient(int patientId)throws SQLException{ 
+		String sql = "SELECT * FROM dentist WHERE patientId=? ";
+		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+		prep.setInt(1, patientId);
+		ResultSet rs = prep.executeQuery(sql);
+		List <Dentist> dentists = new ArrayList<Dentist>();
+		while (rs.next()) {
+			int id = rs.getInt("id");
+			String name = rs.getString("name");
+			String surname = rs.getString("surname");
+			String turn = rs.getString("turn");
+			String specialty = rs.getString("specialty");
+			Dentist dentist = new Dentist(id, name, surname, turn, specialty);
+			dentists.add(dentist);		
+		}
+		prep.close();
+		rs.close();
+		return dentists;
+	}
+	
+	public List<Patient> getPatientsOfDentist(int patientId)throws SQLException{
+		String sql = "SELECT * FROM patients WHERE patientId=? ";
+		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+		prep.setInt(1, patientId);
+		ResultSet rs = prep.executeQuery(sql);
+		List <Patient> patients = new ArrayList<Patient>();
+		while (rs.next()) {
+			int id = rs.getInt("id");
+			String name = rs.getString("name");
+			String surname = rs.getString("surname");
+			String gender = rs.getString("gender");
+			Date birthDate = rs.getDate("birthDate");
+			String address = rs.getString("address");
+			String bloodType = rs.getString("bloodType");
+			String allergies = rs.getString("allergies");
+			String background = rs.getString("background");
+			Patient patient = new Patient(id, name, surname, gender, birthDate, address, 
+					bloodType, allergies, background);
+			patients.add(patient);		
+		}
+		prep.close();
+		rs.close();
 		return patients;
-	}*/
-
-	/*@Override
-	public List<Treatment> seeTreatments() {
-		List<Treatment> treatments = new ArrayList<Treatment>();
-		try {
-			Statement stmt = manager.getConnection().createStatement();
-			String sql = "SELECT * FROM treatments";
-			ResultSet rs = stmt.executeQuery(sql);
-			while (rs.next()) {
-				Integer id = rs.getInt("id");
-				String diagnosis = rs.getString("diagnosis");
-				Integer consultDuration = rs.getInt("consultDuration");
-				Date startDate = rs.getDate("startDate");
-				Date finishDate = rs.getDate("finishDate");
-				Treatment t = new Treatment(id, diagnosis, consultDuration,
-						startDate, finishDate);
-				treatments.add(t);;
-			}
-			rs.close();
-			stmt.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return treatments;
-	}*/
-
-	@Override
-	public void deleteTreatment(Treatment t, int patientId) {
-		// TODO Auto-generated method stub
-
-	}
-
-
-	/*@Override
-	public List<Medication> seeMedication() {
-		List<Medication> medications = new ArrayList<Medication>();
-		try {
-			Statement stmt = manager.getConnection().createStatement();
-			String sql = "SELECT * FROM medications";
-			ResultSet rs = stmt.executeQuery(sql);
-			while (rs.next()) {
-				Integer id = rs.getInt("id");
-				String name = rs.getString("name");
-				Integer dosis = rs.getInt("dosis");
-				Treatment treatment = rs.getTreatment("treatment"); // ?
-				Medication m = new Medication(id, name, dosis,treatment);
-				medications.add(m);;
-			}
-			rs.close();
-			stmt.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return medications;
-	}*/
-
-
-	@Override
-	public void deleteMedication(Medication m, int patientId) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/*@Override
-	public List<Appointment> seeAppointments() {
-		List<Appointment> appointments = new ArrayList<Appointment>();
-		try {
-			Statement stmt = manager.getConnection().createStatement();
-			String sql = "SELECT * FROM appointments";
-			ResultSet rs = stmt.executeQuery(sql);
-			while (rs.next()) {
-				Integer id = rs.getInt("id");
-				Date date = rs.getDate("date");
-				String type = rs.getString("type");
-				Integer duration = rs.getInt("duration");
-				Time time = rs.getTime("time");
-				Dentist dentist = rs.getDentist("dentist"); // ?
-				Patient patient = rs.getPatient("patient"); // ?
-				Appointment a = new Appointment(id, date, type, duration, time, dentist, patient);
-				appointments.add(a);
-			}
-			rs.close();
-			stmt.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return appointments;
-	}*/
-	
-	public List<Treatment> getTreatmentsOfPatient(int patientId){
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	public List<Dentist> getDentistsOfPatient(int patientId){
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	public List<Appointment> getAppointmentsOfPatient(int patientId){
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	public List<Patient> getPatientsOfDentist(int patientId){
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	public List<Medication> getMedicationOfPatient(int patientId){
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	public List<Appointment> getAppointmentsOfDentist(int dentistId){
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
 	public void addDentist(Dentist d) throws SQLException {
-		// TODO Auto-generated method stub
-		
+		String sql = "INSERT INTO dentists (id, name, surname, turn, specialty) VALUES (?,?,?,?,?)";
+		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+		prep.setInt(1, d.getId());
+		prep.setString(2, d.getName());
+		prep.setString(3, d.getSurname());
+		prep.setString(4,d.getTurn());
+		prep.setString(5, d.getSpeciality());
+		prep.executeUpdate();
+		prep.close();	
 	}
 
 	@Override
-	public List<Appointment> seeAppointments(int dentistId) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+	public void editMedicationsName(String mName) throws SQLException {
+		String sql = "UPDATE medication SET name=?";
+		PreparedStatement prep= manager.getConnection().prepareStatement(sql);
+		prep.setString(1, mName);
+		prep.executeUpdate();
+		prep.close();
 	}
-
-
-	@Override
-	public void editMedication(Medication t) throws SQLException {
-		// TODO Auto-generated method stub
-		
+	
+	public void editMedicationsDosis(String mDosis) throws SQLException {
+		String sql = "UPDATE medication SET dosis=?";
+		PreparedStatement prep= manager.getConnection().prepareStatement(sql);
+		prep.setString(1, mDosis);
+		prep.executeUpdate();
+		prep.close();
 	}
-
-	@Override
-	public List<Medication> seeMedication() {
-		// TODO Auto-generated method stub
-		return null;
+	
+	public void editMedicationsTreatment(String mTreatment) throws SQLException {
+		String sql = "UPDATE medication SET treatment=?";
+		PreparedStatement prep= manager.getConnection().prepareStatement(sql);
+		prep.setString(1, mTreatment);
+		prep.executeUpdate();
+		prep.close();
 	}
-
-
 }

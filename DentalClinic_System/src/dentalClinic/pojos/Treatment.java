@@ -34,7 +34,17 @@ public class Treatment implements Serializable {
 		this.finishDate = finishDate;
 	}
 	
-
+	public Treatment(Integer id, String diagnosis, Integer consultDuration, Date startDate, Date finishDate,
+			int patientId) {
+		super();
+		this.id = id;
+		this.diagnosis = diagnosis;
+		this.consultDuration = consultDuration;
+		this.startDate = startDate;
+		this.finishDate = finishDate;
+		this.patientId = patientId;
+	}
+	
 	public Integer getId() {
 		return id;
 	}
@@ -112,8 +122,5 @@ public class Treatment implements Serializable {
 		return "Treatment [id=" + id + ", diagnosis=" + diagnosis + ", consultDuration="
 				+ consultDuration + ", startDate=" + startDate + ", finishDate=" + finishDate + ", patientId="
 				+ ", medications=" + medications + "]";
-	}
-	
-	
-	
+	}	
 }
