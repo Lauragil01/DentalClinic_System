@@ -32,7 +32,7 @@ public interface DentistManager {
 	public List<Treatment> seeTreatments();*/
 
 	
-	public void editTreatment (Treatment t, int patientId);
+	public void editTreatment (Treatment t, int patientId) throws SQLException;
 	public void editMedication(Medication t)throws SQLException;
 	
 	//Delete treatment

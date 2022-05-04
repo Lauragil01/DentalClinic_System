@@ -1,7 +1,9 @@
 package jdbc;
 
 import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Time;
 import java.util.ArrayList;
@@ -13,8 +15,6 @@ import dentalClinic.pojos.Dentist;
 import dentalClinic.pojos.Medication;
 import dentalClinic.pojos.Patient;
 import dentalClinic.pojos.Treatment;
-import hospital.jdbc.JDBCManager;
-import hospital.pojos.Vet;
 
 public class JDBCDentistManager implements DentistManager {
 	private JDBCManager manager;
@@ -41,7 +41,7 @@ public class JDBCDentistManager implements DentistManager {
 				String background = rs.getString("background");
 				p = new Patient(name, surname, gender, birthDate, address, 
 						bloodType, allergies, background);
-		        // para que las listas de treatments, dentists y appointments del paciente no estén vacías 
+		        // para que las listas de treatments, dentists y appointments del paciente no estï¿½n vacï¿½as 
 				//p.setTreatments(this.getTreamentsOfPatient(name));
 				//p.setDentists(this.getDentistsOfPatient(name));
 				//p.setAppointments(this.getAppointmentsOfPatient(name));
@@ -52,6 +52,54 @@ public class JDBCDentistManager implements DentistManager {
 			e.printStackTrace();
 		}
 		return p;
+	}
+	
+	@Override
+	public void addTreatment(Treatment t, int patientId) throws SQLException{ //PATIENT ID???
+		String sql = "INSERT INTO treatments (id, diagnosis, duration, startDate, finishDate, patient_id) VALUES (?,?,?,?,?,?)";
+		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+		prep.setInt(1, t.getId());
+		prep.setString(2, t.getDiagnosis());			
+		prep.setInt(3, t.getConsultDuration());			
+		prep.setDate(4, t.getStartDate());
+		prep.setDate(5, t.getFinishDate());
+		prep.executeUpdate();
+		prep.close();
+	}
+	@Override
+	public void addMedication (Medication m) throws SQLException{ //TREATMENT ID???
+		String sql = "INSERT INTO medications (id, name, dosis) VALUES (?,?,?)";
+		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+		prep.setInt(1, m.getId());
+		prep.setString(2, m.getName());
+		prep.setInt(3, m.getDosis());		
+		prep.executeUpdate();
+		prep.close();
+		
+	}
+	
+	@Override
+	public void addAppointment(Appointment a) throws SQLException {
+		String sql = "INSERT INTO appointments (id, date, type, time, duration) VALUES (?,?,?,?,?)";
+		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+		prep.setInt(1, a.getId());
+		prep.setDate(2, a.getDate());
+		prep.setString(3, a.getType());
+		prep.setTime(4, a.getTime());
+		prep.setInt(5, a.getDuration());
+		prep.executeUpdate();
+		prep.close();	
+	}
+	@Override
+	public void editTreatment(Treatment t, int patientId) throws SQLException { 
+		String sql = "UPDATE treatment SET diagnosis=?" + " duration=?" + " finishDate=?";
+		PreparedStatement prep= manager.getConnection().prepareStatement(sql);
+		prep.setString(1, t.getDiagnosis());
+		prep.setInt(2, t.getConsultDuration());
+		prep.setDate(3, t.getFinishDate());
+		prep.executeUpdate();
+		prep.close();
+		
 	}
 
 	/*@Override
@@ -82,12 +130,6 @@ public class JDBCDentistManager implements DentistManager {
 		}
 		return patients;
 	}*/
-
-	@Override
-	public void addTreatment(Treatment t, int patientId) {
-		// TODO Auto-generated method stub
-
-	}
 
 	/*@Override
 	public List<Treatment> seeTreatments() {
@@ -120,11 +162,6 @@ public class JDBCDentistManager implements DentistManager {
 
 	}
 
-	@Override
-	public void editTreatment(Treatment t, int patientId) {
-		// TODO Auto-generated method stub
-
-	}
 
 	/*@Override
 	public List<Medication> seeMedication() {
@@ -149,11 +186,6 @@ public class JDBCDentistManager implements DentistManager {
 		return medications;
 	}*/
 
-	@Override
-	public void addMedication(Medication m, int patientId) {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	public void deleteMedication(Medication m, int patientId) {
@@ -213,6 +245,31 @@ public class JDBCDentistManager implements DentistManager {
 	}
 	
 	public List<Appointment> getAppointmentsOfDentist(int dentistId){
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void addDentist(Dentist d) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<Appointment> seeAppointments(int dentistId) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public void editMedication(Medication t) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<Medication> seeMedication() {
 		// TODO Auto-generated method stub
 		return null;
 	}
