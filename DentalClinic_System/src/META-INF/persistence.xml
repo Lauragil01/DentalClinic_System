@@ -10,8 +10,8 @@
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
  
 		<!-- Entity Class -->
-		<class>hospital.pojos.User</class>
-		<class>hospital.pojos.Role</class>
+		<class>dentalClinic.pojos.User</class>
+		<class>dentalClinic.pojos.Role</class>
  
 		<properties>	
 			<!-- Connection properties -->
