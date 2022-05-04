@@ -74,10 +74,10 @@ public class JDBCPatientManager implements PatientManager {
 	}
 	
 	@Override
-	public List<Treatment> seeTreatments (Patient p) throws SQLException, Exception {
+	public List<Treatment> seeTreatments (int patientId) throws SQLException, Exception {
 			String sql = "SELECT * FROM treatments WHERE patientId=? ";
 			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
-			prep.setInt(1, p.getId());
+			prep.setInt(1, patientId);
 			ResultSet rs = prep.executeQuery(sql);
 			List <Treatment> treatments = new ArrayList<Treatment>();
 			while (rs.next()) {
@@ -117,7 +117,7 @@ public class JDBCPatientManager implements PatientManager {
 	}
 	
 	@Override
-	public void editTreatment(Treatment t) throws SQLException { //No editar algunas variables???
+	public void editTreatment(Treatment t) throws SQLException { 
 		String sql = "UPDATE treatment SET diagnosis=?" + " duration=?" + " finishDate=?";
 		PreparedStatement prep= manager.getConnection().prepareStatement(sql);
 		prep.setString(1, t.getDiagnosis());

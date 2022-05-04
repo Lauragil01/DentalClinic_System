@@ -13,24 +13,24 @@ public interface PatientManager {
 	//Adding a new patient
 	public void addPatient (Patient p) throws SQLException; 
 	
-	public void addTreatment (Treatment t) throws SQLException;
-	public void addAppointment (Appointment a) throws SQLException;
-	public void addMedication (Medication m) throws SQLException;
-	
 	//See list of treatments
-	public List<Treatment> seeTreatments(Patient p) throws SQLException, Exception;
+	public List<Treatment> seeTreatments(int patientId) throws SQLException, Exception;
 	//See appointments
-	public List<Appointment> seeAppointments(Patient p)throws SQLException;
+	public List<Appointment> seeAppointments(int patientId)throws SQLException;
 	//See medication
 	public List<Medication> seeMedications(Treatment t)throws SQLException;
 	
 	public void editPatient(Patient p) throws SQLException;
-	public void editTreatment(Treatment t)throws SQLException;
-	public void editMedication(Medication t)throws SQLException;
 	
 	//Delete an appointment 
 	public void deleteAppointment(Appointment a)throws SQLException;
 	
 	//Assign a patient to a dentist 
-	public void assign (int dentistId, int patientId)throws SQLException;
+	public void assign_Dentist (int dentistId, int patientId)throws SQLException;
+	public void assign_Patient (int patientId, int dentistId) throws SQLException;
+	public void assign_Treatment (int treatmentId, int patientId)throws SQLException;
+	public void assign_Medication (int medicationId, int treatmentId)throws SQLException;
+	
+	
+	
 }
