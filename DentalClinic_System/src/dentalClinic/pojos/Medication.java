@@ -12,7 +12,7 @@ public class Medication implements Serializable {
 	private Integer id;
 	private String name;
 	private Integer dosis;
-	private Treatment treatment;
+	private Treatment treatment; //many to one relationship
 	
 	public Medication() {
 		super();

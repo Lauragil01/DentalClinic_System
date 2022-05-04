@@ -18,7 +18,7 @@ public class Treatment implements Serializable {
 	private Date startDate;
 	private Date finishDate;
 	//many to one relationship
-	private int patientId;
+	private Patient patient;
 	private List<Medication> medications;
 	
 	public Treatment() {
@@ -42,7 +42,7 @@ public class Treatment implements Serializable {
 		this.consultDuration = consultDuration;
 		this.startDate = startDate;
 		this.finishDate = finishDate;
-		this.patientId = patientId;
+		this.patient = patient;
 	}
 	
 	public Integer getId() {
@@ -85,12 +85,12 @@ public class Treatment implements Serializable {
 		this.finishDate = finishDate;
 	}
 
-	public int getPatientId() {
-		return patientId;
+	public Patient getPatient() {
+		return patient;
 	}
 
-	public void setPatient(int patientId) {
-		this.patientId = patientId;
+	public void setPatient(Patient patient) {
+		this.patient = patient;
 	}
 	public List<Medication> getMedications() {
 		return medications;

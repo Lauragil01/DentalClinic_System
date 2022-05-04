@@ -19,13 +19,12 @@ public class Patient implements Serializable {
 	private String gender;
 	private Date birthDate;
 	private String address;
-	private String bloodType; //deberia ser enum??
+	private String bloodType;
 	private String allergies;
 	private String background;
-	//one to many relationship
-	private List<Treatment> treatments;
-	//many to many relationship
-	private List<Dentist> dentists;
+	private List<Treatment> treatments;  //one to many relationship
+	private List<Dentist> dentists; 	//many to many relationship
+	
 	public Patient(Integer id, String name, String surname, String gender, Date birthDate, String address,
 			String bloodType, String allergies, String background) {
 		super();
