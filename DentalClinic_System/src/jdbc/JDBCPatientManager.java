@@ -1,14 +1,12 @@
 package jdbc;
 
 
-import java.util.ArrayList;
 import java.util.List;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Time;
+
 
 import dentalClinic.ifaces.PatientManager;
 import dentalClinic.pojos.Appointment;
@@ -17,12 +15,26 @@ import dentalClinic.pojos.Medication;
 import dentalClinic.pojos.Patient;
 import dentalClinic.pojos.Treatment;
 
+import jdbc.JDBCTreatmentManager;
+import jdbc.JDBCAppointmentManager;
+import jdbc.JDBCMedicationManager;
+
+
 
 public class JDBCPatientManager implements PatientManager {
 	private JDBCManager manager;
+	private JDBCTreatmentManager treatmentmanager;
+	private JDBCMedicationManager medicationmanager;
+	private JDBCAppointmentManager appointmentmanager;
+	private JDBCDentistManager dentistmanager;
 
-	public JDBCPatientManager(JDBCManager m) {
+	public JDBCPatientManager(JDBCManager m, JDBCTreatmentManager t, JDBCMedicationManager m2, JDBCAppointmentManager a, JDBCDentistManager d) {
 		this.manager = m;
+		this.treatmentmanager = t;
+		this.medicationmanager = m2;
+		this.appointmentmanager = a;
+		this.dentistmanager = d;
+		
 	}
 	@Override
 	public void addPatient(Patient p) throws SQLException{
@@ -57,9 +69,9 @@ public class JDBCPatientManager implements PatientManager {
 			String allergies = rs.getString("allergies");
 			String background = rs.getString("background");
 			p = new Patient(name, surname, gender, birthDate, address, bloodType, allergies, background);
-			p.setTreatments(this.listofTreatments(id));
-			p.setAppointments(this.listofAppointments(id));
-			p.setDentists(this.getDentistsOfPatient(id));
+			p.setTreatments(treatmentmanager.listofTreatments(id));
+			p.setAppointments(appointmentmanager.listofAppointments(id));
+			p.setDentists(dentistmanager.getDentistsOfPatient(id));
 		}
 	// para que las listas de treatments, dentists y appointments del paciente no esten vacias 
 		rs.close();

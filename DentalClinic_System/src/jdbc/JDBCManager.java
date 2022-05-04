@@ -6,8 +6,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class JDBCManager {
-
+	
 		private Connection c = null;
+	
 		
 		public JDBCManager() {
 			try {
