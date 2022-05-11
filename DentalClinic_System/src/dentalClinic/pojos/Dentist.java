@@ -34,6 +34,23 @@ public class Dentist implements Serializable{
 		this.turn = turn;
 		this.specialty = specialty;
 	}
+	
+	
+
+	public Dentist(String name, String surname, String turn, String specialty) {
+		super();
+		this.name = name;
+		this.surname = surname;
+		this.turn = turn;
+		this.specialty = specialty;
+	}
+
+	public Dentist(Integer id, String turn, String specialty) {
+		super();
+		this.id = id;
+		this.turn = turn;
+		this.specialty = specialty;
+	}
 
 	public Integer getId() {
 		return id;

@@ -9,6 +9,8 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
+import db.pojos.Shift;
+import db.pojos.Worker;
 import dentalClinic.ifaces.DentistManager;
 import dentalClinic.pojos.Appointment;
 import dentalClinic.pojos.Dentist;
@@ -18,9 +20,13 @@ import dentalClinic.pojos.Treatment;
 
 public class JDBCDentistManager implements DentistManager {
 	private JDBCManager manager;
+	private JDBCPatientManager patientmanager;
+	private JDBCAppointmentManager appointmentmanager;
 
-	public JDBCDentistManager(JDBCManager m) {
+	public JDBCDentistManager(JDBCManager m, JDBCPatientManager pm, JDBCAppointmentManager am) {
 		this.manager = m;
+		this.patientmanager = pm;
+		this.appointmentmanager = am;
 	}
 
 	public List<Patient> getPatientsOfDentist(int patientId)throws SQLException{
@@ -96,32 +102,72 @@ public class JDBCDentistManager implements DentistManager {
 
 	@Override
 	public List<Dentist> searchDentistByName(String name, String surname) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		Dentist d = null;
+		String sql = "SELECT * FROM dentist WHERE name = ? AND surname = ?";
+		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+		prep.setString(1, name);
+		prep.setString(2, surname);
+		ResultSet rs = prep.executeQuery();
+		List<Dentist> dentists = new ArrayList<Dentist>();
+		while(rs.next()){ 
+			int id = rs.getInt("id");
+			String turn = rs.getString("turn");
+			String specialty = rs.getString("specialty");
+			d = new Dentist(id, turn, specialty);
+			d.setPatients(patientmanager.getPatientsOfDentist(id));
+			d.setAppointments(appointmentmanager.listofAppointments(id));
+			dentists.add(d);		
+		}
+		prep.close();
+		rs.close();
+		return dentists;
 	}
 
 	@Override
 	public Dentist searchDentistById(int dentistId) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		Dentist d = null;
+		String sql = "SELECT * FROM dentist WHERE id = ?";
+		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+		prep.setInt(1, dentistId);
+		ResultSet rs = prep.executeQuery();
+		while(rs.next()){ 
+			String name = rs.getString("name");
+			String surname = rs.getString("surname");
+			String turn = rs.getString("turn");
+			String specialty = rs.getString("specialty");
+			d = new Dentist(name, surname, turn, specialty);
+			d.setPatients(patientmanager.getPatientsOfDentist(dentistId));
+			d.setAppointments(appointmentmanager.listofAppointments(dentistId));		
+		}
+		prep.close();
+		rs.close();
+		return d;
 	}
 
 	@Override
 	public void editDentistsName(String name) throws SQLException {
-		// TODO Auto-generated method stub
-		
+		String sql = "UPDATE dentist SET name=?";
+		PreparedStatement prep= manager.getConnection().prepareStatement(sql);
+		prep.setString(1, name);
+		prep.executeUpdate();
+		prep.close();
 	}
 
 	@Override
 	public void editDentistSurname(String surname) throws SQLException {
-		// TODO Auto-generated method stub
-		
+		String sql = "UPDATE dentist SET surname=?";
+		PreparedStatement prep= manager.getConnection().prepareStatement(sql);
+		prep.setString(1, surname);
+		prep.executeUpdate();
+		prep.close();
 	}
 
 	@Override
 	public void editDentistsTurn(String turn) throws SQLException {
-		// TODO Auto-generated method stub
-		
+		String sql = "UPDATE dentist SET turn=?";
+		PreparedStatement prep= manager.getConnection().prepareStatement(sql);
+		prep.setString(1, turn);
+		prep.executeUpdate();
+		prep.close();
 	}
-
 }

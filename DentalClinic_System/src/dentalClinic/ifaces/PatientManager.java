@@ -35,6 +35,7 @@ public interface PatientManager {
 	public void addAllergy (String allergy) throws SQLException;
 	
 	
+	
 	//public void editPatientsAllergies (String allergies) throws SQLException;
 	
 	//public void editPatientsBackground (String background) throws SQLException;
