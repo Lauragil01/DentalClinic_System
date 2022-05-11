@@ -97,5 +97,10 @@ public class JDBCMedicationManager implements MedicationManager {
 		prep.close();
 
 	}
+	@Override
+	public Medication searchMedicationById(int medicationId) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

@@ -20,7 +20,7 @@ public class Patient implements Serializable {
 	private Date birthDate;
 	private String address;
 	private String bloodType;
-	private String allergies;
+	private List<String> allergies;
 	private String background;
 	private List<Treatment> treatments;  //one to many relationship
 	private List<Dentist> dentists; 	//many to many relationship
@@ -35,7 +35,6 @@ public class Patient implements Serializable {
 		this.birthDate = birthDate;
 		this.address = address;
 		this.bloodType = bloodType;
-		this.allergies = allergies;
 		this.background = background;
 	}
 
@@ -44,13 +43,14 @@ public class Patient implements Serializable {
 	//empty constructor
 	public Patient() {
 		super();
+		allergies= new ArrayList<String>();
 		dentists=new ArrayList<Dentist>();
 		appointments=new ArrayList<Appointment>();
 		treatments=new ArrayList<Treatment>();
 	}
 	
 	public Patient (int id, String name, String surname, String gender, Date birthDate, 
-			String address, String bloodType, String allergies, String background) {
+			String address, String bloodType, ArrayList<String> allergies, String background) {
 		super();
 		this.id = id;
 		this.name = name; 
@@ -59,15 +59,15 @@ public class Patient implements Serializable {
 		this.birthDate = birthDate; 
 		this.address = address;
 		this.bloodType = bloodType;
-		this.allergies = allergies; 
 		this.background = background;
+		allergies = new ArrayList<String>();
 		dentists=new ArrayList<Dentist>();
 		appointments=new ArrayList<Appointment>();
 		treatments=new ArrayList<Treatment>();			
 	}
 	
 	public Patient (String name, String surname, String gender, Date birthDate, 
-			String address, String bloodType, String allergies, String background) {
+			String address, String bloodType, ArrayList<String> allergies, String background) {
 		super();
 		this.name = name;
 		this.surname = surname;
@@ -75,8 +75,8 @@ public class Patient implements Serializable {
 		this.birthDate = birthDate; 
 		this.address = address;
 		this.bloodType = bloodType;
-		this.allergies = allergies; 
 		this.background = background;
+		allergies = new ArrayList<String>();
 		dentists=new ArrayList<Dentist>();
 		appointments=new ArrayList<Appointment>();
 		treatments=new ArrayList<Treatment>();			
@@ -151,10 +151,10 @@ public class Patient implements Serializable {
 	public void setBloodType(String bloodType) {
 		this.bloodType = bloodType;
 	}
-	public String getAllergies() {
+	public List<String> getAllergies() {
 		return allergies;
 	}
-	public void setAllergies(String allergies) {
+	public void setAllergies(List<String> allergies) {
 		this.allergies = allergies;
 	}
 	public String getBlackground() {

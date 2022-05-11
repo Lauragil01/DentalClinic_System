@@ -13,16 +13,14 @@ public interface MedicationManager {
 	
 	public void assign_Medication (int medicationId, int treatmentId)throws SQLException;
 	
-	public List <Medication> searchMedicationbyName (String name) throws SQLException;
-	
 	public void editMedicationsName(String mName)throws SQLException;
 	
 	public void editMedicationsDosis(String mDosis)throws SQLException;
 	
 	public void deleteMedication (int medicationId);
 	
-	public void editMedicationsTreatment(String mTreatment)throws SQLException;
-	
 	public Medication searchMedicationById (int medicationId) throws SQLException;
+	
+	public List <Medication> searchMedicationbyName (String name) throws SQLException;
 
 }

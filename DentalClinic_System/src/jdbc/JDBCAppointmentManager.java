@@ -66,5 +66,15 @@ public class JDBCAppointmentManager implements AppointmentManager {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	@Override
+	public List<Appointment> searchAppointmentByDate(Date date) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Appointment searchAppointmentById(int appointmentId) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

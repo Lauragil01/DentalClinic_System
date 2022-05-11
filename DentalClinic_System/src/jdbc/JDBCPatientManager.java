@@ -112,5 +112,30 @@ public class JDBCPatientManager implements PatientManager {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	@Override
+	public void editPatientsName(String name) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void editPatientsSurname(String surname) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void editPatientsGender(String gender) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void editPatientsAddress(String address) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void addAllergy(String allergy) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

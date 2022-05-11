@@ -88,4 +88,40 @@ public class JDBCDentistManager implements DentistManager {
 		
 	}
 
+	@Override
+	public List<Dentist> listAllDentists() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Dentist> searchDentistByName(String name, String surname) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Dentist searchDentistById(int dentistId) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void editDentistsName(String name) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void editDentistSurname(String surname) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void editDentistsTurn(String turn) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

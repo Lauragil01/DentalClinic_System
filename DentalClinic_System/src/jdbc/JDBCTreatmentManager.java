@@ -86,5 +86,20 @@ public class JDBCTreatmentManager implements TreatmentManager {
 			e.printStackTrace();
 		}
 	}
+	@Override
+	public Treatment searchTreatmentById(int treatmentId) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public void editTreatmentsStartDate(Date start) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void editTreatmentsFinishDate(Date finish) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
 
 }
