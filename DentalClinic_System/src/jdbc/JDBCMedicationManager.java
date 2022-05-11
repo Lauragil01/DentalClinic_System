@@ -89,15 +89,6 @@ public class JDBCMedicationManager implements MedicationManager {
 	}
 
 	@Override
-	public void editMedicationsTreatment(String mTreatment) throws SQLException {
-		String sql = "UPDATE medication SET treatment=?";
-		PreparedStatement prep= manager.getConnection().prepareStatement(sql);
-		prep.setString(1, mTreatment);
-		prep.executeUpdate();
-		prep.close();
-
-	}
-	@Override
 	public Medication searchMedicationById(int medicationId) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;

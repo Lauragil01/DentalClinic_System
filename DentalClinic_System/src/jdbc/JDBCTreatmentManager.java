@@ -63,18 +63,6 @@ public class JDBCTreatmentManager implements TreatmentManager {
 	}
 
 	@Override
-	public void editTreatment(Treatment t, int patientId) throws SQLException {
-		String sql = "UPDATE treatment SET diagnosis=?" + " duration=?" + " finishDate=?";
-		PreparedStatement prep= manager.getConnection().prepareStatement(sql);
-		prep.setString(1, t.getDiagnosis());
-		prep.setInt(2, t.getConsultDuration());
-		prep.setDate(3, t.getFinishDate());
-		prep.executeUpdate();
-		prep.close();
-
-	}
-
-	@Override
 	public void deleteTreatment(int treatmentId) {
 		try {
 			String sql = "DELETE FROM treatments WHERE treatmentId = ?";

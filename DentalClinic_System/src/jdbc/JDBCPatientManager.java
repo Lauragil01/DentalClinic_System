@@ -38,7 +38,7 @@ public class JDBCPatientManager implements PatientManager {
 	}
 	@Override
 	public void addPatient(Patient p) throws SQLException{
-		String sql = "INSERT INTO patients (name, surname, gender, dob, address, bloodType, allergies, background) VALUES (?,?,?,?,?,?,?,?)";
+		String sql = "INSERT INTO patients (name, surname, gender, dob, address, bloodType, background) VALUES (?,?,?,?,?,?,?,?)";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setString(1, p.getName());
 		prep.setString(2, p.getSurname());
@@ -46,7 +46,6 @@ public class JDBCPatientManager implements PatientManager {
 		prep.setDate(4, p.getBithDate());
 		prep.setString(5, p.getAddress());
 		prep.setString(6, p.getBloodType());
-		prep.setString(7, p.getAllergies());
 		prep.setString(8, p.getBlackground());
 		prep.executeUpdate();
 		prep.close();
@@ -68,7 +67,7 @@ public class JDBCPatientManager implements PatientManager {
 			String bloodType = rs.getString("bloodType");
 			String allergies = rs.getString("allergies");
 			String background = rs.getString("background");
-			p = new Patient(name, surname, gender, birthDate, address, bloodType, allergies, background);
+			p = new Patient(name, surname, gender, birthDate, address, bloodType, background);
 			p.setTreatments(treatmentmanager.listofTreatments(id));
 			p.setAppointments(appointmentmanager.listofAppointments(id));
 			p.setDentists(dentistmanager.getDentistsOfPatient(id));
