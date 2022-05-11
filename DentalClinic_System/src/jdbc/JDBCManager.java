@@ -56,6 +56,7 @@ public class JDBCManager {
 			stmt.executeUpdate(sql);
 			sql = "CREATE TABLE treatments ("
 			+ "	id INTEGER PRIMARY KEY AUTOINCREMENT,"
+			+ "	name	TEXT NOT NULL,"
 			+ "	diagnosis	TEXT NOT NULL,"
 			+ "	duration TEXT NOT NULL,"
 			+ "	startDate DATE NOT NULL,"
