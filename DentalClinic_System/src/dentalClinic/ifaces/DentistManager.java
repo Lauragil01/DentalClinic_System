@@ -18,5 +18,9 @@ public interface DentistManager {
 	
 	public List<Dentist> getDentistsOfPatient(int patientId)throws SQLException;
 	
+	public List<Dentist> listAllDentists() throws SQLException;
 	
+	public List<Dentist> searchDentistByName (String name, String surname) throws SQLException;
+	
+	public Dentist searchDentistById (int dentistId) throws SQLException;
 }

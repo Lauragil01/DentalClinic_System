@@ -22,5 +22,7 @@ public interface MedicationManager {
 	public void deleteMedication (int medicationId);
 	
 	public void editMedicationsTreatment(String mTreatment)throws SQLException;
+	
+	public Medication searchMedicationById (int medicationId) throws SQLException;
 
 }

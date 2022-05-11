@@ -12,9 +12,9 @@ public interface AppointmentManager {
 	
 	public List<Appointment> listofAppointments(int patientId)throws SQLException;
 	
-	public void deleteAppointment(int appointmentId)throws SQLException;
+	public void deleteAppointment(int appointmentId) throws SQLException;
 	
-	public List <Appointment> searchAppointmentbyDate (Date date) throws SQLException;
-
-
+	public List <Appointment> searchAppointmentByDate (Date date) throws SQLException;
+	
+	public Appointment searchAppointmentById (int appointmentId)throws SQLException;
 }

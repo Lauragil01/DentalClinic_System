@@ -26,4 +26,5 @@ public interface PatientManager {
 	
 	public List<Patient> getPatientsOfDentist(int dentistId) throws SQLException;
 	
+	
  }

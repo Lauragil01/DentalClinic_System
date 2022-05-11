@@ -18,6 +18,8 @@ public interface TreatmentManager {
 	public void editTreatment (Treatment t, int patientId) throws SQLException;
 	
 	public void deleteTreatment (int treatmentId);
+	
+	public Treatment searchTreatmentById (int treatmentId) throws SQLException;
 
 	
 
