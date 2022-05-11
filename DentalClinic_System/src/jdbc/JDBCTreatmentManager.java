@@ -30,10 +30,53 @@ public class JDBCTreatmentManager implements TreatmentManager {
 	}
 
 	@Override
-	public List<Treatment> listofTreatments(int patientId) throws SQLException, Exception {
+	public List<Treatment> listofTreatments(int patientId) throws SQLException {
 		String sql = "SELECT * FROM treatments WHERE patientId=? ";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setInt(1, patientId);
+		ResultSet rs = prep.executeQuery(sql);
+		List <Treatment> treatments = new ArrayList<Treatment>();
+		while (rs.next()) {
+			int id = rs.getInt("id");
+			String name = rs.getString("name");
+			String diagnosis = rs.getString("diagnosis");
+			int duration = rs.getInt("duration");
+			Date startDate = rs.getDate("startDate");
+			Date finishDate = rs.getDate("finishDate");
+			Treatment treatment = new Treatment(id,name,diagnosis,duration,startDate,finishDate);
+			treatments.add(treatment);		
+		}
+		prep.close();
+		rs.close();
+		return treatments;
+	}
+	
+	@Override
+	public Treatment searchTreatmentById(int treatmentId) throws SQLException {
+		Treatment t = null;
+		String sql = "SELECT * FROM treatments WHERE treatmentId = ? ";
+		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+		prep.setInt(1, treatmentId);
+		ResultSet rs = prep.executeQuery(sql);
+		while (rs.next()) {
+			int id = rs.getInt("id");
+			String name = rs.getString("name");
+			String diagnosis = rs.getString("diagnosis");
+			int duration = rs.getInt("duration");
+			Date startDate = rs.getDate("startDate");
+			Date finishDate = rs.getDate("finishDate");
+			t = new Treatment(id,name,diagnosis,duration,startDate,finishDate);		
+		}
+		prep.close();
+		rs.close();
+		return t;
+	}
+
+	@Override
+	public List<Treatment> searchTreatmentbyName(String name) throws SQLException {
+		String sql = "SELECT * FROM treatments WHERE name LIKE ? ";
+		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+		prep.setString(1, name);
 		ResultSet rs = prep.executeQuery(sql);
 		List <Treatment> treatments = new ArrayList<Treatment>();
 		while (rs.next()) {
@@ -42,18 +85,12 @@ public class JDBCTreatmentManager implements TreatmentManager {
 			int duration = rs.getInt("duration");
 			Date startDate = rs.getDate("startDate");
 			Date finishDate = rs.getDate("finishDate");
-			Treatment treatment = new Treatment(id,diagnosis,duration,startDate,finishDate);
+			Treatment treatment = new Treatment(id,name,diagnosis,duration,startDate,finishDate);
 			treatments.add(treatment);		
 		}
 		prep.close();
 		rs.close();
 		return treatments;
-	}
-
-	@Override
-	public List<Treatment> searchTreatmentbyName(String name) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -74,20 +111,38 @@ public class JDBCTreatmentManager implements TreatmentManager {
 			e.printStackTrace();
 		}
 	}
+	
 	@Override
-	public Treatment searchTreatmentById(int treatmentId) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+	public void editTreatmentsName(String name, int treatmentId) throws SQLException {
+		String sql = "UPDATE patient SET name = ? WHERE treatmentId = ?";
+		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+		prep.setString(1, name);
+		prep.setInt(2, treatmentId);
+		prep.executeUpdate();
+		prep.close();
+		
 	}
+	
 	@Override
-	public void editTreatmentsStartDate(Date start) throws SQLException {
-		// TODO Auto-generated method stub
+	public void editTreatmentsStartDate(Date start, int treatmentId) throws SQLException {
+		String sql = "UPDATE patient SET startDate = ? WHERE treatmentId = ?";
+		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+		prep.setDate(1,start);
+		prep.setInt(2, treatmentId);
+		prep.executeUpdate();
+		prep.close();
 		
 	}
 	@Override
-	public void editTreatmentsFinishDate(Date finish) throws SQLException {
-		// TODO Auto-generated method stub
+	public void editTreatmentsFinishDate(Date finish, int treatmentId) throws SQLException {
+		String sql = "UPDATE patient SET finishDate = ? WHERE treatmentId = ?";
+		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+		prep.setDate(1,finish);
+		prep.setInt(2, treatmentId);
+		prep.executeUpdate();
+		prep.close();
 		
 	}
+	
 
 }

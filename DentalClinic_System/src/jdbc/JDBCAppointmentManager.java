@@ -58,7 +58,6 @@ public class JDBCAppointmentManager implements AppointmentManager {
 		prep.setInt(1, appointmentId);
 		prep.executeUpdate();
 		prep.close();
-
 	}
 
 	@Override

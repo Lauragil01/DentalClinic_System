@@ -1,5 +1,6 @@
 package jdbc;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,6 +9,7 @@ import java.util.List;
 
 import dentalClinic.ifaces.MedicationManager;
 import dentalClinic.pojos.Medication;
+import dentalClinic.pojos.Patient;
 
 public class JDBCMedicationManager implements MedicationManager {
 	private JDBCManager manager;
@@ -50,11 +52,40 @@ public class JDBCMedicationManager implements MedicationManager {
 		// TODO Auto-generated method stub
 
 	}
+	
+	@Override
+	public Medication searchMedicationById(int id) throws SQLException {
+		Medication medication = null;
+		String sql = "SELECT * FROM medications WHERE id = ?";
+		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+		prep.setInt(1,id);
+		ResultSet rs = prep.executeQuery();
+		List <Medication> medications = new ArrayList<Medication>();
+		while(rs.next()){
+			String name = rs.getString("name");
+			int dosis = rs.getInt("dosis");
+			medication = new Medication(id,name,dosis);
+		}
+		rs.close();	
+		return medication;
+	}
 
 	@Override
 	public List<Medication> searchMedicationbyName(String name) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		Medication m  = null;
+		String sql = "SELECT * FROM medications WHERE name LIKE ?";
+		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+		prep.setString(1,"%" + name + "%");
+		ResultSet rs = prep.executeQuery();
+		List <Medication> medications = new ArrayList<Medication>();
+		while(rs.next()){
+			int id = rs.getInt("id");
+			int dosis = rs.getInt("dosis");
+			m = new Medication(id,name,dosis);
+			medications.add(m);
+		}
+		rs.close();	
+		return medications;
 	}
 	
 	@Override
@@ -86,12 +117,6 @@ public class JDBCMedicationManager implements MedicationManager {
 		prep.setString(1, mDosis);
 		prep.executeUpdate();
 		prep.close();
-	}
-
-	@Override
-	public Medication searchMedicationById(int medicationId) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

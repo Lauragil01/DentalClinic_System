@@ -20,9 +20,11 @@ public interface TreatmentManager {
 	
 	public Treatment searchTreatmentById (int treatmentId) throws SQLException;
 	
-	public void editTreatmentsStartDate (Date start) throws SQLException;
+	public void editTreatmentsName (String name, int treatmentId) throws SQLException;
 	
-	public void editTreatmentsFinishDate (Date finish) throws SQLException;
+	public void editTreatmentsStartDate (Date start, int treatmentId) throws SQLException;
+	
+	public void editTreatmentsFinishDate (Date finish, int treatmentId) throws SQLException;
 
 	
 

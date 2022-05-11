@@ -26,7 +26,7 @@ public class Patient implements Serializable {
 	private List<Dentist> dentists; 	//many to many relationship
 	
 	public Patient(Integer id, String name, String surname, String gender, Date birthDate, String address,
-			String bloodType, String allergies, String background) {
+			String bloodType, String background) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -67,7 +67,7 @@ public class Patient implements Serializable {
 	}
 	
 	public Patient (String name, String surname, String gender, Date birthDate, 
-			String address, String bloodType, ArrayList<String> allergies, String background) {
+			String address, String bloodType, String background) {
 		super();
 		this.name = name;
 		this.surname = surname;
