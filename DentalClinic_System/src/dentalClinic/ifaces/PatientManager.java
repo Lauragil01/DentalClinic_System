@@ -17,22 +17,24 @@ public interface PatientManager {
 	public void assign_Patient (int patientId, int dentistId) throws SQLException;
 		
 	public List<Patient> searchPatientbyName (String name) throws SQLException;
-		
-	public List<Patient> listAllPatients() throws SQLException;
+	
+	public List<Patient> searchPatientbySurname (String surname) throws SQLException;
 	
 	public Patient searchPatientById(int patientId) throws SQLException, Exception;
 	
 	public List<Patient> getPatientsOfDentist(int dentistId) throws SQLException;
 	
-	public void editPatientsName (String name) throws SQLException;
+	public void editPatientsName (String name, int patientId) throws SQLException;
 	
-	public void editPatientsSurname (String surname) throws SQLException;
+	public void editPatientsSurname (String surname, int patientId) throws SQLException;
 	
-	public void editPatientsGender (String gender) throws SQLException;
+	public void editPatientsGender (String gender, int patientId) throws SQLException;
 	
-	public void editPatientsAddress (String address) throws SQLException;
+	public void editPatientsAddress (String address, int patientId) throws SQLException;
 	
 	public void addAllergy (String allergy) throws SQLException;
+	
+	public List<String> listAllergies (int patientId) throws SQLException;
 	
 	
 	

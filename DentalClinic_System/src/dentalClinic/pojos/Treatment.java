@@ -13,6 +13,7 @@ public class Treatment implements Serializable {
 	 */
 	private static final long serialVersionUID = -2391513895154656638L;
 	private Integer id;
+	private String name;
 	private String diagnosis;
 	private Integer consultDuration;
 	private Date startDate;
@@ -25,19 +26,21 @@ public class Treatment implements Serializable {
 		super();
 		setMedications(new ArrayList<Medication>());
 	}
-	public Treatment(int id, String diagnosis, int duration , Date startDate, Date finishDate) throws Exception {
+	public Treatment(int id, String name, String diagnosis, int duration , Date startDate, Date finishDate){
 		super();
 		setId(id);
+		setName(name);
 		setDiagnosis(diagnosis);
 		setConsultDuration(duration);
 		this.startDate= startDate;
 		this.finishDate = finishDate;
 	}
 	
-	public Treatment(Integer id, String diagnosis, Integer consultDuration, Date startDate, Date finishDate,
+	public Treatment(Integer id, String name, String diagnosis, Integer consultDuration, Date startDate, Date finishDate,
 			int patientId) {
 		super();
 		this.id = id;
+		this.name = name;
 		this.diagnosis = diagnosis;
 		this.consultDuration = consultDuration;
 		this.startDate = startDate;
@@ -48,11 +51,19 @@ public class Treatment implements Serializable {
 	public Integer getId() {
 		return id;
 	}
-
+	
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
 	public String getDiagnosis() {
 		return diagnosis;
 	}
