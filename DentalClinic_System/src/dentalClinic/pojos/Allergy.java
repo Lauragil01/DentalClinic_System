@@ -13,6 +13,14 @@ public class Allergy implements Serializable{
 	private String name;
 	private Patient patient;
 	
+	public Allergy(Integer allergyId, String name) {
+		super();
+		this.allergyId = allergyId;
+		this.name = name;
+	}
+	public Allergy() {
+		super();
+	}
 	public Integer getAllergyId() {
 		return allergyId;
 	}
