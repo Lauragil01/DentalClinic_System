@@ -86,7 +86,14 @@ public class JDBCManager {
 			sql = "CREATE TABLE medications ("
 			+ "	id	INTEGER PRIMARY KEY AUTOINCREMENT,"
 			+ "	name	TEXT NOT NULL,"
-			+ " dosis INTEGER NOT NULL"
+			+ " dosis INTEGER NOT NULL,"
+			+ " FOREIGN KEY(treatmentId) REFERENCES treatments(id) ON DELETE CASCADE"
+			+ ");";
+			stmt.executeUpdate(sql);
+			sql = "CREATE TABLE allergies ("
+			+ "	id	INTEGER PRIMARY KEY AUTOINCREMENT,"
+			+ "	name	TEXT NOT NULL,"
+			+ "FOREIGN KEY(patientId) REFERENCES patients(id) ON DELETE CASCADE"
 			+ ");";
 			stmt.executeUpdate(sql);
 			sql = "CREATE TABLE examines ("

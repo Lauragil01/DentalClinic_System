@@ -9,8 +9,6 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
-import db.pojos.Shift;
-import db.pojos.Worker;
 import dentalClinic.ifaces.DentistManager;
 import dentalClinic.pojos.Appointment;
 import dentalClinic.pojos.Dentist;
@@ -43,10 +41,9 @@ public class JDBCDentistManager implements DentistManager {
 			Date birthDate = rs.getDate("birthDate");
 			String address = rs.getString("address");
 			String bloodType = rs.getString("bloodType");
-			String allergies = rs.getString("allergies");
 			String background = rs.getString("background");
 			Patient patient = new Patient(id, name, surname, gender, birthDate, address, 
-					bloodType, allergies, background);
+					bloodType, background);
 			patients.add(patient);		
 		}
 		prep.close();
@@ -92,12 +89,6 @@ public class JDBCDentistManager implements DentistManager {
 	public void assign_Dentist(int dentistId, int patientId) throws SQLException {
 		// TODO Auto-generated method stub
 		
-	}
-
-	@Override
-	public List<Dentist> listAllDentists() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

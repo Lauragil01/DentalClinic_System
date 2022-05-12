@@ -28,14 +28,17 @@ public class JDBCPatientManager implements PatientManager {
 	private JDBCMedicationManager medicationmanager;
 	private JDBCAppointmentManager appointmentmanager;
 	private JDBCDentistManager dentistmanager;
+	private JDBCAllergyManager allergymanager;
+	
 
-	public JDBCPatientManager(JDBCManager m, JDBCTreatmentManager t, JDBCMedicationManager m2, JDBCAppointmentManager a, JDBCDentistManager d) {
+	public JDBCPatientManager(JDBCManager m, JDBCTreatmentManager t, JDBCMedicationManager m2, 
+			JDBCAppointmentManager a, JDBCDentistManager d, JDBCAllergyManager am) {
 		this.manager = m;
 		this.treatmentmanager = t;
 		this.medicationmanager = m2;
 		this.appointmentmanager = a;
 		this.dentistmanager = d;
-		
+		this.allergymanager = am;		
 	}
 	@Override
 	public void addPatient(Patient p) throws SQLException{
@@ -68,7 +71,7 @@ public class JDBCPatientManager implements PatientManager {
 			String bloodType = rs.getString("bloodType");
 			String background = rs.getString("background");
 			p = new Patient(name, surname, gender, birthDate, address, bloodType, background);
-			p.setAllergies(this.listAllergies(id));
+			p.setAllergies(allergymanager.getAllergiesFromPatient(id));
 			p.setTreatments(treatmentmanager.listofTreatments(id));
 			p.setAppointments(appointmentmanager.listofAppointments(id));
 			p.setDentists(dentistmanager.getDentistsOfPatient(id));
@@ -101,7 +104,7 @@ public class JDBCPatientManager implements PatientManager {
 			String bloodType = rs.getString("bloodType");
 			String background = rs.getString("background");
 			p= new Patient(name, surname, gender, birthDate, address, bloodType, background);
-			p.setAllergies(this.listAllergies(id));
+			p.setAllergies(allergymanager.getAllergiesFromPatient(id));
 		}
 		rs.close();	
 		return patients;
@@ -124,7 +127,7 @@ public class JDBCPatientManager implements PatientManager {
 			String bloodType = rs.getString("bloodType");
 			String background = rs.getString("background");
 			p= new Patient(name, surname, gender, birthDate, address, bloodType, background);
-			p.setAllergies(this.listAllergies(id));
+			p.setAllergies(allergymanager.getAllergiesFromPatient(id));
 		}
 		rs.close();	
 		return patients;
