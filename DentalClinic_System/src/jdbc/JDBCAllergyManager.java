@@ -20,7 +20,7 @@ public class JDBCAllergyManager implements AllergyManager {
 
 	@Override
 	public void addAllergy(Allergy a) throws SQLException {
-		String sql = "INSERT INTO allergies (allergyId, name, patientId) VALUES (?,?,?)";
+		String sql = "INSERT INTO allergies (id, name, patientId) VALUES (?,?,?)";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setInt(1, a.getAllergyId());
 		prep.setString(2, a.getName());			
@@ -37,7 +37,7 @@ public class JDBCAllergyManager implements AllergyManager {
 		ResultSet rs = prep.executeQuery(sql);
 		List <Allergy> allergies = new ArrayList<Allergy>();
 		while (rs.next()) {
-			int id = rs.getInt("allergyId");
+			int id = rs.getInt("id");
 			String name = rs.getString("name");
 			Allergy allergy = new Allergy(id,name);
 			allergies.add(allergy);		
@@ -48,13 +48,8 @@ public class JDBCAllergyManager implements AllergyManager {
 	}
 
 	@Override
-	public void assign_Allergy(int allergyId, int patientId) throws SQLException {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
 	public void deleteAllergy(int allergyId) throws SQLException {
-		String sql = "DELETE FROM allergies WHERE allergyId = ?";
+		String sql = "DELETE FROM allergies WHERE id = ?";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setInt(1, allergyId);
 		prep.executeUpdate();

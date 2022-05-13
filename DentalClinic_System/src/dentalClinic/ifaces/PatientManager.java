@@ -13,8 +13,6 @@ import dentalClinic.pojos.Treatment;
 public interface PatientManager {
 	
 	public void addPatient (Patient p) throws SQLException; 
-	
-	public void assign_Patient (int patientId, int dentistId) throws SQLException;
 		
 	public List<Patient> searchPatientbyName (String name) throws SQLException;
 	
@@ -32,17 +30,7 @@ public interface PatientManager {
 	
 	public void editPatientsAddress (String address, int patientId) throws SQLException;
 	
-	public void addAllergy (String allergy) throws SQLException;
+	public void editPatientsBackground (String background, int patientId) throws SQLException;
 	
-	public List<String> listAllergies (int patientId) throws SQLException;
-	
-	
-	
-	//public void editPatientsAllergies (String allergies) throws SQLException;
-	
-	//public void editPatientsBackground (String background) throws SQLException;
-	
-	
-	
-	
+
  }

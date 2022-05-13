@@ -86,8 +86,13 @@ public class JDBCDentistManager implements DentistManager {
 	}
 
 	@Override
-	public void assign_Dentist(int dentistId, int patientId) throws SQLException {
-		// TODO Auto-generated method stub
+	public void assignDentistPatient(int dentistId, int patientId) throws SQLException {
+	String sql = "INSERT INTO examines (dentistId, patientId) VALUES (?,?)";
+	PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+	prep.setInt(1, dentistId);
+	prep.setInt(2, patientId);
+	prep.executeUpdate();
+	prep.close();
 		
 	}
 

@@ -46,12 +46,6 @@ public class JDBCMedicationManager implements MedicationManager {
 		rs.close();
 		return medications;
 	}
-
-	@Override
-	public void assign_Medication(int medicationId, int treatmentId) throws SQLException {
-		// TODO Auto-generated method stub
-
-	}
 	
 	@Override
 	public Medication searchMedicationById(int id) throws SQLException {
@@ -91,7 +85,7 @@ public class JDBCMedicationManager implements MedicationManager {
 	@Override
 	public void deleteMedication(int medicationId) {
 		try {
-			String sql = "DELETE FROM medications WHERE medicationId = ?";
+			String sql = "DELETE FROM medications WHERE id = ?";
 			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 			prep.setInt(1, medicationId);
 			prep.executeUpdate();
