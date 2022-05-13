@@ -1,0 +1,18 @@
+<!DOCTYPE Shift [
+   <!ELEMENT Appointment (date, type, duration, time)>
+   <!ATTLIST Appointment shiftId CDATA #REQUIRED>
+   <!ELEMENT date (#PCDATA)>
+   <!ELEMENT type (#PCDATA)>
+   <!ELEMENT duration (#PCDATA)>
+   <!ELEMENT time (#PCDATA)>
+   <!ELEMENT Dentist (Dentist+)>
+   <!ELEMENT Dentist (dentistName, dentistSurname, turn, speciality)>
+   <!ATTLIST Dentist dentistId CDATA #REQUIRED
+   					dentistName CDATA #REQUIRED
+   					dentistSurname CDATA #REQUIRED
+   <!ELEMENT dentistName (#PCDATA)>
+   <!ELEMENT dentistSurname (#PCDATA)>
+   <!ELEMENT turn (#PCDATA)>
+   <!ELEMENT speciality (#PCDATA)>
+]>
+  
