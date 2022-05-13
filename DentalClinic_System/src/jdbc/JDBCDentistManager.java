@@ -161,4 +161,5 @@ public class JDBCDentistManager implements DentistManager {
 		prep.executeUpdate();
 		prep.close();
 	}
+	
 }
