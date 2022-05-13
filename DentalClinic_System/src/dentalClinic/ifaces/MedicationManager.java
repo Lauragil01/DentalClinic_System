@@ -11,8 +11,6 @@ public interface MedicationManager {
 	
 	public List<Medication> listofMedications(int treatmentId)throws SQLException;
 	
-	public void assign_Medication (int medicationId, int treatmentId)throws SQLException;
-	
 	public void editMedicationsName(String mName)throws SQLException;
 	
 	public void editMedicationsDosis(String mDosis)throws SQLException;
