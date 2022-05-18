@@ -8,7 +8,7 @@ import java.sql.Statement;
 public class JDBCManager {
 	
 		private Connection c = null;
-	
+		
 		
 		public JDBCManager() {
 			try {
@@ -61,7 +61,7 @@ public class JDBCManager {
 			+ "	duration TEXT NOT NULL,"
 			+ "	startDate DATE NOT NULL,"
 			+ "	finishDate DATE NOT NULL,"
-			+ "	FOREIGN KEY(patientId) REFERENCES patients(id) ON DELETE CASCADE"
+			+ " patientId INTEGER REFERENCES patients(id) ON DELETE CASCADE"
 			+ ");";
 			stmt.executeUpdate(sql);
 			sql = "CREATE TABLE dentists ("
@@ -79,28 +79,26 @@ public class JDBCManager {
 			+ " time DATE NOT NULL,"
 			+ " dentist TEXT NOT NULL,"
 			+ " duration INTEGER NOT NULL,"
-			+ "	FOREIGN KEY(patientId) REFERENCES patients(id) ON DELETE CASCADE,"
-			+ "	FOREIGN KEY(dentistId) REFERENCES dentists(id) ON DELETE CASCADE"
+			+ "	patientId INTEGER REFERENCES patients(id) ON DELETE CASCADE,"
+			+ "	dentistId INTEGER REFERENCES dentists(id) ON DELETE CASCADE"
 			+ ");";
 			stmt.executeUpdate(sql);
 			sql = "CREATE TABLE medications ("
 			+ "	id	INTEGER PRIMARY KEY AUTOINCREMENT,"
 			+ "	name	TEXT NOT NULL,"
 			+ " dosis INTEGER NOT NULL,"
-			+ " FOREIGN KEY(treatmentId) REFERENCES treatments(id) ON DELETE CASCADE"
+			+ " treatmentId INTEGER REFERENCES treatments(id) ON DELETE CASCADE"
 			+ ");";
 			stmt.executeUpdate(sql);
 			sql = "CREATE TABLE allergies ("
 			+ "	id	INTEGER PRIMARY KEY AUTOINCREMENT,"
 			+ "	name	TEXT NOT NULL,"
-			+ "FOREIGN KEY(patientId) REFERENCES patients(id) ON DELETE CASCADE"
+			+ " patientId INTEGER REFERENCES patients(id) ON DELETE CASCADE"
 			+ ");";
 			stmt.executeUpdate(sql);
 			sql = "CREATE TABLE examines ("
-			+ " patientId INTEGER,"
-			+ "	dentistId INTEGER,"
-			+ "	FOREIGN KEY(patientId) REFERENCES patients(id) ON DELETE CASCADE,"
-			+ "	FOREIGN KEY(dentistId) REFERENCES dentists(id) ON DELETE CASCADE,"
+			+ "	patientId INTEGER REFERENCES patients(id) ON DELETE CASCADE,"
+			+ "	dentistId INTEGER REFERENCES dentists(id) ON DELETE CASCADE,"
 			+ "	PRIMARY KEY(patientId,dentistId)\r\n"
 			+ ");";
 			stmt.executeUpdate(sql);
@@ -113,9 +111,8 @@ public class JDBCManager {
 			}
 		}
 
-
 		public static void main(String[] args) {
-			JDBCManager manager= new JDBCManager();
+			JDBCManager manager = new JDBCManager();
 			manager.createTables();
 		}
 }

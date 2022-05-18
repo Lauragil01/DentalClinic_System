@@ -18,6 +18,18 @@ public class Allergy implements Serializable{
 		this.allergyId = allergyId;
 		this.name = name;
 	}
+	
+	
+	
+	public Allergy(Integer allergyId, String name, Patient patient) {
+		super();
+		this.allergyId = allergyId;
+		this.name = name;
+		this.patient = patient;
+	}
+
+
+
 	public Allergy() {
 		super();
 	}
