@@ -1,0 +1,17 @@
+<!DOCTYPE Dentist [
+   <!ELEMENT Dentist (dentistName, dentistSurname, turn, speciality)>
+   <!ATTLIST Dentist dentistsId CDATA #REQUIRED
+   					dentistName CDATA #REQUIRED
+   					dentistSurname CDATA #REQUIRED
+   					turn CDATA #REQUIRED
+   					speciality CDATA #REQUIRED>
+   <!ELEMENT specialtyId (#PCDATA)>
+   <!ELEMENT typeWorker (#PCDATA)>
+   <!ELEMENT Appointment (Appointment+)>
+   <!ELEMENT Appointment (date, type, duration, time)>
+   <!ATTLIST Appointment appointmentId CDATA #REQUIRED>
+   <!ELEMENT date (#PCDATA)>
+   <!ELEMENT type (#PCDATA)>
+   <!ELEMENT duration (#PCDATA)>
+   <!ELEMENT time (#PCDATA)>
+]>

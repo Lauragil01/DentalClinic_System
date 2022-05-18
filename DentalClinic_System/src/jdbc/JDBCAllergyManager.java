@@ -36,7 +36,7 @@ public class JDBCAllergyManager implements AllergyManager {
 		ResultSet rs = prep.executeQuery(sql);
 		List <Allergy> allergies = new ArrayList<Allergy>();
 		while (rs.next()) {
-			int id = rs.getInt("allergyId");
+			int id = rs.getInt("id");
 			String name = rs.getString("name");
 			Allergy allergy = new Allergy(id,name);
 			allergies.add(allergy);		
@@ -44,11 +44,6 @@ public class JDBCAllergyManager implements AllergyManager {
 		prep.close();
 		rs.close();
 		return allergies;
-	}
-
-	@Override
-	public void assign_Allergy(int allergyId, int patientId) throws SQLException {
-		// TODO Auto-generated method stub
 	}
 
 	@Override

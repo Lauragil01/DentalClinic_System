@@ -11,8 +11,6 @@ public interface AllergyManager {
 	
 	public List<Allergy> getAllergiesFromPatient (int patientId) throws SQLException;
 	
-	public void assign_Allergy (int allergyId, int patientId) throws SQLException;
-	
 	public void deleteAllergy (int allergyId) throws SQLException;
 	
 }
