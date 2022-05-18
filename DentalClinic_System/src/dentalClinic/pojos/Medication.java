@@ -24,6 +24,18 @@ public class Medication implements Serializable {
 		this.dosis = dosis;
 		this.treatment = treatment;
 	}
+	
+	public Medication( String name, int dosis, Treatment treatment) {
+		this.name = name; 
+		this.dosis = dosis;
+		this.treatment = treatment;
+	}
+	public Medication( String name, int dosis) {
+		this.name = name; 
+		this.dosis = dosis;
+		this.treatment = treatment;
+	}
+	
 	public Medication(int id, String name, int dosis) {
 		this.id = id;
 		this.name = name; 
