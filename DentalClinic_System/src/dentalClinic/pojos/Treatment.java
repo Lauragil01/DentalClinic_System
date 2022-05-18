@@ -37,7 +37,7 @@ public class Treatment implements Serializable {
 	}
 	
 	public Treatment(Integer id, String name, String diagnosis, Integer consultDuration, Date startDate, Date finishDate,
-			int patientId) {
+			Patient patient) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -46,6 +46,24 @@ public class Treatment implements Serializable {
 		this.startDate = startDate;
 		this.finishDate = finishDate;
 		this.patient = patient;
+	}
+	public Treatment(String name, String diagnosis, Integer consultDuration, Date startDate, Date finishDate,
+			Patient p) {
+		super();
+		this.name = name;
+		this.diagnosis = diagnosis;
+		this.consultDuration = consultDuration;
+		this.startDate = startDate;
+		this.finishDate = finishDate;
+		this.patient = patient;
+	}
+	public Treatment(String name, String diagnosis, Integer consultDuration, Date startDate, Date finishDate) {
+		super();
+		this.name = name;
+		this.diagnosis = diagnosis;
+		this.consultDuration = consultDuration;
+		this.startDate = startDate;
+		this.finishDate = finishDate;
 	}
 	
 	public Integer getId() {

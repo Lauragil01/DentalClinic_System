@@ -8,8 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dentalClinic.ifaces.MedicationManager;
+import dentalClinic.pojos.Allergy;
 import dentalClinic.pojos.Medication;
 import dentalClinic.pojos.Patient;
+import dentalClinic.pojos.Treatment;
 
 public class JDBCMedicationManager implements MedicationManager {
 	private JDBCManager manager;
@@ -19,11 +21,16 @@ public class JDBCMedicationManager implements MedicationManager {
 	}
 	@Override
 	public void addMedication(Medication m) throws SQLException {
-		String sql = "INSERT INTO medications (id, name, dosis) VALUES (?,?,?)";
+		String sql = "INSERT INTO medications (name, dosis, treatmentId) VALUES (?,?,?)";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
-		prep.setInt(1, m.getId());
-		prep.setString(2, m.getName());
-		prep.setInt(3, m.getDosis());		
+		prep.setString(1, m.getName());
+		prep.setInt(2, m.getDosis());
+		if (m.getTreatment() == null) {
+			prep.setNull(3, java.sql.Types.INTEGER);
+		} 
+		else {
+			prep.setInt(3,m.getTreatment().getId());
+		}
 		prep.executeUpdate();
 		prep.close();
 	}
@@ -111,6 +118,38 @@ public class JDBCMedicationManager implements MedicationManager {
 		prep.setString(1, mDosis);
 		prep.executeUpdate();
 		prep.close();
+	}
+	
+	public static void main(String[] args) {
+		JDBCManager manager = new JDBCManager();
+		JDBCMedicationManager mm = new JDBCMedicationManager(manager);
+		JDBCTreatmentManager mm2 = new JDBCTreatmentManager(manager);
+		Date d = new Date(2, 1, 2);
+		
+	
+		
+		
+		
+		
+		List<Medication> meds = new ArrayList<Medication>();
+		
+		List<Treatment> treats = new ArrayList<Treatment>();
+		try {
+			Treatment t = new Treatment("n","d",1,d,d);
+			Treatment t2 = new Treatment("n","d",2,d,d);
+			mm2.addTreatment(t);
+			mm2.addTreatment(t2);
+			Medication m = new Medication ("c", 4);
+			Medication m2 = new Medication ("c2", 2);
+			m.setTreatment(t);
+			//mm.addMedication(m);
+			treats = mm2.searchTreatmentbyName("n");
+			//mm.listofMedications(t.getId());
+
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

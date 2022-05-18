@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dentalClinic.ifaces.TreatmentManager;
+import dentalClinic.pojos.Medication;
 import dentalClinic.pojos.Treatment;
 
 public class JDBCTreatmentManager implements TreatmentManager {	
@@ -17,14 +18,20 @@ public class JDBCTreatmentManager implements TreatmentManager {
 		this.manager = m;
 	}
 	@Override
-	public void addTreatment(Treatment t, int patientId) throws SQLException {
-		String sql = "INSERT INTO treatments (id, diagnosis, duration, startDate, finishDate, patient_id) VALUES (?,?,?,?,?,?)";
+	public void addTreatment(Treatment t) throws SQLException {
+		String sql = "INSERT INTO treatments (name, diagnosis, duration, startDate, finishDate, patientId) VALUES (?,?,?,?,?,?)";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
-		prep.setInt(1, t.getId());
+		prep.setString(1,t.getName());
 		prep.setString(2, t.getDiagnosis());			
 		prep.setInt(3, t.getConsultDuration());			
 		prep.setDate(4, t.getStartDate());
 		prep.setDate(5, t.getFinishDate());
+		if (t.getPatient() == null) {
+			prep.setNull(6, java.sql.Types.INTEGER);
+		}
+		else {
+			prep.setInt(6, t.getPatient().getId());
+		}
 		prep.executeUpdate();
 		prep.close();
 	}
