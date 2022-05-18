@@ -28,7 +28,11 @@ public class Allergy implements Serializable{
 		this.patient = patient;
 	}
 
-
+	public Allergy(String name, Patient patient) {
+		super();
+		this.name = name;
+		this.patient = patient;
+	}
 
 	public Allergy() {
 		super();

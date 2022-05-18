@@ -84,7 +84,7 @@ public class Dentist implements Serializable{
 		this.turn = turn;
 	}
 
-	public String getSpeciality() {
+	public String getSpecialty() {
 		return specialty;
 	}
 

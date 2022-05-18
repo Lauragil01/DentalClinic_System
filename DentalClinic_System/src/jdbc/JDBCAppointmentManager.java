@@ -9,8 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dentalClinic.ifaces.AppointmentManager;
+import dentalClinic.pojos.Allergy;
 import dentalClinic.pojos.Appointment;
 import dentalClinic.pojos.Dentist;
+import dentalClinic.pojos.Patient;
 
 public class JDBCAppointmentManager implements AppointmentManager {
 	private JDBCManager manager;
@@ -20,15 +22,20 @@ public class JDBCAppointmentManager implements AppointmentManager {
 		this.manager = m;
 		this.dentistmanager = dentistmanager;
 	}
+	
+	public JDBCAppointmentManager(JDBCManager m) {
+		this.manager = m;
+	}
+	
 	@Override
 	public void addAppointment(Appointment a) throws SQLException {
-		String sql = "INSERT INTO appointments (id, date, type, time, duration) VALUES (?,?,?,?,?)";
+		String sql = "INSERT INTO appointments (date, type, time, duration, patientId) VALUES (?,?,?,?,?)";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
-		prep.setInt(1, a.getId());
-		prep.setDate(2, a.getDate());
-		prep.setString(3, a.getType());
-		prep.setTime(4, a.getTime());
-		prep.setInt(5, a.getDuration());
+		prep.setDate(1, a.getDate());
+		prep.setString(2, a.getType());
+		prep.setTime(3, a.getTime());
+		prep.setInt(4, a.getDuration());
+		prep.setInt(5, a.getPatient().getId());
 		prep.executeUpdate();
 		prep.close();	
 	}
@@ -38,7 +45,7 @@ public class JDBCAppointmentManager implements AppointmentManager {
 		String sql = "SELECT * FROM appointments WHERE patientId=? ORDER BY date ";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setInt(1, patientId);
-		ResultSet rs = prep.executeQuery(sql);
+		ResultSet rs = prep.executeQuery();
 		List <Appointment> appointments = new ArrayList<Appointment>();
 		while (rs.next()) {
 			int id = rs.getInt("id");
@@ -107,5 +114,25 @@ public class JDBCAppointmentManager implements AppointmentManager {
 		prep.close();
 		rs.close();
 		return a;
+	}
+	
+	public static void main(String[] args) {
+		JDBCManager manager = new JDBCManager();
+		JDBCAppointmentManager appointmentManager = new JDBCAppointmentManager(manager);
+		
+		List<Allergy> allergies = new ArrayList<Allergy>();
+		Patient p = new Patient("a", "b", "m", "c", "0", "k", allergies);
+		Dentist d = new Dentist("Paco", "García", "tarde", "ortodoncia");
+		Appointment app = new Appointment("consult", 5, d, p);
+		
+		
+		try {
+			//appointmentManager.addAppointment(app); 
+			//appointmentManager.listofAppointments(p.getId()); 
+			//appointmentManager.deleteAppointment(app.getId()); 
+			appointmentManager.searchAppointmentById(app.getId());
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }

@@ -69,7 +69,7 @@ public class JDBCManager {
 			+ "	name	TEXT NOT NULL,"
 			+ "	surname	TEXT NOT NULL,"
 			+ "	turn	TEXT NOT NULL,"
-			+ "	speciality	TEXT NOT NULL"
+			+ "	specialty	TEXT NOT NULL"
 			+ ");";
 			stmt.executeUpdate(sql);
 			sql = "CREATE TABLE appointments ("

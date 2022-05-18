@@ -52,6 +52,14 @@ public class Appointment implements Serializable {
 		this.dentist = dentist;
 	}
 
+	public Appointment(String type, Integer duration, Dentist dentist, Patient patient) {
+		super();
+		this.type = type;
+		this.duration = duration;
+		this.dentist = dentist;
+		this.patient = patient;
+	}
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);

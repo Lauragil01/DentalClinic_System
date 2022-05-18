@@ -19,11 +19,10 @@ public class JDBCAllergyManager implements AllergyManager {
 
 	@Override
 	public void addAllergy(Allergy a) throws SQLException {
-		String sql = "INSERT INTO allergies (id, name, patientId) VALUES (?,?,?)";
+		String sql = "INSERT INTO allergies (name, patientId) VALUES (?,?)";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
-		prep.setInt(1, a.getAllergyId());
-		prep.setString(2, a.getName());			
-		prep.setInt(3, a.getPatient().getId());
+		prep.setString(1, a.getName());			
+		prep.setInt(2, a.getPatient().getId());
 		prep.executeUpdate();
 		prep.close();
 	}
@@ -33,7 +32,7 @@ public class JDBCAllergyManager implements AllergyManager {
 		String sql = "SELECT * FROM allergies WHERE patientId=? ";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setInt(1, patientId);
-		ResultSet rs = prep.executeQuery(sql);
+		ResultSet rs = prep.executeQuery();
 		List <Allergy> allergies = new ArrayList<Allergy>();
 		while (rs.next()) {
 			int id = rs.getInt("id");
@@ -59,16 +58,15 @@ public class JDBCAllergyManager implements AllergyManager {
 		JDBCManager manager = new JDBCManager();
 		JDBCAllergyManager allergyManager = new JDBCAllergyManager(manager);
 		
-		Patient p = new Patient(1, "a", "b", "m", "c", "0", "k");
+		//Patient p = new Patient("a", "b", "m", "c", "0", "k");
 		List<Allergy> allergies = new ArrayList<Allergy>();
-		Allergy a = new Allergy(22, "polen", p);
-		allergies.add(a);
-		Patient p2 = new Patient(1, "a", "b", "m", "c", "0", "k", allergies);
+		Patient p2 = new Patient("a", "b", "m", "c", "0", "k", allergies);
+		Allergy a = new Allergy("polen", p2);
 		
 		try {
-			//allergyManager.addAllergy(a); // ERROR: abort due to constraint violation (FOREIGN KEY constraint failed)
-			//allergyManager.getAllergiesFromPatient(p2.getId()); // ERROR: not implemented by SQLite JDBC driver
-			allergyManager.deleteAllergy(a.getAllergyId());
+			//allergyManager.addAllergy(a); 
+			allergyManager.getAllergiesFromPatient(p2.getId()); 
+			//allergyManager.deleteAllergy(a.getAllergyId()); 
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}

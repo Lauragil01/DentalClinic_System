@@ -53,7 +53,17 @@ public class Patient implements Serializable {
 		this.background = background;
 	}
 
-
+	public Patient(String name, String surname, String gender, String address, String bloodType,
+			String background, List<Allergy> allergies) {
+		super();
+		this.name = name;
+		this.surname = surname;
+		this.gender = gender;
+		this.address = address;
+		this.bloodType = bloodType;
+		this.background = background;
+		this.allergies = allergies;
+	}
 
 	public Patient(Integer id, String name, String surname, String gender, String address, String bloodType,
 			String background, List<Allergy> allergies) {
