@@ -9,7 +9,7 @@ public class Menu {
 
 	private static BufferedReader reader = new BufferedReader (new InputStreamReader(System.in));
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		
 		System.out.println("Welcome to the Dental Clinic System");
 		try {
 			do {

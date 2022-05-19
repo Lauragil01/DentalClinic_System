@@ -1,6 +1,7 @@
 package dentalClinic.pojos;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 public class Allergy implements Serializable{
@@ -11,7 +12,7 @@ public class Allergy implements Serializable{
 	
 	private Integer allergyId;
 	private String name;
-	private Patient patient;
+	private List<Patient> patients;
 	
 	public Allergy(Integer allergyId, String name) {
 		super();
@@ -19,19 +20,24 @@ public class Allergy implements Serializable{
 		this.name = name;
 	}
 	
+	public Allergy(String name) {
+		super();
+		this.name = name;
+	}
 	
 	
-	public Allergy(Integer allergyId, String name, Patient patient) {
+	
+	public Allergy(Integer allergyId, String name, List<Patient> patients) {
 		super();
 		this.allergyId = allergyId;
 		this.name = name;
-		this.patient = patient;
+		this.patients = patients;
 	}
 
-	public Allergy(String name, Patient patient) {
+	public Allergy(String name, List<Patient> patients) {
 		super();
 		this.name = name;
-		this.patient = patient;
+		this.patients = patients;
 	}
 
 	public Allergy() {
@@ -50,16 +56,16 @@ public class Allergy implements Serializable{
 		this.name = name;
 	}
 	
-	public Patient getPatient() {
-		return patient;
+	public List<Patient> getPatients() {
+		return patients;
 	}
-	public void setPatient(Patient patient) {
-		this.patient = patient;
+	public void setPatients(List<Patient> patients) {
+		this.patients = patients;
 	}
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(allergyId, name, patient);
+		return Objects.hash(allergyId, name, patients);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -71,10 +77,10 @@ public class Allergy implements Serializable{
 			return false;
 		Allergy other = (Allergy) obj;
 		return Objects.equals(allergyId, other.allergyId) && Objects.equals(name, other.name)
-				&& Objects.equals(patient, other.patient);
+				&& Objects.equals(patients, other.patients);
 	}
 	@Override
 	public String toString() {
-		return "Allergy [allergyId=" + allergyId + ", name=" + name + ", patient=" + patient + "]";
+		return "Allergy [allergyId=" + allergyId + ", name=" + name + ", patient=" + patients + "]";
 	}
 }

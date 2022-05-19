@@ -19,10 +19,9 @@ public class JDBCAllergyManager implements AllergyManager {
 
 	@Override
 	public void addAllergy(Allergy a) throws SQLException {
-		String sql = "INSERT INTO allergies (name, patientId) VALUES (?,?)";
+		String sql = "INSERT INTO allergies (name) VALUES (?)";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setString(1, a.getName());			
-		prep.setInt(2, a.getPatient().getId());
 		prep.executeUpdate();
 		prep.close();
 	}
@@ -60,12 +59,12 @@ public class JDBCAllergyManager implements AllergyManager {
 		
 		//Patient p = new Patient("a", "b", "m", "c", "0", "k");
 		List<Allergy> allergies = new ArrayList<Allergy>();
-		Patient p2 = new Patient("a", "b", "m", "c", "0", "k", allergies);
-		Allergy a = new Allergy("polen", p2);
+		Patient p2 = new Patient(1, "a", "b", "m", "c", "0", "k", allergies);
+		Allergy a = new Allergy("polen");
 		
 		try {
-			//allergyManager.addAllergy(a); 
-			allergyManager.getAllergiesFromPatient(p2.getId()); 
+			allergyManager.addAllergy(a); 
+			//allergyManager.getAllergiesFromPatient(p2.getId()); 
 			//allergyManager.deleteAllergy(a.getAllergyId()); 
 		}catch(SQLException e) {
 			e.printStackTrace();

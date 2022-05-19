@@ -92,14 +92,19 @@ public class JDBCManager {
 			stmt.executeUpdate(sql);
 			sql = "CREATE TABLE allergies ("
 			+ "	id	INTEGER PRIMARY KEY AUTOINCREMENT,"
-			+ "	name	TEXT NOT NULL,"
-			+ " patientId INTEGER REFERENCES patients(id) ON DELETE CASCADE"
+			+ "	name	TEXT NOT NULL"
 			+ ");";
 			stmt.executeUpdate(sql);
 			sql = "CREATE TABLE examines ("
 			+ "	patientId INTEGER REFERENCES patients(id) ON DELETE CASCADE,"
 			+ "	dentistId INTEGER REFERENCES dentists(id) ON DELETE CASCADE,"
 			+ "	PRIMARY KEY(patientId,dentistId)\r\n"
+			+ ");";
+			stmt.executeUpdate(sql);
+			sql = "CREATE TABLE patientsAllergies ("
+			+ "	patientId INTEGER REFERENCES patients(id) ON DELETE CASCADE,"
+			+ "	allergyId INTEGER REFERENCES allergies(id) ON DELETE CASCADE,"
+			+ "	PRIMARY KEY(patientId,allergyId)\r\n"
 			+ ");";
 			stmt.executeUpdate(sql);
 			
