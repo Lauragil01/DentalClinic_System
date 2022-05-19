@@ -56,8 +56,16 @@ public class JDBCDentistManager implements DentistManager {
 		return patients;
 	}*/
 
+	
+	/*public int getPatientId (Dentist d) throws SQLException {
+		String sql = "SELECT id FROM dentists WHERE name =? AND surname =? AND address =? ";
+		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+		prep.setString(1,d.getName());
+		
+	}*/
+	
 	@Override
-	public void addDentist(Dentist d) throws SQLException {
+	public void addDentist(Dentist d) throws SQLException { //Checked
 		String sql = "INSERT INTO dentists (name, surname, turn, specialty) VALUES (?,?,?,?)";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setString(1, d.getName());
@@ -69,7 +77,7 @@ public class JDBCDentistManager implements DentistManager {
 	}
 	
 	@Override
-	public List<Dentist> getDentistsOfPatient(int patientId) throws SQLException {  
+	public List<Dentist> getDentistsOfPatient(int patientId) throws SQLException { 
 		String sql = "SELECT * from dentists AS d JOIN examines AS e ON d.id = e.dentistId WHERE e.patientId=?";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setInt(1, patientId);
@@ -90,7 +98,7 @@ public class JDBCDentistManager implements DentistManager {
 	}
 
 	@Override
-	public void assignDentistPatient(int dentistId, int patientId) throws SQLException {
+	public void assignDentistPatient(int dentistId, int patientId) throws SQLException { //No funciona
 	String sql = "INSERT INTO examines (dentistId, patientId) VALUES (?,?)";
 	PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 	prep.setInt(1, dentistId);
@@ -101,7 +109,7 @@ public class JDBCDentistManager implements DentistManager {
 	}
 
 	@Override
-	public List<Dentist> searchDentistByName(String name, String surname) throws SQLException {
+	public List<Dentist> searchDentistByName(String name, String surname) throws SQLException { //Checked
 		Dentist d = null;
 		String sql = "SELECT * FROM dentists WHERE name = ? AND surname = ?";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
@@ -113,9 +121,13 @@ public class JDBCDentistManager implements DentistManager {
 			int id = rs.getInt("id");
 			String turn = rs.getString("turn");
 			String specialty = rs.getString("specialty");
-			d = new Dentist(id, turn, specialty);
-			d.setPatients(patientmanager.getPatientsOfDentist(id));
-			d.setAppointments(appointmentmanager.listofAppointments(id));
+			d = new Dentist(id,name,surname, turn, specialty);
+			if (patientmanager.getPatientsOfDentist(id)!= null) {
+				d.setPatients(patientmanager.getPatientsOfDentist(id));
+			}
+			if (appointmentmanager.listofAppointments(id)!=null){
+				d.setAppointments(appointmentmanager.listofAppointments(id));
+			}
 			dentists.add(d);		
 		}
 		prep.close();
@@ -124,9 +136,9 @@ public class JDBCDentistManager implements DentistManager {
 	}
 
 	@Override
-	public Dentist searchDentistById(int dentistId) throws SQLException {
+	public Dentist searchDentistById(int dentistId) throws SQLException { //Checked
 		Dentist d = null;
-		String sql = "SELECT * FROM dentist WHERE id = ?";
+		String sql = "SELECT * FROM dentists WHERE id = ?";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setInt(1, dentistId);
 		ResultSet rs = prep.executeQuery();
@@ -145,8 +157,8 @@ public class JDBCDentistManager implements DentistManager {
 	}
 
 	@Override
-	public void editDentistsName(String name) throws SQLException {
-		String sql = "UPDATE dentist SET name=?";
+	public void editDentistsName(String name, int dentistId) throws SQLException {
+		String sql = "UPDATE dentists SET name= ? WHERE id = ?";
 		PreparedStatement prep= manager.getConnection().prepareStatement(sql);
 		prep.setString(1, name);
 		prep.executeUpdate();
@@ -154,8 +166,8 @@ public class JDBCDentistManager implements DentistManager {
 	}
 
 	@Override
-	public void editDentistSurname(String surname) throws SQLException {
-		String sql = "UPDATE dentist SET surname=?";
+	public void editDentistSurname(String surname, int dentistId) throws SQLException {
+		String sql = "UPDATE dentists SET surname=? WHERE id = ?";
 		PreparedStatement prep= manager.getConnection().prepareStatement(sql);
 		prep.setString(1, surname);
 		prep.executeUpdate();
@@ -163,8 +175,8 @@ public class JDBCDentistManager implements DentistManager {
 	}
 
 	@Override
-	public void editDentistsTurn(String turn) throws SQLException {
-		String sql = "UPDATE dentist SET turn=?";
+	public void editDentistsTurn(String turn, int dentistId) throws SQLException {
+		String sql = "UPDATE dentists SET turn=? WHERE id = ?";
 		PreparedStatement prep= manager.getConnection().prepareStatement(sql);
 		prep.setString(1, turn);
 		prep.executeUpdate();
@@ -173,20 +185,37 @@ public class JDBCDentistManager implements DentistManager {
 	
 	public static void main(String[] args) {
 		JDBCManager manager = new JDBCManager();
-		JDBCDentistManager dentistManager = new JDBCDentistManager(manager);
+		JDBCPatientManager patientmanager = new JDBCPatientManager(manager);
+		JDBCAppointmentManager appointmentmanager = new JDBCAppointmentManager(manager);
 		
-		Dentist d = new Dentist("Paco", "García", "tarde", "ortodoncia");
+		JDBCDentistManager dentistManager = new JDBCDentistManager(manager, patientmanager,appointmentmanager );
 		
-		//Patient p = new Patient(1, "a", "b", "m", "c", "0", "k");
-		List<Allergy> allergies = new ArrayList<Allergy>();
+		Date date = new Date(2, 1, 2);
+		
+		Dentist d = new Dentist(1,"Paco", "Garcia", "tarde", "ortodoncia");
+		Dentist d2 = new Dentist(2,"Juan", "Perez", "tarde", "ortodoncia");
+		Dentist d3 = new Dentist(3,"Marta", "Garcia", "tarde", "endodoncista");
+		Dentist d4 = new Dentist(4,"Laura", "Lopez", "maÃ±ana", "ortodoncia");
+		
+		Patient p = new Patient(1,"Alvaro", "Barrio", "m" ,date , "calle", "0", "k");
+		Patient p2 = new Patient(2,"Carla", "Barrio", "m" ,date , "calle2", "0", "k");
+		Patient p3 = new Patient(3,"Javier", "Rodriguez", "m" ,date , "calle3", "0", "k");
+		Patient p4 = new Patient(4,"Alvaro", "Gomez", "m" ,date , "calle", "0", "k");
+		Dentist prueba = new Dentist ();
+	
+		//List<Allergy> allergies = new ArrayList<Allergy>();
 		//Allergy a = new Allergy("polen", p);*/
-		Patient p2 = new Patient(1, "a", "b", "m", "c", "0", "k", allergies);
+		//List<Dentist> dentistsfound = new ArrayList<Dentist>();
 		
 		try {
-			//dentistManager.addDentist(d);
+			//prueba = dentistManager.searchDentistById(d.getId());
+			//System.out.print(prueba);
+			//dentistManager.editDentistsName(null);
+			//dentistManager.assignDentistPatient(d.getId(), p.getId());	
+			//dentistsfound = dentistManager.searchDentistByName("Paco", "Garcia");
 			//dentistManager.getDentistsOfPatient(p2.getId());
 			//dentistManager.assignDentistPatient(d.getId(), p2.getId());
-			dentistManager.searchDentistByName(d.getName(), d.getSurname());
+			//dentistManager.searchDentistByName(d.getName(), d.getSurname());
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}

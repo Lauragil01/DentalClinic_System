@@ -12,6 +12,8 @@ import dentalClinic.pojos.Dentist;
 
 public interface DentistManager {
 	
+	//public int getPatientId (Dentist d) throws SQLException;
+	
 	public void addDentist (Dentist d) throws SQLException; 
 	
 	public void assignDentistPatient (int dentistId, int patientId)throws SQLException;
@@ -22,9 +24,9 @@ public interface DentistManager {
 	
 	public Dentist searchDentistById (int dentistId) throws SQLException;
 	
-	public void editDentistsName (String name) throws SQLException;
+	public void editDentistsName (String name, int dentistId) throws SQLException;
 	
-	public void editDentistSurname (String surname) throws SQLException;
+	public void editDentistSurname (String surname, int dentistId) throws SQLException;
 	
-	public void editDentistsTurn (String turn) throws SQLException;
+	public void editDentistsTurn (String turn, int dentistId) throws SQLException;
 }

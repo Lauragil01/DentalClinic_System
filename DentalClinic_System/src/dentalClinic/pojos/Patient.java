@@ -39,8 +39,6 @@ public class Patient implements Serializable {
 		this.background = background;
 	}
 	
-	
-	
 	public Patient(Integer id, String name, String surname, String gender, String address, String bloodType,
 			String background) {
 		super();
@@ -138,6 +136,7 @@ public class Patient implements Serializable {
 		treatments=new ArrayList<Treatment>();			
 	}
 	
+
 	//equals
 	@Override
 	public int hashCode() {

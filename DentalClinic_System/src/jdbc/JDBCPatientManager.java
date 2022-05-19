@@ -40,18 +40,22 @@ public class JDBCPatientManager implements PatientManager {
 		this.dentistmanager = d;
 		this.allergymanager = am;		
 	}
+	
+	public JDBCPatientManager(JDBCManager m) {
+		this.manager = m;
+	}
+	
 	@Override
 	public void addPatient(Patient p) throws SQLException{
-		String sql = "INSERT INTO patients (id, name, surname, gender, dob, address, bloodType, background) VALUES (?,?,?,?,?,?,?,?)";
+		String sql = "INSERT INTO patients (name, surname, gender, dob, address, bloodType, background) VALUES (?,?,?,?,?,?,?)";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
-		prep.setInt(1, p.getId());
-		prep.setString(2, p.getName());
-		prep.setString(3, p.getSurname());
-		prep.setString(4,p.getGender());
-		prep.setDate(5,p.getBithDate());
-		prep.setString(6, p.getAddress());
-		prep.setString(7, p.getBloodType());
-		prep.setString(8, p.getBlackground());
+		prep.setString(1, p.getName());
+		prep.setString(2, p.getSurname());
+		prep.setString(3,p.getGender());
+		prep.setDate(4,p.getBithDate());
+		prep.setString(5, p.getAddress());
+		prep.setString(6, p.getBloodType());
+		prep.setString(7, p.getBlackground());
 		prep.executeUpdate();
 		prep.close();
 	}
@@ -131,7 +135,7 @@ public class JDBCPatientManager implements PatientManager {
 	@Override
 	public List<Patient> getPatientsOfDentist(int dentistId) throws SQLException {
 		Patient p = null;
-		String sql = "SELECT * FROM patients WHERE dentistId = ?";
+		String sql = "SELECT * FROM patients AS p JOIN examines AS e ON p.id = e.patientId WHERE e.dentistId = ?";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setInt(1, dentistId);
 		ResultSet rs = prep.executeQuery();
