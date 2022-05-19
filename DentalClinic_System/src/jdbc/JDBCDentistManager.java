@@ -207,7 +207,7 @@ public class JDBCDentistManager implements DentistManager {
 		//Allergy a = new Allergy("polen", p);*/
 		//List<Dentist> dentistsfound = new ArrayList<Dentist>();
 		
-		try {
+		/*try {
 			//prueba = dentistManager.searchDentistById(d.getId());
 			//System.out.print(prueba);
 			//dentistManager.editDentistsName(null);
@@ -218,7 +218,7 @@ public class JDBCDentistManager implements DentistManager {
 			//dentistManager.searchDentistByName(d.getName(), d.getSurname());
 		}catch(SQLException e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 	
 }

@@ -39,6 +39,8 @@ public class JDBCAppointmentManager implements AppointmentManager {
 		prep.executeUpdate();
 		prep.close();	
 	}
+	
+	//public void assignAppointmentTo_PatientDentist(int patientId, int dentistId) throws SQLException{}
 
 	@Override
 	public List<Appointment> listofAppointments(int patientId) throws SQLException {
@@ -122,7 +124,7 @@ public class JDBCAppointmentManager implements AppointmentManager {
 		
 		List<Allergy> allergies = new ArrayList<Allergy>();
 		Patient p = new Patient("a", "b", "m", "c", "0", "k", allergies);
-		Dentist d = new Dentist("Paco", "García", "tarde", "ortodoncia");
+		Dentist d = new Dentist("Paco", "Garcï¿½a", "tarde", "ortodoncia");
 		Appointment app = new Appointment("consult", 5, d, p);
 		
 		

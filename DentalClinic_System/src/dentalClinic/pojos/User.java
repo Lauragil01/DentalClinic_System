@@ -3,7 +3,6 @@ package dentalClinic.pojos;
 import java.io.Serializable;
 import java.util.*;
 import javax.persistence.*;
-import dentalClinic.pojos.*;
 
 
 @Entity
@@ -11,7 +10,7 @@ import dentalClinic.pojos.*;
 
 public class User implements Serializable {
 
-	
+   	
 	/**
 	 * 
 	 */
@@ -19,10 +18,10 @@ public class User implements Serializable {
 	@Id
 	@GeneratedValue(generator = "users")
 	@TableGenerator(name = "users", table = "sqlite_sequence",
-		pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "users")
+	 	pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "users")
 	private Integer id;
 	private String email;
-	@Lob
+	@Lob //Large object
 	private byte[] password;
 	@ManyToOne
 	@JoinColumn(name = "role_id")
@@ -32,10 +31,11 @@ public class User implements Serializable {
 		super();
 	}
 
-	public User(String email, byte[] password) {
+	public User(String email, byte[] password, Role role) {
 		super();
 		this.email = email;
 		this.password = password;
+		this.role = role;
 	}
 
 	public Integer getId() {
