@@ -14,3 +14,4 @@ public interface AllergyManager {
 	public void deleteAllergy (int allergyId) throws SQLException;
 	
 }
+    //n hdhdh
