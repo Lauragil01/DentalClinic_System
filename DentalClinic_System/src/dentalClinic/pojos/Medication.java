@@ -9,7 +9,7 @@ public class Medication implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -1452411741113954002L;
-	private Integer id;
+	private Integer medicationId;
 	private String name;
 	private Integer dosis;
 	private Treatment treatment; //many to one relationship
@@ -19,7 +19,7 @@ public class Medication implements Serializable {
 	}
 	
 	public Medication(int id, String name, int dosis, Treatment treatment) {
-		this.id = id;
+		this.medicationId = id;
 		this.name = name; 
 		this.dosis = dosis;
 		this.treatment = treatment;
@@ -33,18 +33,17 @@ public class Medication implements Serializable {
 	public Medication( String name, int dosis) {
 		this.name = name; 
 		this.dosis = dosis;
-		this.treatment = treatment;
 	}
 	
 	public Medication(int id, String name, int dosis) {
-		this.id = id;
+		this.medicationId = id;
 		this.name = name; 
 		this.dosis = dosis;
 	}
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		return Objects.hash(medicationId);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -55,13 +54,13 @@ public class Medication implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Medication other = (Medication) obj;
-		return Objects.equals(id, other.id);
+		return Objects.equals(medicationId, other.medicationId);
 	}
 	public Integer getId() {
-		return id;
+		return medicationId;
 	}
 	public void setId(Integer id) {
-		this.id = id;
+		this.medicationId = id;
 	}
 	public String getName() {
 		return name;
@@ -86,7 +85,7 @@ public class Medication implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Medication [id=" + id + ", name=" + name + ", dosis=" + dosis + ", treatment=" + treatment + "]";
+		return "Medication [id=" + medicationId + ", name=" + name + ", dosis=" + dosis + ", treatment=" + treatment + "]";
 	}
 	
 	

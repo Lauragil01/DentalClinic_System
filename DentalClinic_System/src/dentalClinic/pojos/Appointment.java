@@ -30,7 +30,7 @@ public class Appointment implements Serializable {
 	    pkColumnName="name", valueColumnName="seq", pkColumnValue="appointments")
 	//we make the id transient to be able to import data from a XML file
 	@XmlTransient
-	private Integer id;
+	private Integer appointmentId;
 	@XmlElement
 	@XmlJavaTypeAdapter(SQLDateAdapter.class)
 	private Date date;
@@ -55,7 +55,7 @@ public class Appointment implements Serializable {
 	
 	public Appointment(Integer id, Date date, String type, Integer duration, Time time) {
 		super();
-		this.id = id;
+		this.appointmentId = id;
 		this.date = date;
 		this.type = type;
 		this.duration = duration;
@@ -75,7 +75,7 @@ public class Appointment implements Serializable {
 
 	public Appointment(Integer id, String type, Integer duration, Time time, Dentist dentist) {
 		super();
-		this.id = id;
+		this.appointmentId = id;
 		this.type = type;
 		this.duration = duration;
 		this.time = time;
@@ -92,7 +92,7 @@ public class Appointment implements Serializable {
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		return Objects.hash(appointmentId);
 	}
 
 	@Override
@@ -104,15 +104,15 @@ public class Appointment implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Appointment other = (Appointment) obj;
-		return Objects.equals(id, other.id);
+		return Objects.equals(appointmentId, other.appointmentId);
 	}
 
 	public Integer getId() {
-		return id;
+		return appointmentId;
 	}
 
 	public void setId(Integer id) {
-		this.id = id;
+		this.appointmentId = id;
 	}
 
 	public Date getDate() {
@@ -165,7 +165,7 @@ public class Appointment implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Appointment [id=" + id + ", date=" + date + ", type=" + type + ", duration=" + duration + ", time="
+		return "Appointment [id=" + appointmentId + ", date=" + date + ", type=" + type + ", duration=" + duration + ", time="
 				+ time + ", dentist=" + dentist + ", patient=" + patient + "]";
 	}
 	

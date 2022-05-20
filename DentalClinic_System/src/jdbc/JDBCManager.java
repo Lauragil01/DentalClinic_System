@@ -43,7 +43,7 @@ public class JDBCManager {
 			try {
 			Statement stmt = c.createStatement();
 			String sql = "CREATE TABLE patients ("
-			+ "	id	    INTEGER PRIMARY KEY AUTOINCREMENT,"
+			+ "	patientId	    INTEGER PRIMARY KEY AUTOINCREMENT,"
 			+ "	name	TEXT NOT NULL,"
 			+ " surname  TEXT NOT NULL,"
 			+ "	gender	TEXT NOT NULL,"
@@ -55,7 +55,7 @@ public class JDBCManager {
 			+ ");";
 			stmt.executeUpdate(sql);
 			sql = "CREATE TABLE treatments ("
-			+ "	id INTEGER PRIMARY KEY AUTOINCREMENT,"
+			+ "	treatmentId INTEGER PRIMARY KEY AUTOINCREMENT,"
 			+ "	name	TEXT NOT NULL,"
 			+ "	diagnosis	TEXT NOT NULL,"
 			+ "	duration TEXT NOT NULL,"
@@ -65,7 +65,7 @@ public class JDBCManager {
 			+ ");";
 			stmt.executeUpdate(sql);
 			sql = "CREATE TABLE dentists ("
-			+ "	id 		INTEGER PRIMARY KEY AUTOINCREMENT,"
+			+ "	dentistId 		INTEGER PRIMARY KEY AUTOINCREMENT,"
 			+ "	name	TEXT NOT NULL,"
 			+ "	surname	TEXT NOT NULL,"
 			+ "	turn	TEXT NOT NULL,"
@@ -73,7 +73,7 @@ public class JDBCManager {
 			+ ");";
 			stmt.executeUpdate(sql);
 			sql = "CREATE TABLE appointments ("
-			+ "	id	INTEGER PRIMARY KEY AUTOINCREMENT,"
+			+ "	appointmentId	INTEGER PRIMARY KEY AUTOINCREMENT,"
 			+ "	type	TEXT NOT NULL,"
 			+ " date DATE NOT NULL,"
 			+ " time DATE NOT NULL,"
@@ -84,26 +84,26 @@ public class JDBCManager {
 			+ ");";
 			stmt.executeUpdate(sql);
 			sql = "CREATE TABLE medications ("
-			+ "	id	INTEGER PRIMARY KEY AUTOINCREMENT,"
+			+ "	medicationId	INTEGER PRIMARY KEY AUTOINCREMENT,"
 			+ "	name	TEXT NOT NULL,"
 			+ " dosis INTEGER NOT NULL,"
 			+ " treatmentId INTEGER REFERENCES treatments(id) ON DELETE CASCADE"
 			+ ");";
 			stmt.executeUpdate(sql);
 			sql = "CREATE TABLE allergies ("
-			+ "	id	INTEGER PRIMARY KEY AUTOINCREMENT,"
+			+ "	allergiesId	INTEGER PRIMARY KEY AUTOINCREMENT,"
 			+ "	name	TEXT NOT NULL"
 			+ ");";
 			stmt.executeUpdate(sql);
 			sql = "CREATE TABLE examines ("
-			+ "	patientId INTEGER REFERENCES patients(id) ON DELETE CASCADE,"
-			+ "	dentistId INTEGER REFERENCES dentists(id) ON DELETE CASCADE,"
+			+ "	patientId INTEGER REFERENCES patients(patientId) ON DELETE CASCADE,"
+			+ "	dentistId INTEGER REFERENCES dentists(dentistId) ON DELETE CASCADE,"
 			+ "	PRIMARY KEY(patientId,dentistId)\r\n"
 			+ ");";
 			stmt.executeUpdate(sql);
 			sql = "CREATE TABLE patientsAllergies ("
-			+ "	patientId INTEGER REFERENCES patients(id) ON DELETE CASCADE,"
-			+ "	allergyId INTEGER REFERENCES allergies(id) ON DELETE CASCADE,"
+			+ "	patientId INTEGER REFERENCES patients(patientId) ON DELETE CASCADE,"
+			+ "	allergyId INTEGER REFERENCES allergies(allergyId) ON DELETE CASCADE,"
 			+ "	PRIMARY KEY(patientId,allergyId)\r\n"
 			+ ");";
 			stmt.executeUpdate(sql);

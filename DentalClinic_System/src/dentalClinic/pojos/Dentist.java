@@ -12,7 +12,7 @@ public class Dentist implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 6511392629863269824L;
-	private Integer id;
+	private Integer dentistId;
 	private String name;
 	private String surname;
 	private String turn;
@@ -28,7 +28,7 @@ public class Dentist implements Serializable{
 	
 	public Dentist(Integer id, String name, String surname, String turn, String specialty) {
 		super();
-		this.id = id;
+		this.dentistId = id;
 		this.name = name;
 		this.surname = surname;
 		this.turn = turn;
@@ -47,17 +47,17 @@ public class Dentist implements Serializable{
 
 	public Dentist(Integer id, String turn, String specialty) {
 		super();
-		this.id = id;
+		this.dentistId = id;
 		this.turn = turn;
 		this.specialty = specialty;
 	}
 
 	public Integer getId() {
-		return id;
+		return dentistId;
 	}
 
 	public void setId(Integer id) {
-		this.id = id;
+		this.dentistId = id;
 	}
 
 	public String getName() {
@@ -111,7 +111,7 @@ public class Dentist implements Serializable{
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		return Objects.hash(dentistId);
 	}
 
 	@Override
@@ -123,12 +123,12 @@ public class Dentist implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Dentist other = (Dentist) obj;
-		return Objects.equals(id, other.id);
+		return Objects.equals(dentistId, other.dentistId);
 	}
 
 	@Override
 	public String toString() {
-		return "Dentist [id=" + id + ", name=" + name + ", surname=" + surname + ", turn=" + turn + ", speciality="
+		return "Dentist [id=" + dentistId + ", name=" + name + ", surname=" + surname + ", turn=" + turn + ", speciality="
 				+ specialty + ", patients=" + patients + "]";
 	}
 
