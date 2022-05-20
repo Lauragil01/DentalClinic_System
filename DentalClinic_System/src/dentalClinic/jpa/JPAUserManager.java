@@ -20,8 +20,7 @@ public class JPAUserManager implements UserManager{
 		this.connect();
 	}
 	
-	@Override
-	public void connect() {
+	private void connect() {
 		em = Persistence.createEntityManagerFactory("dentalClinic-provider").createEntityManager();
 		em.getTransaction().begin();
 		em.createNativeQuery("PRAGMA foreign_keys=ON").executeUpdate();
@@ -46,8 +45,7 @@ public class JPAUserManager implements UserManager{
 		em.getTransaction().commit();
 	}
 	
-	@Override
-	public void newRole(Role r) {
+	private void newRole(Role r) {
 		em.getTransaction().begin();
 		em.persist(r);
 		em.getTransaction().commit();
