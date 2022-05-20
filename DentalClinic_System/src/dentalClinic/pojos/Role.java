@@ -12,6 +12,7 @@ import dentalClinic.pojos.Role;
 @Entity
 @Table(name = "roles")
 
+
 public class Role implements Serializable{
 	/**
 	 * 
