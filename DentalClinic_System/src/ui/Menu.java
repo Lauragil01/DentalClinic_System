@@ -36,3 +36,19 @@ public class Menu {
 
 	}
 }
+	private static void createAccount(){
+				
+	}
+	private static void login() {
+		System.out.print("Username:");
+		String email = reader.readLine;
+		System.out.print("Password:");
+		String password = reader.readLine;
+		User u= checkPassword (username,password);
+		if(u == null) {
+			System.out.print("Incorrect username or password");
+		} else {
+			//complete
+		}
+	}
+	
