@@ -34,6 +34,13 @@ public class JDBCTreatmentManager implements TreatmentManager {
 		}
 		prep.executeUpdate();
 		prep.close();
+		
+		/*String query = "SELECT last_insert_rowid() AS lastId";
+		PreparedStatement p = manager.getConnection().prepareStatement(query);
+		ResultSet rs = prep.executeQuery();
+		Integer lastId = rs.getInt("lastId");
+		p.close();
+		return lastId;*/	
 	}
 
 	@Override
@@ -61,12 +68,12 @@ public class JDBCTreatmentManager implements TreatmentManager {
 	@Override
 	public Treatment searchTreatmentById(int treatmentId) throws SQLException {
 		Treatment t = null;
-		String sql = "SELECT * FROM treatments WHERE id = ? ";
+		String sql = "SELECT * FROM treatments WHERE treatmentId = ? ";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setInt(1, treatmentId);
 		ResultSet rs = prep.executeQuery(sql);
 		while (rs.next()) {
-			int id = rs.getInt("id");
+			int id = rs.getInt("treatmentId");
 			String name = rs.getString("name");
 			String diagnosis = rs.getString("diagnosis");
 			int duration = rs.getInt("duration");
@@ -87,7 +94,7 @@ public class JDBCTreatmentManager implements TreatmentManager {
 		ResultSet rs = prep.executeQuery(sql);
 		List <Treatment> treatments = new ArrayList<Treatment>();
 		while (rs.next()) {
-			int id = rs.getInt("id");
+			int id = rs.getInt("treatmentId");
 			String diagnosis = rs.getString("diagnosis");
 			int duration = rs.getInt("duration");
 			Date startDate = rs.getDate("startDate");
@@ -103,7 +110,7 @@ public class JDBCTreatmentManager implements TreatmentManager {
 	@Override
 	public void deleteTreatment(int treatmentId) {
 		try {
-			String sql = "DELETE FROM treatments WHERE id = ?";
+			String sql = "DELETE FROM treatments WHERE treatmentId = ?";
 			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 			prep.setInt(1, treatmentId);
 			prep.executeUpdate();
@@ -115,7 +122,7 @@ public class JDBCTreatmentManager implements TreatmentManager {
 	
 	@Override
 	public void editTreatmentsName(String name, int treatmentId) throws SQLException {
-		String sql = "UPDATE patient SET name = ? WHERE id = ?";
+		String sql = "UPDATE patient SET name = ? WHERE treatmentId = ?";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setString(1, name);
 		prep.setInt(2, treatmentId);
@@ -126,7 +133,7 @@ public class JDBCTreatmentManager implements TreatmentManager {
 	
 	@Override
 	public void editTreatmentsStartDate(Date start, int treatmentId) throws SQLException {
-		String sql = "UPDATE patient SET startDate = ? WHERE id = ?";
+		String sql = "UPDATE patient SET startDate = ? WHERE treatmentId = ?";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setDate(1,start);
 		prep.setInt(2, treatmentId);
@@ -136,7 +143,7 @@ public class JDBCTreatmentManager implements TreatmentManager {
 	}
 	@Override
 	public void editTreatmentsFinishDate(Date finish, int treatmentId) throws SQLException {
-		String sql = "UPDATE patient SET finishDate = ? WHERE id = ?";
+		String sql = "UPDATE patient SET finishDate = ? WHERE treatmentId = ?";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setDate(1,finish);
 		prep.setInt(2, treatmentId);
