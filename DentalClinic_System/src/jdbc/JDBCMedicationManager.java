@@ -20,7 +20,7 @@ public class JDBCMedicationManager implements MedicationManager {
 		this.manager = m;
 	}
 	@Override
-	public void addMedication(Medication m) throws SQLException {
+	public void addMedication(Medication m) throws SQLException { //Checked
 		String sql = "INSERT INTO medications (name, dosis, treatmentId) VALUES (?,?,?)";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setString(1, m.getName());
@@ -57,7 +57,7 @@ public class JDBCMedicationManager implements MedicationManager {
 	@Override
 	public Medication searchMedicationById(int id) throws SQLException {
 		Medication medication = null;
-		String sql = "SELECT * FROM medications WHERE id = ?";
+		String sql = "SELECT * FROM medications WHERE medicationId = ?";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setInt(1,id);
 		ResultSet rs = prep.executeQuery();
@@ -92,7 +92,7 @@ public class JDBCMedicationManager implements MedicationManager {
 	@Override
 	public void deleteMedication(int medicationId) {
 		try {
-			String sql = "DELETE FROM medications WHERE id = ?";
+			String sql = "DELETE FROM medications WHERE medicationId = ?";
 			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 			prep.setInt(1, medicationId);
 			prep.executeUpdate();
@@ -136,14 +136,14 @@ public class JDBCMedicationManager implements MedicationManager {
 		List<Treatment> treats = new ArrayList<Treatment>();
 		try {
 			Treatment t = new Treatment("n","d",1,d,d);
-			Treatment t2 = new Treatment("n","d",2,d,d);
-			mm2.addTreatment(t);
-			mm2.addTreatment(t2);
-			Medication m = new Medication ("c", 4);
+			Treatment t2 = new Treatment(2,"n","d",2,d,d);
+			//mm2.addTreatment(t);
+			//mm2.addTreatment(t2);
+			Medication m = new Medication ("c", 4, t);
 			Medication m2 = new Medication ("c2", 2);
-			m.setTreatment(t);
-			//mm.addMedication(m);
-			treats = mm2.searchTreatmentbyName("n");
+			//m.setTreatment(t);
+			mm.addMedication(m);
+			//treats = mm2.searchTreatmentbyName("n");
 			//mm.listofMedications(t.getId());
 
 		}

@@ -47,7 +47,30 @@ public class Menu {
 	}
 
 	private static void createAccount(){
-				
+		System.out.println("Email");
+		String email = reader.readLine();
+		System.out.println("Password:");
+		String password = reader.readLine();
+		System.out.println(userManager.getRoles());
+		System.out.println("Choose your role ID: ");
+		Integer id = null;
+		int z=0;
+		do {
+			try {
+				id = Integer.parseInt(reader.readLine());
+				z=1;
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("Not a valid role id. Try again.");
+			}
+		} while (a==0);
+		if(checkEmail(email)== ) {
+			System.out.println("The email is used");			
+		}else{
+			
+			
+			newUser();
+		};
 	}
 	private static void login() throws Exception{
 		System.out.print("Email:");
@@ -63,6 +86,7 @@ public class Menu {
 			patientMenu(u.getId());
 		}
 	}
+<<<<<<< HEAD
 	
 	public static void dentistMenu(Integer dentistId) throws Exception {
 		Dentist dentist = new Dentist(dentistManager.getDentistByUserId(dentistId));
@@ -73,3 +97,6 @@ public class Menu {
 	}
 }
 	
+=======
+		
+>>>>>>> branch 'main' of https://github.com/Lauragil01/DentalClinic_System
