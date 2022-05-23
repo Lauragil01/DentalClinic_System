@@ -220,5 +220,21 @@ public class JDBCDentistManager implements DentistManager {
 			e.printStackTrace();
 		}*/
 	}
+
+	@Override
+	public Dentist getDentistByUserId(Integer userId) throws SQLException {
+		String sql = "SELECT * FROM dentists WHERE userId = ?";
+		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+		prep.setInt(1,userId);
+		ResultSet rs = prep.executeQuery();
+		Dentist dentist = null;
+		if(rs.next()){
+			dentist = new Dentist (rs.getString("name"), rs.getString("surname"), 
+					rs.getString("turn"), rs.getString("specialty")); 
+		}
+		prep.close();
+		rs.close();
+		return dentist;
+	}
 	
 }

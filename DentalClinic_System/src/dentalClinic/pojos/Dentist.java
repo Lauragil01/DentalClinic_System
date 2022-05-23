@@ -19,6 +19,7 @@ public class Dentist implements Serializable{
 	private String specialty;
 	private List<Patient> patients;
 	private List<Appointment> appointments;
+	private Integer userId;
 	
 	public Dentist() {
 		super();
@@ -35,7 +36,12 @@ public class Dentist implements Serializable{
 		this.specialty = specialty;
 	}
 	
-	
+	public Dentist (Dentist d) {
+		this.setName(d.getName());
+		this.setSurname(d.getSurname());
+		this.setTurn(d.getTurn());
+		this.setSpeciality(d.getSpecialty());
+	}
 
 	public Dentist(String name, String surname, String turn, String specialty) {
 		super();

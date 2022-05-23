@@ -55,7 +55,7 @@ public class JDBCPatientManager implements PatientManager {
 		prep.setDate(4,p.getBithDate());
 		prep.setString(5, p.getAddress());
 		prep.setString(6, p.getBloodType());
-		prep.setString(7, p.getBlackground());
+		prep.setString(7, p.getBackground());
 		prep.executeUpdate();
 		prep.close();
 	}
@@ -203,6 +203,24 @@ public class JDBCPatientManager implements PatientManager {
 		prep.setInt(2, patientId);
 		prep.executeUpdate();
 		prep.close();		
+	}
+	
+	@Override
+	public Patient getPatientByUserId(int userId) throws SQLException{
+		String sql = "SELECT * FROM patients WHERE userId = ?";
+		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+		prep.setInt(1,userId);
+		ResultSet rs = prep.executeQuery();
+		Patient patient = null;
+		if(rs.next()){
+			patient = new Patient (rs.getString("name"), rs.getString("surname"), 
+					rs.getString("gender"), rs.getDate("dob"), rs.getString("address"), 
+					rs.getString("bloodType"), rs.getString("background")); 
+		}
+		prep.close();
+		rs.close();
+		return patient;
+		
 	}
 
 	

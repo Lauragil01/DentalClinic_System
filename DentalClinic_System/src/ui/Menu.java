@@ -1,14 +1,24 @@
 package ui;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 
+import dentalClinic.pojos.*;
+import jdbc.JDBCDentistManager;
 import jdbc.JDBCManager;
+import jdbc.JDBCPatientManager;
+import dentalClinic.jpa.*;
 
 public class Menu {
 
+	public static JPAUserManager userManager;
+	public static JDBCPatientManager patientManager;
+	public static JDBCDentistManager dentistManager;
+	
 	private static BufferedReader reader = new BufferedReader (new InputStreamReader(System.in));
 	public static void main(String[] args) {
+		userManager = new JPAUserManager();
 		
 		System.out.println("Welcome to the Dental Clinic System");
 		try {
@@ -35,20 +45,31 @@ public class Menu {
 		}
 
 	}
-}
+
 	private static void createAccount(){
 				
 	}
-	private static void login() {
-		System.out.print("Username:");
-		String email = reader.readLine;
+	private static void login() throws Exception{
+		System.out.print("Email:");
+		String email = reader.readLine();
 		System.out.print("Password:");
-		String password = reader.readLine;
-		User u= checkPassword (username,password);
+		String password = reader.readLine();
+		User u = userManager.checkPassword(email,password);
 		if(u == null) {
-			System.out.print("Incorrect username or password");
-		} else {
-			//complete
+			System.out.print("Incorrect email or password");
+		}else if (u.getRole().getName().equals("dentist")){
+			dentistMenu(u.getId());
+		}else if (u.getRole().getName().equals("patient")){
+			patientMenu(u.getId());
 		}
 	}
+	
+	public static void dentistMenu(Integer dentistId) throws Exception {
+		Dentist dentist = new Dentist(dentistManager.getDentistByUserId(dentistId));
+	}
+	
+	public static void patientMenu(Integer patientId) throws Exception {
+		Patient patient = new Patient(patientManager.getPatientByUserId(0));
+	}
+}
 	

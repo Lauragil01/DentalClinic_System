@@ -51,7 +51,8 @@ public class JDBCManager {
 			+ "	address	TEXT NOT NULL,"
 			+ " bloodType TEXT NOT NULL,"
 			+ " allergies TEXT,"
-			+ " background TEXT"
+			+ " background TEXT,"
+			+ " userId INTEGER REFERENCES patients(patientId) ON DELETE CASCADE)"
 			+ ");";
 			stmt.executeUpdate(sql);
 			sql = "CREATE TABLE treatments ("
@@ -69,7 +70,8 @@ public class JDBCManager {
 			+ "	name	TEXT NOT NULL,"
 			+ "	surname	TEXT NOT NULL,"
 			+ "	turn	TEXT NOT NULL,"
-			+ "	specialty	TEXT NOT NULL"
+			+ "	specialty	TEXT NOT NULL,"
+			+ " userId INTEGER REFERENCES dentists(dentistId) ON DELETE CASCADE)"
 			+ ");";
 			stmt.executeUpdate(sql);
 			sql = "CREATE TABLE appointments ("

@@ -25,6 +25,7 @@ public class Patient implements Serializable {
 	private List<Treatment> treatments;  //one to many relationship
 	private List<Dentist> dentists; 	//many to many relationship
 	private List<Appointment> appointments;
+	private Integer userId;
 	
 	public Patient(Integer id, String name, String surname, String gender, Date birthDate, String address,
 			String bloodType, String background) {
@@ -37,6 +38,16 @@ public class Patient implements Serializable {
 		this.address = address;
 		this.bloodType = bloodType;
 		this.background = background;
+	}
+	
+	public Patient (Patient p) {
+		this.setName(p.getName());
+		this.setSurname(p.getSurname());
+		this.setGender(p.getGender());
+		this.setBithDate(p.getBithDate());
+		this.setAddress(p.getAddress());
+		this.setBloodType(p.getBloodType());
+		this.setBackground(p.getBackground());
 	}
 	
 	public Patient(Integer id, String name, String surname, String gender, String address, String bloodType,
@@ -212,11 +223,11 @@ public class Patient implements Serializable {
 	public void setAllergies(List<Allergy> allergies) {
 		this.allergies = allergies;
 	}
-	public String getBlackground() {
+	public String getBackground() {
 		return background;
 	}
-	public void setBlackground(String blackground) {
-		this.background = blackground;
+	public void setBackground(String background) {
+		this.background = background;
 	}
 
 	public List<Dentist> getDentists() {
