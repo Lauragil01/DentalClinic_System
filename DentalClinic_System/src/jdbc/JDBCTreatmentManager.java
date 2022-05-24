@@ -19,7 +19,7 @@ public class JDBCTreatmentManager implements TreatmentManager {
 	}
 	@Override
 	public void addTreatment(Treatment t) throws SQLException {
-		String sql = "INSERT INTO treatments (name, diagnosis, duration, startDate, finishDate, patientId) VALUES (?,?,?,?,?,?)";
+		String sql = "INSERT INTO treatments (name, diagnosis, duration, startDate, finishDate, patient_treat) VALUES (?,?,?,?,?,?)";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setString(1,t.getName());
 		prep.setString(2, t.getDiagnosis());			
@@ -45,13 +45,13 @@ public class JDBCTreatmentManager implements TreatmentManager {
 
 	@Override
 	public List<Treatment> listofTreatments(int patientId) throws SQLException {
-		String sql = "SELECT * FROM treatments WHERE patientId=? ";
+		String sql = "SELECT * FROM treatments WHERE patient_treat=? ";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setInt(1, patientId);
 		ResultSet rs = prep.executeQuery(sql);
 		List <Treatment> treatments = new ArrayList<Treatment>();
 		while (rs.next()) {
-			int id = rs.getInt("id");
+			int id = rs.getInt("treatmentId");
 			String name = rs.getString("name");
 			String diagnosis = rs.getString("diagnosis");
 			int duration = rs.getInt("duration");

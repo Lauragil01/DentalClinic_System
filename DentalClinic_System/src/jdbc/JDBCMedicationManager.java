@@ -21,7 +21,7 @@ public class JDBCMedicationManager implements MedicationManager {
 	}
 	@Override
 	public void addMedication(Medication m) throws SQLException { //Checked
-		String sql = "INSERT INTO medications (name, dosis, treatmentId) VALUES (?,?,?)";
+		String sql = "INSERT INTO medications (name, dosis, treatment_med) VALUES (?,?,?)";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setString(1, m.getName());
 		prep.setInt(2, m.getDosis());
@@ -37,13 +37,13 @@ public class JDBCMedicationManager implements MedicationManager {
 
 	@Override
 	public List<Medication> listofMedications(int treatmentId) throws SQLException {
-		String sql = "SELECT * FROM medications WHERE treatmentId=? ";
+		String sql = "SELECT * FROM medications WHERE treatment_med=? ";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setInt(1, treatmentId);
 		ResultSet rs = prep.executeQuery(sql);
 		List <Medication> medications = new ArrayList<Medication>();
 		while (rs.next()) {
-			int id = rs.getInt("id");
+			int id = rs.getInt("medicationId");
 			String name = rs.getString("name");
 			int dosis = rs.getInt("dosis");
 			Medication medication = new Medication(id,name,dosis);
@@ -80,7 +80,7 @@ public class JDBCMedicationManager implements MedicationManager {
 		ResultSet rs = prep.executeQuery();
 		List <Medication> medications = new ArrayList<Medication>();
 		while(rs.next()){
-			int id = rs.getInt("id");
+			int id = rs.getInt("medicationId");
 			int dosis = rs.getInt("dosis");
 			m = new Medication(id,name,dosis);
 			medications.add(m);
@@ -103,53 +103,23 @@ public class JDBCMedicationManager implements MedicationManager {
 	}
 	
 	@Override
-	public void editMedicationsName(String mName) throws SQLException {
-		String sql = "UPDATE medication SET name=?";
+	public void editMedicationsName(String mName, int medicationId) throws SQLException {
+		String sql = "UPDATE medications SET name = ? WHERE medicationId = ?";
 		PreparedStatement prep= manager.getConnection().prepareStatement(sql);
 		prep.setString(1, mName);
+		prep.setInt(2, medicationId);
 		prep.executeUpdate();
 		prep.close();
 	}
 
 	@Override
-	public void editMedicationsDosis(String mDosis) throws SQLException {
-		String sql = "UPDATE medication SET dosis=?";
+	public void editMedicationsDosis(String mDosis, int medicationId) throws SQLException {
+		String sql = "UPDATE medications SET dosis = ? WHERE medicationId = ?";
 		PreparedStatement prep= manager.getConnection().prepareStatement(sql);
 		prep.setString(1, mDosis);
+		prep.setInt(2, medicationId);
 		prep.executeUpdate();
 		prep.close();
-	}
-	
-	public static void main(String[] args) {
-		JDBCManager manager = new JDBCManager();
-		JDBCMedicationManager mm = new JDBCMedicationManager(manager);
-		JDBCTreatmentManager mm2 = new JDBCTreatmentManager(manager);
-		Date d = new Date(2, 1, 2);
-		
-	
-		
-		
-		
-		
-		List<Medication> meds = new ArrayList<Medication>();
-		
-		List<Treatment> treats = new ArrayList<Treatment>();
-		try {
-			Treatment t = new Treatment("n","d",1,d,d);
-			Treatment t2 = new Treatment(2,"n","d",2,d,d);
-			//mm2.addTreatment(t);
-			//mm2.addTreatment(t2);
-			Medication m = new Medication ("c", 4, t);
-			Medication m2 = new Medication ("c2", 2);
-			//m.setTreatment(t);
-			mm.addMedication(m);
-			//treats = mm2.searchTreatmentbyName("n");
-			//mm.listofMedications(t.getId());
-
-		}
-		catch(SQLException e) {
-			e.printStackTrace();
-		}
 	}
 
 }

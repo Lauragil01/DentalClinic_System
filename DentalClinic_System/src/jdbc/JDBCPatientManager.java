@@ -61,11 +61,11 @@ public class JDBCPatientManager implements PatientManager {
 	}
 	
 	@Override
-	public Patient searchPatientById(int id) throws SQLException, Exception {
+	public Patient searchPatientById(int patientId) throws SQLException, Exception {
 		Patient p = null;
-		String sql = "SELECT * FROM patients WHERE id= ?";
+		String sql = "SELECT * FROM patients WHERE patientId= ?";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
-		prep.setInt(1, id);
+		prep.setInt(1, patientId);
 		ResultSet rs = prep.executeQuery(sql);
 		while (rs.next()) {
 			String name = rs.getString("name");
@@ -75,11 +75,11 @@ public class JDBCPatientManager implements PatientManager {
 			String address = rs.getString("address");
 			String bloodType = rs.getString("bloodType");
 			String background = rs.getString("background");
-			p = new Patient(id, name, surname, gender, birthDate, address, bloodType, background);
-			p.setAllergies(allergymanager.getAllergiesFromPatient(id));
-			p.setTreatments(treatmentmanager.listofTreatments(id));
-			p.setAppointments(appointmentmanager.listofAppointments(id));
-			p.setDentists(dentistmanager.getDentistsOfPatient(id));
+			p = new Patient(patientId, name, surname, gender, birthDate, address, bloodType, background);
+			p.setAllergies(allergymanager.getAllergiesFromPatient(patientId));
+			p.setTreatments(treatmentmanager.listofTreatments(patientId));
+			p.setAppointments(appointmentmanager.listofAppointments(patientId));
+			p.setDentists(dentistmanager.getDentistsOfPatient(patientId));
 		}
 		rs.close();
 		prep.close();
@@ -95,7 +95,7 @@ public class JDBCPatientManager implements PatientManager {
 		ResultSet rs = prep.executeQuery();
 		List <Patient> patients = new ArrayList<Patient>();
 		while(rs.next()){
-			int id = rs.getInt("id");
+			int id = rs.getInt("patientId");
 			String surname = rs.getString("surname");
 			String gender = rs.getString("gender");
 			Date birthDate = rs.getDate("birthDate");
@@ -118,7 +118,7 @@ public class JDBCPatientManager implements PatientManager {
 		ResultSet rs = prep.executeQuery();
 		List <Patient> patients = new ArrayList<Patient>();
 		while(rs.next()){
-			int id = rs.getInt("id");
+			int id = rs.getInt("patientId");
 			String name = rs.getString("name");
 			String gender = rs.getString("gender");
 			Date birthDate = rs.getDate("birthDate");
@@ -135,13 +135,13 @@ public class JDBCPatientManager implements PatientManager {
 	@Override
 	public List<Patient> getPatientsOfDentist(int dentistId) throws SQLException {
 		Patient p = null;
-		String sql = "SELECT * FROM patients AS p JOIN examines AS e ON p.id = e.patientId WHERE e.dentistId = ?";
+		String sql = "SELECT * FROM patients AS p JOIN patient_dentist AS pd ON p.patientId = pd.patient_pd WHERE pd.dentist_pd = ?";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setInt(1, dentistId);
 		ResultSet rs = prep.executeQuery();
 		List <Patient> patients = new ArrayList<Patient>();
 		while(rs.next()){
-			int id = rs.getInt("id");
+			int id = rs.getInt("patientId");
 			String name = rs.getString("name");
 			String surname = rs.getString("surname");
 			String gender = rs.getString("gender");
@@ -158,7 +158,7 @@ public class JDBCPatientManager implements PatientManager {
 	
 	@Override
 	public void editPatientsName(String name, int patientId) throws SQLException {
-		String sql = "UPDATE patient SET name = ? WHERE id = ?";
+		String sql = "UPDATE patient SET name = ? WHERE patientId = ?";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setString(1, name);
 		prep.setInt(2, patientId);
@@ -168,7 +168,7 @@ public class JDBCPatientManager implements PatientManager {
 
 	@Override
 	public void editPatientsSurname(String surname, int patientId) throws SQLException {
-		String sql = "UPDATE patient SET surname = ? WHERE id = ?";
+		String sql = "UPDATE patient SET surname = ? WHERE patientId = ?";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setString(1, surname);
 		prep.setInt(2, patientId);
@@ -177,7 +177,7 @@ public class JDBCPatientManager implements PatientManager {
 	}
 	@Override
 	public void editPatientsGender(String gender, int patientId) throws SQLException {
-		String sql = "UPDATE patient SET gender = ? WHERE id = ?";
+		String sql = "UPDATE patient SET gender = ? WHERE patientId = ?";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setString(1, gender);
 		prep.setInt(2, patientId);
@@ -187,7 +187,7 @@ public class JDBCPatientManager implements PatientManager {
 	}
 	@Override
 	public void editPatientsAddress(String address, int patientId) throws SQLException {
-		String sql = "UPDATE patient SET address = ? WHERE id = ?";
+		String sql = "UPDATE patient SET address = ? WHERE patientId = ?";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setString(1, address);
 		prep.setInt(2, patientId);
@@ -197,7 +197,7 @@ public class JDBCPatientManager implements PatientManager {
 	}
 	@Override
 	public void editPatientsBackground(String background, int patientId) throws SQLException {
-		String sql = "UPDATE patient SET background = ? WHERE id = ?";
+		String sql = "UPDATE patient SET background = ? WHERE patientId = ?";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setString(1, background);
 		prep.setInt(2, patientId);
@@ -207,15 +207,26 @@ public class JDBCPatientManager implements PatientManager {
 	
 	@Override
 	public Patient getPatientByUserId(int userId) throws SQLException{
+		Patient p = null;
 		String sql = "SELECT * FROM patients WHERE userId = ?";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setInt(1,userId);
 		ResultSet rs = prep.executeQuery();
 		Patient patient = null;
 		if(rs.next()){
-			patient = new Patient (rs.getString("name"), rs.getString("surname"), 
-					rs.getString("gender"), rs.getDate("dob"), rs.getString("address"), 
-					rs.getString("bloodType"), rs.getString("background")); 
+			int patientId = rs.getInt("patientId");
+			String name = rs.getString("name");
+			String surname = rs.getString("surname");
+			String gender = rs.getString("gender");
+			Date birthDate = rs.getDate("birthDate");
+			String address = rs.getString("address");
+			String bloodType = rs.getString("bloodType");
+			String background = rs.getString("background");
+			p= new Patient(patientId, name, surname, gender, birthDate, address, bloodType, background);
+			p.setAllergies(allergymanager.getAllergiesFromPatient(patientId));
+			p.setTreatments(treatmentmanager.listofTreatments(patientId));
+			p.setAppointments(appointmentmanager.listofAppointments(patientId));
+			p.setDentists(dentistmanager.getDentistsOfPatient(patientId));
 		}
 		prep.close();
 		rs.close();

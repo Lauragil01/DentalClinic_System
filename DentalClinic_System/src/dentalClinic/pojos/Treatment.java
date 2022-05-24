@@ -27,6 +27,7 @@ public class Treatment implements Serializable {
 		setMedications(new ArrayList<Medication>());
 	}
 	public Treatment(int id, String name, String diagnosis, int duration , Date startDate, Date finishDate){
+		//La startDate no puede ser despues que la finishDate --> exception
 		super();
 		setId(id);
 		setName(name);
