@@ -43,8 +43,9 @@ public class JDBCAppointmentManager implements AppointmentManager {
 	//public void assignAppointmentTo_PatientDentist(int patientId, int dentistId) throws SQLException{}
 
 	@Override
-	public List<Appointment> listofAppointments(int patientId) throws SQLException {
-		String sql = "SELECT * FROM appointments WHERE patientId=? ORDER BY date ";
+	public List<Appointment> listofAppointments_Patient(int patientId) throws SQLException {
+		Appointment a = null;
+		String sql = "SELECT * FROM appointments WHERE patient_app=? ORDER BY date ";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setInt(1, patientId);
 		ResultSet rs = prep.executeQuery();
@@ -55,8 +56,30 @@ public class JDBCAppointmentManager implements AppointmentManager {
 			String type = rs.getString ("type");
 			int duration = rs.getInt("duration");
 			Time time = rs.getTime("time");
-			//Appointment appointment = new Appointment(id,date,type,duration,time);
-			//appointments.add(appointment);		
+			a = new Appointment(id,date,type,duration,time);
+			appointments.add(a);		
+		}
+		prep.close();
+		rs.close();
+		return appointments;
+	}
+	@Override
+	public List<Appointment> listofAppointments_Dentist(int dentistId) throws SQLException {
+		Appointment a = null;
+		String sql = "SELECT * FROM appointments WHERE dentist_app=? ORDER BY date ";
+		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+		prep.setInt(1, dentistId);
+		ResultSet rs = prep.executeQuery();
+		List <Appointment> appointments = new ArrayList<Appointment>();
+		while (rs.next()) {
+			int id = rs.getInt("appointmentId");
+			Date date = rs.getDate("date");
+			String type = rs.getString ("type");
+			int duration = rs.getInt("duration");
+			Time time = rs.getTime("time");
+			a = new Appointment(id,date,type,duration,time);
+			appointments.add(a);
+			
 		}
 		prep.close();
 		rs.close();

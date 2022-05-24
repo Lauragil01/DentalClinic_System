@@ -63,6 +63,15 @@ public class Appointment implements Serializable {
 		this.dentist = dentist;
 	}
 	
+	public Appointment(Integer id, Date date, String type, Integer duration, Time time) {
+		super();
+		this.appointmentId = id;
+		this.date = date;
+		this.type = type;
+		this.duration = duration;
+		this.time = time;
+		this.dentist = null;
+	}
 	
 	
 	public Appointment(Date date, String type, Integer duration, Time time, Dentist dentist) {
@@ -167,7 +176,7 @@ public class Appointment implements Serializable {
 	@Override
 	public String toString() {
 		return "Appointment [id=" + appointmentId + ", date=" + date + ", type=" + type + ", duration=" + duration + ", time="
-				+ time + ", dentist=" + dentist + ", patient=" + patient + "]\n";
+				+ time + ", dentist=" + dentist + ", patient=" + patient + "]";
 	}
 	
 	

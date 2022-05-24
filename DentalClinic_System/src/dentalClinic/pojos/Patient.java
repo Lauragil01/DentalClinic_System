@@ -171,7 +171,7 @@ public class Patient implements Serializable {
 		return "Patient [id=" + patientId + ", name=" + name + ", surname=" + surname + ", gender=" + gender + ", bithDate="
 				+ birthDate + ", address=" + address + ", bloodType=" + bloodType + ", allergies=" + allergies
 				+ ", blackground=" + background + ", treatments=" + treatments + ", dentists=" + dentists
-				+ ", appointments=" + appointments + "]\n";
+				+ ", appointments=" + appointments + "]";
 	}
 	
 	//getters and setters

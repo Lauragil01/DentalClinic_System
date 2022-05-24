@@ -73,7 +73,7 @@ public class JDBCPatientManager implements PatientManager {
 			p = new Patient(patientId, name, surname, gender, birthDate, address, bloodType, background);
 			p.setAllergies(allergymanager.getAllergiesFromPatient(patientId));
 			p.setTreatments(treatmentmanager.listofTreatments(patientId));
-			p.setAppointments(appointmentmanager.listofAppointments(patientId));
+			p.setAppointments(appointmentmanager.listofAppointments_Patient(patientId));
 			p.setDentists(dentistmanager.getDentistsOfPatient(patientId));
 		}
 		rs.close();
@@ -222,7 +222,7 @@ public class JDBCPatientManager implements PatientManager {
 			p= new Patient(patientId, name, surname, gender, birthDate, address, bloodType, background);
 			p.setAllergies(allergymanager.getAllergiesFromPatient(patientId));
 			p.setTreatments(treatmentmanager.listofTreatments(patientId));
-			p.setAppointments(appointmentmanager.listofAppointments(patientId));
+			p.setAppointments(appointmentmanager.listofAppointments_Patient(patientId));
 			p.setDentists(dentistmanager.getDentistsOfPatient(patientId));
 		}
 		prep.close();

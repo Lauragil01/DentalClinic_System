@@ -81,6 +81,6 @@ public class Allergy implements Serializable{
 	}
 	@Override
 	public String toString() {
-		return "Allergy [allergyId=" + allergyId + ", name=" + name + ", patient=" + patients + "]\n";
+		return "Allergy [allergyId=" + allergyId + ", name=" + name + ", patient=" + patients + "]";
 	}
 }

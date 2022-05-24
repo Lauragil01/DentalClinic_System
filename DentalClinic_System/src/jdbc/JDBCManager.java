@@ -166,7 +166,8 @@ public class JDBCManager {
 			
 			Treatment t = new Treatment(1,"Aparato","d",1,date1,date2);
 			Treatment t2 = new Treatment(2,"Brakets","d",2,date2,date1);
-			
+			Treatment tprueba = null;
+					
 			Medication m = new Medication (1,"c", 4);
 			Medication m2 = new Medication (2,"c2", 2);
 			
@@ -183,8 +184,9 @@ public class JDBCManager {
 			
 			
 			try {
+				tprueba = tm.searchTreatmentById(1);
+				System.out.print(tprueba);
 
-				
 				//Patient p = null;
 				//p = pm.searchPatientById(2);
 				//System.out.print(p);

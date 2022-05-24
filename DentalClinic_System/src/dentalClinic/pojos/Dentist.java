@@ -135,7 +135,7 @@ public class Dentist implements Serializable{
 	@Override
 	public String toString() {
 		return "Dentist [id=" + dentistId + ", name=" + name + ", surname=" + surname + ", turn=" + turn + ", speciality="
-				+ specialty + ", patients=" + patients + "]\n";
+				+ specialty + ", patients=" + patients + "]";
 	}
 
 	
