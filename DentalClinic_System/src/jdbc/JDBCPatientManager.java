@@ -40,13 +40,8 @@ public class JDBCPatientManager implements PatientManager {
 		this.dentistmanager = d;
 		this.allergymanager = am;		
 	}
-	
-	public JDBCPatientManager(JDBCManager m) {
-		this.manager = m;
-	}
-	
 	@Override
-	public void addPatient(Patient p) throws SQLException{
+	public void addPatient(Patient p) throws SQLException{ //Checked
 		String sql = "INSERT INTO patients (name, surname, gender, dob, address, bloodType, background) VALUES (?,?,?,?,?,?,?)";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setString(1, p.getName());
@@ -61,7 +56,7 @@ public class JDBCPatientManager implements PatientManager {
 	}
 	
 	@Override
-	public Patient searchPatientById(int patientId) throws SQLException, Exception {
+	public Patient searchPatientById(int patientId) throws SQLException { //No funciona
 		Patient p = null;
 		String sql = "SELECT * FROM patients WHERE patientId= ?";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
@@ -87,7 +82,7 @@ public class JDBCPatientManager implements PatientManager {
 	}
 			
 	@Override
-	public List<Patient> searchPatientbyName(String name) throws SQLException {
+	public List<Patient> searchPatientbyName(String name) throws SQLException { //Checked
 		Patient p = null;
 		String sql = "SELECT * FROM patients WHERE name LIKE ?";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
@@ -98,19 +93,20 @@ public class JDBCPatientManager implements PatientManager {
 			int id = rs.getInt("patientId");
 			String surname = rs.getString("surname");
 			String gender = rs.getString("gender");
-			Date birthDate = rs.getDate("birthDate");
+			Date birthDate = rs.getDate("dob");
 			String address = rs.getString("address");
 			String bloodType = rs.getString("bloodType");
 			String background = rs.getString("background");
 			p= new Patient(id, name, surname, gender, birthDate, address, bloodType, background);
 			p.setAllergies(allergymanager.getAllergiesFromPatient(id));
+			patients.add(p);
 		}
 		rs.close();	
 		return patients;
 	}
 	
 	@Override
-	public List<Patient> searchPatientbySurname(String surname) throws SQLException {
+	public List<Patient> searchPatientbySurname(String surname) throws SQLException { //Checked
 		Patient p = null;
 		String sql = "SELECT * FROM patients WHERE surname LIKE ?";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
@@ -121,12 +117,13 @@ public class JDBCPatientManager implements PatientManager {
 			int id = rs.getInt("patientId");
 			String name = rs.getString("name");
 			String gender = rs.getString("gender");
-			Date birthDate = rs.getDate("birthDate");
+			Date birthDate = rs.getDate("dob");
 			String address = rs.getString("address");
 			String bloodType = rs.getString("bloodType");
 			String background = rs.getString("background");
 			p= new Patient(id, name, surname, gender, birthDate, address, bloodType, background);
 			p.setAllergies(allergymanager.getAllergiesFromPatient(id));
+			patients.add(p);
 		}
 		rs.close();	
 		return patients;
@@ -145,20 +142,20 @@ public class JDBCPatientManager implements PatientManager {
 			String name = rs.getString("name");
 			String surname = rs.getString("surname");
 			String gender = rs.getString("gender");
-			Date birthDate = rs.getDate("birthDate");
+			Date birthDate = rs.getDate("dob");
 			String address = rs.getString("address");
 			String bloodType = rs.getString("bloodType");
 			String background = rs.getString("background");
 			p= new Patient(id, name, surname, gender, birthDate, address, bloodType, background);
-			p.setAllergies(allergymanager.getAllergiesFromPatient(id));
+			patients.add(p);
 		}
 		rs.close();	
 		return patients;
 	}
 	
 	@Override
-	public void editPatientsName(String name, int patientId) throws SQLException {
-		String sql = "UPDATE patient SET name = ? WHERE patientId = ?";
+	public void editPatientsName(String name, int patientId) throws SQLException { //Checked
+		String sql = "UPDATE patients SET name = ? WHERE patientId = ?";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setString(1, name);
 		prep.setInt(2, patientId);
@@ -167,8 +164,8 @@ public class JDBCPatientManager implements PatientManager {
 	}
 
 	@Override
-	public void editPatientsSurname(String surname, int patientId) throws SQLException {
-		String sql = "UPDATE patient SET surname = ? WHERE patientId = ?";
+	public void editPatientsSurname(String surname, int patientId) throws SQLException { //Checked
+		String sql = "UPDATE patients SET surname = ? WHERE patientId = ?";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setString(1, surname);
 		prep.setInt(2, patientId);
@@ -176,8 +173,8 @@ public class JDBCPatientManager implements PatientManager {
 		prep.close();
 	}
 	@Override
-	public void editPatientsGender(String gender, int patientId) throws SQLException {
-		String sql = "UPDATE patient SET gender = ? WHERE patientId = ?";
+	public void editPatientsGender(String gender, int patientId) throws SQLException { //Checked
+		String sql = "UPDATE patients SET gender = ? WHERE patientId = ?";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setString(1, gender);
 		prep.setInt(2, patientId);
@@ -186,8 +183,8 @@ public class JDBCPatientManager implements PatientManager {
 		
 	}
 	@Override
-	public void editPatientsAddress(String address, int patientId) throws SQLException {
-		String sql = "UPDATE patient SET address = ? WHERE patientId = ?";
+	public void editPatientsAddress(String address, int patientId) throws SQLException { //Checked
+		String sql = "UPDATE patients SET address = ? WHERE patientId = ?";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setString(1, address);
 		prep.setInt(2, patientId);
@@ -196,8 +193,8 @@ public class JDBCPatientManager implements PatientManager {
 		
 	}
 	@Override
-	public void editPatientsBackground(String background, int patientId) throws SQLException {
-		String sql = "UPDATE patient SET background = ? WHERE patientId = ?";
+	public void editPatientsBackground(String background, int patientId) throws SQLException { //Checked
+		String sql = "UPDATE patients SET background = ? WHERE patientId = ?";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setString(1, background);
 		prep.setInt(2, patientId);
@@ -206,7 +203,7 @@ public class JDBCPatientManager implements PatientManager {
 	}
 	
 	@Override
-	public Patient getPatientByUserId(int userId) throws SQLException{
+	public Patient getPatientByUserId(int userId) throws SQLException {
 		Patient p = null;
 		String sql = "SELECT * FROM patients WHERE userId = ?";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);

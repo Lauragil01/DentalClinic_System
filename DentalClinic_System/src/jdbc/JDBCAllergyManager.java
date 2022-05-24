@@ -18,7 +18,7 @@ public class JDBCAllergyManager implements AllergyManager {
 	}
 
 	@Override
-	public void addAllergy(Allergy a) throws SQLException {
+	public void addAllergy(Allergy a) throws SQLException { //Checked
 		String sql = "INSERT INTO allergies (name) VALUES (?)";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setString(1, a.getName());			

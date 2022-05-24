@@ -150,6 +150,6 @@ public class Treatment implements Serializable {
 	public String toString() {
 		return "Treatment [id=" + treatmentId + ", diagnosis=" + diagnosis + ", consultDuration="
 				+ consultDuration + ", startDate=" + startDate + ", finishDate=" + finishDate + ", patientId="
-				+ ", medications=" + medications + "]";
+				+ ", medications=" + medications + "]\n";
 	}	
 }

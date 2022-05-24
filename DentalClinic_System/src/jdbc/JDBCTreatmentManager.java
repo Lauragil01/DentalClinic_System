@@ -34,13 +34,6 @@ public class JDBCTreatmentManager implements TreatmentManager {
 		}
 		prep.executeUpdate();
 		prep.close();
-		
-		/*String query = "SELECT last_insert_rowid() AS lastId";
-		PreparedStatement p = manager.getConnection().prepareStatement(query);
-		ResultSet rs = prep.executeQuery();
-		Integer lastId = rs.getInt("lastId");
-		p.close();
-		return lastId;*/	
 	}
 
 	@Override

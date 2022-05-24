@@ -22,15 +22,18 @@ public class JDBCDentistManager implements DentistManager {
 	private JDBCPatientManager patientmanager;
 	private JDBCAppointmentManager appointmentmanager;
 
-	public JDBCDentistManager(JDBCManager m, JDBCPatientManager pm, JDBCAppointmentManager am) {
+	public JDBCDentistManager(JDBCManager m, JDBCAppointmentManager am) {
 		this.manager = m;
-		this.patientmanager = pm;
 		this.appointmentmanager = am;
 	}
 	
-	public JDBCDentistManager(JDBCManager m) {
-		this.manager = m;
+
+	public void setPatientmanager(JDBCPatientManager patientmanager) {
+		this.patientmanager = patientmanager;
 	}
+	
+	
+	
 
 	/*public List<Patient> getPatientsOfDentist(int patientId)throws SQLException{
 		String sql = "SELECT * FROM patients WHERE patientId=? ";
@@ -63,6 +66,7 @@ public class JDBCDentistManager implements DentistManager {
 		prep.setString(1,d.getName());
 		
 	}*/
+	
 	
 	@Override
 	public void addDentist(Dentist d) throws SQLException { //Checked

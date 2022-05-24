@@ -3,11 +3,14 @@ package jdbc;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import dentalClinic.jpa.JPAUserManager;
 import dentalClinic.pojos.Allergy;
 import dentalClinic.pojos.Dentist;
 import dentalClinic.pojos.Medication;
@@ -126,17 +129,29 @@ public class JDBCManager {
 				}
 			}
 		}
+		public Integer getLastId() throws SQLException{
+			String query = "SELECT last_insert_rowid() AS lastId";
+			PreparedStatement p = c.prepareStatement(query);
+			ResultSet rs = p.executeQuery();
+			Integer lastId = rs.getInt("lastId");
+			p.close();
+			return lastId;	
+		}
 
 		public static void main(String[] args) {
 			JDBCManager manager = new JDBCManager();
 			//manager.createTables();
 			JDBCMedicationManager mm = new JDBCMedicationManager(manager);
 			JDBCTreatmentManager tm = new JDBCTreatmentManager(manager);
-			JDBCPatientManager patientmanager = new JDBCPatientManager(manager);
-			JDBCAppointmentManager appointmentmanager = new JDBCAppointmentManager(manager);
-			JDBCDentistManager dentistManager = new JDBCDentistManager(manager, patientmanager,appointmentmanager);
+			JDBCAppointmentManager ap = new JDBCAppointmentManager(manager);			
+			JDBCAllergyManager am = new JDBCAllergyManager(manager);
+			JDBCDentistManager dm = new JDBCDentistManager(manager,ap);
+			JDBCPatientManager pm = new JDBCPatientManager(manager, tm, mm, ap, dm, am);
+			dm.setPatientmanager(pm);
+			
 			Date date1 = new Date(2, 1, 2);
 			Date date2 = new Date(2, 1, 2);
+			//JPAUserManager jpam = new JPAUserManager();
 			
 			Dentist d1 = new Dentist(1,"Paco", "Garcia", "tarde", "ortodoncia");
 			Dentist d2 = new Dentist(2,"Juan", "Perez", "tarde", "ortodoncia");
@@ -149,22 +164,30 @@ public class JDBCManager {
 			Patient p4 = new Patient(4,"Alvaro", "Gomez", "m" ,date2 , "calle", "0", "k");
 			Dentist prueba = new Dentist ();
 			
-			Treatment t = new Treatment("Aparato","d",1,date1,date2);
+			Treatment t = new Treatment(1,"Aparato","d",1,date1,date2);
 			Treatment t2 = new Treatment(2,"Brakets","d",2,date2,date1);
 			
-			Medication m = new Medication ("c", 4, t);
-			Medication m2 = new Medication ("c2", 2);
+			Medication m = new Medication (1,"c", 4);
+			Medication m2 = new Medication (2,"c2", 2);
 			
-			//Allergy a = new Allergy("polen", p1);
+			Allergy a = new Allergy("polen");
+			Allergy a2 = new Allergy("gluten");
+			Allergy a3 = new Allergy("peanuts");
+			Allergy a4 = new Allergy("cat hair");
 
 			List<Medication> meds = new ArrayList<Medication>();
+			List<Patient> patients = new ArrayList<Patient>();
 			List<Treatment> treats = new ArrayList<Treatment>();
 			List<Allergy> allergies = new ArrayList<Allergy>();
 			List<Dentist> dentistsfound = new ArrayList<Dentist>();
 			
 			
 			try {
+
 				
+				//Patient p = null;
+				//p = pm.searchPatientById(2);
+				//System.out.print(p);
 				
 				//prueba = dentistManager.searchDentistById(d.getId());
 				//System.out.print(prueba);
@@ -175,7 +198,7 @@ public class JDBCManager {
 				//dentistManager.assignDentistPatient(d.getId(), p2.getId());
 				//dentistManager.searchDentistByName(d.getName(), d.getSurname());
 				
-				tm.addTreatment(t);
+				
 				//mm2.addTreatment(t2);
 				//m.setTreatment(t);
 				//mm.addMedication(m);
