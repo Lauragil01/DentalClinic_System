@@ -230,6 +230,16 @@ public class JDBCPatientManager implements PatientManager {
 		return patient;
 		
 	}
+	@Override
+	public void LinkPatientUser(int patientId, int userId) throws SQLException {
+		String sql = "UPDATE patients SET userId = ? WHERE patientId = ? ";
+		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+		prep.setInt(1, userId);
+		prep.setInt(2, patientId);
+		prep.executeUpdate();
+		prep.close();
+		
+	}
 
 	
 }
