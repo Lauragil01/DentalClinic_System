@@ -36,7 +36,7 @@ public class JDBCMedicationManager implements MedicationManager {
 	}
 
 	@Override
-	public List<Medication> listofMedications(int treatmentId) throws SQLException {
+	public List<Medication> listofMedications(int treatmentId) throws SQLException { //No funciona
 		String sql = "SELECT * FROM medications WHERE treatment_med=? ";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setInt(1, treatmentId);

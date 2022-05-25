@@ -12,6 +12,7 @@ import java.util.List;
 
 import dentalClinic.jpa.JPAUserManager;
 import dentalClinic.pojos.Allergy;
+import dentalClinic.pojos.Appointment;
 import dentalClinic.pojos.Dentist;
 import dentalClinic.pojos.Medication;
 import dentalClinic.pojos.Patient;
@@ -168,14 +169,18 @@ public class JDBCManager {
 			Treatment t2 = new Treatment(2,"Brakets","d",2,date2,date1);
 			Treatment tprueba = null;
 					
-			Medication m = new Medication (1,"c", 4);
-			Medication m2 = new Medication (2,"c2", 2);
+			Medication m = new Medication (1,"c", 4, t);
+			Medication m2 = new Medication (2,"c2", 2, t);
 			Medication search = null;
 			
 			Allergy a = new Allergy("polen");
 			Allergy a2 = new Allergy("gluten");
 			Allergy a3 = new Allergy("peanuts");
 			Allergy a4 = new Allergy("cat hair");
+			
+			Appointment ap1 = new Appointment(1, date2, "Consult", 30,null);
+			Appointment ap2 = new Appointment(1, date1, "Consult 2", 30,null);
+			
 
 			List<Medication> meds = new ArrayList<Medication>();
 			List<Patient> patients = new ArrayList<Patient>();
@@ -186,8 +191,8 @@ public class JDBCManager {
 			
 			try {
 				
-				//tprueba = tm.searchTreatmentById(1);
-				//System.out.print(tprueba);
+				treats = tm.searchTreatmentbyName("Aparato");
+				System.out.print(treats);
 
 				//Patient p = null;
 				//p = pm.searchPatientById(2);
