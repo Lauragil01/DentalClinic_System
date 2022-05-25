@@ -3,11 +3,14 @@ package ui;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.security.MessageDigest;
 
 import dentalClinic.pojos.*;
 import jdbc.JDBCDentistManager;
 import jdbc.JDBCManager;
 import jdbc.JDBCPatientManager;
+import pojos.users.Role;
+import pojos.users.User;
 import dentalClinic.jpa.*;
 
 public class Menu {
@@ -49,7 +52,17 @@ public class Menu {
 	private static void createAccount(){
 		System.out.println("Email");
 		String email = reader.readLine();
+		int a=0;
+		do {
+			if(checkEmail(email)==null) {
+				System.out.println("Choose another email:");
+			}else {
+				a=1;
+			}
+			
+		}while(a==0);
 		System.out.println("Password:");
+		
 		String password = reader.readLine();
 		System.out.println(userManager.getRoles());
 		System.out.println("Choose your role ID: ");
@@ -64,14 +77,21 @@ public class Menu {
 				System.out.println("Not a valid role id. Try again.");
 			}
 		} while (a==0);
-		if(checkEmail(email)== ) {
-			System.out.println("The email is used");			
-		}else{
+		Role role = userManager.getRole(id);
+		MessageDigest md = MessageDigest.getInstance("MD5");
+		md.update(password.getBytes());
+		byte[] hash = md.digest();
+		User user = new User(email, hash, role);
+		userManager.newUser(user);
+		if(user.getRole().getName().equalsIgnoreCase("patient")) {
+			patientManager.LinkPatientUser(user.getId(), id); 
+		} else if(user.getRole().getName().equalsIgnoreCase("dentist")) {
+			dentistManager.LinkDentistUser(user.getId(), id); 
+		} 
 			
 			
-			newUser();
 		};
-	}
+	
 	private static void login() throws Exception{
 		System.out.print("Email:");
 		String email = reader.readLine();
