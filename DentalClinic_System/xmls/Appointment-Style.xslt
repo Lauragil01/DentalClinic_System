@@ -5,7 +5,7 @@
 	<html>
 	<head><title>Appointment</title></head>
 	<body>
-		<p><b>Appointment Id:<xsl:value-of select="/shift/@appointmentId"/></b></p>
+		<p><b>Appointment Id:<xsl:value-of select="/appointment/@appointmentId"/></b></p>
 		<p>Date:<xsl:value-of select="/appointment/@date"/></p>
 		<p>Type:<xsl:value-of select="/appointment/@type"/></p>
 		<p>Duration:<xsl:value-of select="/appointment/@duration"/></p>

@@ -5,16 +5,16 @@
 	<html>
 	<head><title>Dentist</title></head>
 	<body>
-		<p><b>Dentist Id:<xsl:value-of select="/dnetist/@dentistId"/></b></p>
-		<p>Name:<xsl:value-of select="/worker/@dentistName"/></p>
-		<p>Surname:<xsl:value-of select="/worker/@dentistSurname"/></p>
+		<p><b>Dentist Id:<xsl:value-of select="/dentist/@dentistId"/></b></p>
+		<p>Name:<xsl:value-of select="/dentist/@dentistName"/></p>
+		<p>Surname:<xsl:value-of select="/dentist/@dentistSurname"/></p>
 		<p>UserId:<xsl:value-of select="/dentist/@userId"/></p>
 		<p>Turn:<xsl:value-of select="/dentist/@dentistTurn"/></p>
 		<p>Specialty:<xsl:value-of select="/dentist/@specialtyId"/></p>
 		<table border="1">
 	<Appointments>
 	  <th>Appointment</th>
-      <th>Appointment Id</th>   date, type, duration, time, Patient
+      <th>Appointment Id</th>   
       <th>Date</th>
       <th>Type</th>
       <th>Duration</th>
