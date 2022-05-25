@@ -86,7 +86,7 @@ public class Menu {
 			patientMenu(u.getId());
 		}
 	}
-<<<<<<< HEAD
+
 	
 	public static void dentistMenu(Integer dentistId) throws Exception {
 		Dentist dentist = new Dentist(dentistManager.getDentistByUserId(dentistId));
@@ -97,6 +97,7 @@ public class Menu {
 	}
 }
 	
-=======
-		
->>>>>>> branch 'main' of https://github.com/Lauragil01/DentalClinic_System
+
+	
+	
+	
