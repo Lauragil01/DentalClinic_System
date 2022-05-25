@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.util.Scanner;
 
 import dentalClinic.pojos.*;
 import jdbc.JDBCDentistManager;
@@ -20,6 +21,7 @@ public class Menu {
 	public static JPAUserManager userManager;
 	public static JDBCPatientManager patientManager;
 	public static JDBCDentistManager dentistManager;
+	static Scanner sc = new Scanner(System.in);
 	
 	private static BufferedReader reader = new BufferedReader (new InputStreamReader(System.in));
 	public static void main(String[] args) {
@@ -108,12 +110,34 @@ public class Menu {
 		}else if (u.getRole().getName().equals("dentist")){
 			dentistMenu(u.getId());
 		}else if (u.getRole().getName().equals("patient")){
-			patientMenu(u.getId());
+			patientMenu(u.getId()); 
 		}
 	}
 	
 	public static void changePassword() {
-		
+		sc = new Scanner (System.in);
+		try{
+			System.out.println("Username:");
+			String username = reader.readLine();
+			System.out.println("Password:");
+			String password = reader.readLine();
+			User user = userManager.checkPassword(username, password);
+			System.out.println("Introduce the new password: ");
+			String newPassword1 = reader.readLine();
+			System.out.println("Confirm your new password: ");
+			String newPassword2 = reader.readLine();
+			if(newPassword1.equals(newPassword2)) {
+				MessageDigest md = MessageDigest.getInstance("MD5");
+				md.update(newPassword1.getBytes());
+				byte[] hash = md.digest();
+				userManager.updateUser(user, hash);
+				System.out.println("Password updated");
+			} else {
+				System.out.println("The password does not match");
+			}
+			}catch(Exception ex) {
+				ex.printStackTrace();
+			}
 	}
 
 	
