@@ -55,7 +55,7 @@ public class JDBCMedicationManager implements MedicationManager {
 	}
 	
 	@Override
-	public Medication searchMedicationById(int id) throws SQLException {
+	public Medication searchMedicationById(int id) throws SQLException { //Checked
 		Medication medication = null;
 		String sql = "SELECT * FROM medications WHERE medicationId = ?";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
@@ -72,7 +72,7 @@ public class JDBCMedicationManager implements MedicationManager {
 	}
 
 	@Override
-	public List<Medication> searchMedicationbyName(String name) throws SQLException {
+	public List<Medication> searchMedicationbyName(String name) throws SQLException { //Checked
 		Medication m  = null;
 		String sql = "SELECT * FROM medications WHERE name LIKE ?";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
@@ -90,7 +90,7 @@ public class JDBCMedicationManager implements MedicationManager {
 	}
 	
 	@Override
-	public void deleteMedication(int medicationId) {
+	public void deleteMedication(int medicationId) throws SQLException { //Checked
 		try {
 			String sql = "DELETE FROM medications WHERE medicationId = ?";
 			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
@@ -103,7 +103,7 @@ public class JDBCMedicationManager implements MedicationManager {
 	}
 	
 	@Override
-	public void editMedicationsName(String mName, int medicationId) throws SQLException {
+	public void editMedicationsName(String mName, int medicationId) throws SQLException { //Checked
 		String sql = "UPDATE medications SET name = ? WHERE medicationId = ?";
 		PreparedStatement prep= manager.getConnection().prepareStatement(sql);
 		prep.setString(1, mName);
@@ -113,7 +113,7 @@ public class JDBCMedicationManager implements MedicationManager {
 	}
 
 	@Override
-	public void editMedicationsDosis(String mDosis, int medicationId) throws SQLException {
+	public void editMedicationsDosis(String mDosis, int medicationId) throws SQLException { //Checked
 		String sql = "UPDATE medications SET dosis = ? WHERE medicationId = ?";
 		PreparedStatement prep= manager.getConnection().prepareStatement(sql);
 		prep.setString(1, mDosis);

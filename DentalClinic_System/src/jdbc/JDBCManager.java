@@ -170,6 +170,7 @@ public class JDBCManager {
 					
 			Medication m = new Medication (1,"c", 4);
 			Medication m2 = new Medication (2,"c2", 2);
+			Medication search = null;
 			
 			Allergy a = new Allergy("polen");
 			Allergy a2 = new Allergy("gluten");
@@ -184,8 +185,9 @@ public class JDBCManager {
 			
 			
 			try {
-				tprueba = tm.searchTreatmentById(1);
-				System.out.print(tprueba);
+				
+				//tprueba = tm.searchTreatmentById(1);
+				//System.out.print(tprueba);
 
 				//Patient p = null;
 				//p = pm.searchPatientById(2);

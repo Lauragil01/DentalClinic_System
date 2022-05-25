@@ -45,7 +45,7 @@ public class JDBCAllergyManager implements AllergyManager {
 	}
 
 	@Override
-	public void deleteAllergy(int allergyId) throws SQLException {
+	public void deleteAllergy(int allergyId) throws SQLException { //Checked
 		String sql = "DELETE FROM allergies WHERE allergyId = ?";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setInt(1, allergyId);
