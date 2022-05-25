@@ -9,6 +9,7 @@ public interface UserManager {
 	public void newUser(User u);
 	public Role getRole(int id);
 	public List<Role> getRoles();
+	public String checkEmail(String email);
 	public User checkPassword(String username, String password);
 	public Role getRoleByName(String name);
 	public void deleteUser(User u);
