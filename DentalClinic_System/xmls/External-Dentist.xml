@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Dentists>
+    <Dentist dentistId="1" dentistName="Rodrigo" dentistSurname="Garcia" turn="morning" speciality="">
+        <Appointments>
+            <Appointment>
+            <date>2022-06-07</date>
+            <duration>30</duration>
+            <time>17:00:00</time>
+            <Patient>
+            	<patientId>01</patientId>
+            	<name>Carlota</name>
+            	<surname>Puente</surname>
+       	 	</Patient>
+        </Appointment>
+        <Appointment>
+            <date>2022-06-09</date>
+            <duration>30</duration>
+            <time>18:30:00</time>
+            <Patient>
+            	<patientId>02</patientId>
+            	<name>Maria</name>
+            	<surname>Defarges</surname>
+       	 	</Patient>
+        </Appointment>
+        <Appointment>
+            <date>2022-06-10</date>
+            <duration>15</duration>
+            <time>15:15:00</time>
+            <Patient>
+            	<patientId>03</patientId>
+            	<name>Jorge</name>
+            	<surname>Chillon</surname>
+       	 	</Patient>
+        </Appointment>
+        <Appointment>
+            <date>2022-06-11</date>
+            <duration>30</duration>
+            <time>12:00:00</time>
+            <Patient>
+            	<patientId>04</patientId>
+            	<name>Laura</name>
+            	<surname>Gil</surname>
+       	 	</Patient>
+        </Appointment>
+        </Appointments>
+    </Dentist>
+    
+    <Worker workerName="admin" workerSurname="admin" userId="1">
+        <specialtyId>none</specialtyId>
+        <typeWorker>adStaff</typeWorker>
+        <Appointments/>
+    </Worker>
+    <Worker workerName="Angy" workerSurname="Garcia" userId="51">
+        <specialtyId>Urology</specialtyId>
+        <typeWorker>Doctor</typeWorker>
+        <Shifts/>
+    </Worker>
+    <Worker workerName="Alba" workerSurname="Vargas" userId="152">
+        <specialtyId>None</specialtyId>
+        <typeWorker>Administration Staff</typeWorker>
+        <Shifts/>
+    </Worker>
+    <Worker workerName="admin" workerSurname="admin" userId="1">
+        <specialtyId>none</specialtyId>
+        <typeWorker>adStaff</typeWorker>
+        <Shifts/>
+    </Worker>
+    <Worker workerName="Angy" workerSurname="Garcia" userId="51">
+        <specialtyId>Urology</specialtyId>
+        <typeWorker>Doctor</typeWorker>
+        <Shifts/>
+    </Worker>
+    <Worker workerName="admin" workerSurname="admin" userId="1">
+        <specialtyId>none</specialtyId>
+        <typeWorker>adStaff</typeWorker>
+        <Shifts/>
+    </Worker>
+    <Worker workerName="Angy" workerSurname="Garcia" userId="51">
+        <specialtyId>Urology</specialtyId>
+        <typeWorker>Doctor</typeWorker>
+        <Shifts/>
+    </Worker>
+</Dentists>
+

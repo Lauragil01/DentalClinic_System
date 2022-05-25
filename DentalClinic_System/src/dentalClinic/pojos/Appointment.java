@@ -1,22 +1,17 @@
 package dentalClinic.pojos;
 
-
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.Objects;
+import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import dentalClinic.xml.utils.SQLDateAdapter;
 
-import javax.persistence.*;
-import javax.xml.*;
 
-import db.xml.utils.SQLDateAdapter;
-
-@Entity
-@Table(name = "appointments")
-
-@XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "Appointment")
-@XmlType(propOrder = { "date", "type", "duration","time","dentist","patient" })
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(propOrder = {"date","type","duration","time"})
 public class Appointment implements Serializable {
 	
 	/**
@@ -24,10 +19,7 @@ public class Appointment implements Serializable {
 	 */
 	private static final long serialVersionUID = 4272748927970790147L;
 	
-	@Id
-	@GeneratedValue(generator="appointments")
-	@TableGenerator(name="appointments", table="sqlite_sequence",
-	    pkColumnName="name", valueColumnName="seq", pkColumnValue="appointments")
+	
 	//we make the id transient to be able to import data from a XML file
 	@XmlTransient
 	private Integer id;
@@ -40,12 +32,8 @@ public class Appointment implements Serializable {
 	private Integer duration;
 	@XmlElement
 	private Time time;
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "dentist_id")
 	@XmlTransient
 	private Dentist dentist;
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "patient_id")
 	@XmlTransient
 	private Patient patient;
 	
