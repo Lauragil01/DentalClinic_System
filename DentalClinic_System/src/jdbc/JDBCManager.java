@@ -191,9 +191,10 @@ public class JDBCManager {
 			
 			try {
 				
-				treats = tm.searchTreatmentbyName("Aparato");
-				System.out.print(treats);
+				//treats = tm.searchTreatmentbyName("Aparato");
+				//System.out.print(treats);
 
+				am.getAllergiesFromPatient(p4.getId());
 				//Patient p = null;
 				//p = pm.searchPatientById(2);
 				//System.out.print(p);

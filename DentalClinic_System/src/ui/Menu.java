@@ -96,6 +96,8 @@ public class Menu {
 		Patient patient = new Patient(patientManager.getPatientByUserId(0));
 	}
 }
+
+
 	
 
 	
