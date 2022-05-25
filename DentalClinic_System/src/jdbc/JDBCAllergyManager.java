@@ -18,7 +18,7 @@ public class JDBCAllergyManager implements AllergyManager {
 	}
 
 	@Override
-	public void addAllergy(Allergy a) throws SQLException {
+	public void addAllergy(Allergy a) throws SQLException { //Checked
 		String sql = "INSERT INTO allergies (name) VALUES (?)";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setString(1, a.getName());			
@@ -28,7 +28,7 @@ public class JDBCAllergyManager implements AllergyManager {
 
 	@Override
 	public List<Allergy> getAllergiesFromPatient(int patientId) throws SQLException {
-		String sql = "SELECT * FROM allergies WHERE patientId=? ";
+		String sql = "SELECT * FROM allergies AS a JOIN patient_allergy AS pa ON a.allergyId = pa.allergy_pa WHERE pa.patient_pa=? ";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setInt(1, patientId);
 		ResultSet rs = prep.executeQuery();
@@ -45,8 +45,8 @@ public class JDBCAllergyManager implements AllergyManager {
 	}
 
 	@Override
-	public void deleteAllergy(int allergyId) throws SQLException {
-		String sql = "DELETE FROM allergies WHERE id = ?";
+	public void deleteAllergy(int allergyId) throws SQLException { //Checked
+		String sql = "DELETE FROM allergies WHERE allergyId = ?";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setInt(1, allergyId);
 		prep.executeUpdate();

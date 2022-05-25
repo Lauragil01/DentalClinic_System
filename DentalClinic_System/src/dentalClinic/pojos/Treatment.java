@@ -12,7 +12,7 @@ public class Treatment implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -2391513895154656638L;
-	private Integer id;
+	private Integer treatmentId;
 	private String name;
 	private String diagnosis;
 	private Integer consultDuration;
@@ -27,6 +27,7 @@ public class Treatment implements Serializable {
 		setMedications(new ArrayList<Medication>());
 	}
 	public Treatment(int id, String name, String diagnosis, int duration , Date startDate, Date finishDate){
+		//La startDate no puede ser despues que la finishDate --> exception
 		super();
 		setId(id);
 		setName(name);
@@ -39,7 +40,7 @@ public class Treatment implements Serializable {
 	public Treatment(Integer id, String name, String diagnosis, Integer consultDuration, Date startDate, Date finishDate,
 			Patient patient) {
 		super();
-		this.id = id;
+		this.treatmentId = id;
 		this.name = name;
 		this.diagnosis = diagnosis;
 		this.consultDuration = consultDuration;
@@ -55,7 +56,6 @@ public class Treatment implements Serializable {
 		this.consultDuration = consultDuration;
 		this.startDate = startDate;
 		this.finishDate = finishDate;
-		this.patient = patient;
 	}
 	public Treatment(String name, String diagnosis, Integer consultDuration, Date startDate, Date finishDate) {
 		super();
@@ -67,11 +67,11 @@ public class Treatment implements Serializable {
 	}
 	
 	public Integer getId() {
-		return id;
+		return treatmentId;
 	}
 	
 	public void setId(Integer id) {
-		this.id = id;
+		this.treatmentId = id;
 	}
 
 	public String getName() {
@@ -131,7 +131,7 @@ public class Treatment implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		return Objects.hash(treatmentId);
 	}
 
 	@Override
@@ -143,12 +143,12 @@ public class Treatment implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Treatment other = (Treatment) obj;
-		return Objects.equals(id, other.id);
+		return Objects.equals(treatmentId, other.treatmentId);
 	}
 
 	@Override
 	public String toString() {
-		return "Treatment [id=" + id + ", diagnosis=" + diagnosis + ", consultDuration="
+		return "Treatment [id=" + treatmentId + ", diagnosis=" + diagnosis + ", consultDuration="
 				+ consultDuration + ", startDate=" + startDate + ", finishDate=" + finishDate + ", patientId="
 				+ ", medications=" + medications + "]";
 	}	

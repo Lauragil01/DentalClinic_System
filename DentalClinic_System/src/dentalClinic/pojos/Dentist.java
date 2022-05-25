@@ -27,11 +27,15 @@ public class Dentist implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 6511392629863269824L;
+<<<<<<< HEAD
 	
 	@XmlTransient
 	private Integer id;
 	 
 	@XmlAttribute
+=======
+	private Integer dentistId;
+>>>>>>> branch 'main' of https://github.com/Lauragil01/DentalClinic_System
 	private String name;
 	@XmlAttribute
 	private String surname;
@@ -39,12 +43,18 @@ public class Dentist implements Serializable{
 	private String turn;
 	@XmlElement
 	private String specialty;
+<<<<<<< HEAD
 	@XmlElement(name = "Patient")
     @XmlElementWrapper(name = "Patients")
 	private List<Patient> patients=null;
 	@XmlElement(name = "Appointment")
     @XmlElementWrapper(name = "Appointments")
 	private List<Appointment> appointments=null;
+=======
+	private List<Patient> patients;
+	private List<Appointment> appointments;
+	private Integer userId;
+>>>>>>> branch 'main' of https://github.com/Lauragil01/DentalClinic_System
 	
 	public Dentist() {
 		super();
@@ -54,14 +64,19 @@ public class Dentist implements Serializable{
 	
 	public Dentist(Integer id, String name, String surname, String turn, String specialty) {
 		super();
-		this.id = id;
+		this.dentistId = id;
 		this.name = name;
 		this.surname = surname;
 		this.turn = turn;
 		this.specialty = specialty;
 	}
 	
-	
+	public Dentist (Dentist d) {
+		this.setName(d.getName());
+		this.setSurname(d.getSurname());
+		this.setTurn(d.getTurn());
+		this.setSpeciality(d.getSpecialty());
+	}
 
 	public Dentist(String name, String surname, String turn, String specialty) {
 		super();
@@ -73,17 +88,17 @@ public class Dentist implements Serializable{
 
 	public Dentist(Integer id, String turn, String specialty) {
 		super();
-		this.id = id;
+		this.dentistId = id;
 		this.turn = turn;
 		this.specialty = specialty;
 	}
 
 	public Integer getId() {
-		return id;
+		return dentistId;
 	}
 
 	public void setId(Integer id) {
-		this.id = id;
+		this.dentistId = id;
 	}
 
 	public String getName() {
@@ -137,7 +152,7 @@ public class Dentist implements Serializable{
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		return Objects.hash(dentistId);
 	}
 
 	@Override
@@ -149,12 +164,12 @@ public class Dentist implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Dentist other = (Dentist) obj;
-		return Objects.equals(id, other.id);
+		return Objects.equals(dentistId, other.dentistId);
 	}
 
 	@Override
 	public String toString() {
-		return "Dentist [id=" + id + ", name=" + name + ", surname=" + surname + ", turn=" + turn + ", speciality="
+		return "Dentist [id=" + dentistId + ", name=" + name + ", surname=" + surname + ", turn=" + turn + ", speciality="
 				+ specialty + ", patients=" + patients + "]";
 	}
 

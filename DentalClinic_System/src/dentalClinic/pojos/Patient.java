@@ -13,7 +13,7 @@ public class Patient implements Serializable {
 	 */
 	private static final long serialVersionUID = 3821302205864515536L;
 	 //atributes of the pojo
-	private Integer id;
+	private Integer patientId;
 	private String name;
 	private String surname;
 	private String gender;
@@ -25,11 +25,12 @@ public class Patient implements Serializable {
 	private List<Treatment> treatments;  //one to many relationship
 	private List<Dentist> dentists; 	//many to many relationship
 	private List<Appointment> appointments;
+	private Integer userId;
 	
 	public Patient(Integer id, String name, String surname, String gender, Date birthDate, String address,
 			String bloodType, String background) {
 		super();
-		this.id = id;
+		this.patientId = id;
 		this.name = name;
 		this.surname = surname;
 		this.gender = gender;
@@ -39,10 +40,20 @@ public class Patient implements Serializable {
 		this.background = background;
 	}
 	
+	public Patient (Patient p) {
+		this.setName(p.getName());
+		this.setSurname(p.getSurname());
+		this.setGender(p.getGender());
+		this.setBithDate(p.getBithDate());
+		this.setAddress(p.getAddress());
+		this.setBloodType(p.getBloodType());
+		this.setBackground(p.getBackground());
+	}
+	
 	public Patient(Integer id, String name, String surname, String gender, String address, String bloodType,
 			String background) {
 		super();
-		this.id = id;
+		this.patientId = id;
 		this.name = name;
 		this.surname = surname;
 		this.gender = gender;
@@ -66,7 +77,7 @@ public class Patient implements Serializable {
 	public Patient(Integer id, String name, String surname, String gender, String address, String bloodType,
 			String background, List<Allergy> allergies) {
 		super();
-		this.id = id;
+		this.patientId = id;
 		this.name = name;
 		this.surname = surname;
 		this.gender = gender;
@@ -90,7 +101,7 @@ public class Patient implements Serializable {
 	public Patient (int id, String name, String surname, String gender, Date birthDate, 
 			String address, String bloodType, ArrayList<Allergy> allergies, String background) {
 		super();
-		this.id = id;
+		this.patientId = id;
 		this.name = name; 
 		this.surname = surname;
 		this.gender = gender;
@@ -109,7 +120,7 @@ public class Patient implements Serializable {
 	public Patient(Integer id, String name, String surname, String gender, Date birthDate, String address,
 			String bloodType, List<Allergy> allergies, String background) {
 		super();
-		this.id = id;
+		this.patientId = id;
 		this.name = name;
 		this.surname = surname;
 		this.gender = gender;
@@ -140,7 +151,7 @@ public class Patient implements Serializable {
 	//equals
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		return Objects.hash(patientId);
 	}
 
 	@Override
@@ -152,12 +163,12 @@ public class Patient implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Patient other = (Patient) obj;
-		return Objects.equals(id, other.id);
+		return Objects.equals(patientId, other.patientId);
 	}
 	
 	@Override
 	public String toString() {
-		return "Patient [id=" + id + ", name=" + name + ", surname=" + surname + ", gender=" + gender + ", bithDate="
+		return "Patient [id=" + patientId + ", name=" + name + ", surname=" + surname + ", gender=" + gender + ", bithDate="
 				+ birthDate + ", address=" + address + ", bloodType=" + bloodType + ", allergies=" + allergies
 				+ ", blackground=" + background + ", treatments=" + treatments + ", dentists=" + dentists
 				+ ", appointments=" + appointments + "]";
@@ -165,10 +176,10 @@ public class Patient implements Serializable {
 	
 	//getters and setters
 	public Integer getId() {
-		return id;
+		return patientId;
 	}
 	public void setId(Integer id) {
-		this.id = id;
+		this.patientId = id;
 	}
 	public String getName() {
 		return name;
@@ -212,11 +223,11 @@ public class Patient implements Serializable {
 	public void setAllergies(List<Allergy> allergies) {
 		this.allergies = allergies;
 	}
-	public String getBlackground() {
+	public String getBackground() {
 		return background;
 	}
-	public void setBlackground(String blackground) {
-		this.background = blackground;
+	public void setBackground(String background) {
+		this.background = background;
 	}
 
 	public List<Dentist> getDentists() {

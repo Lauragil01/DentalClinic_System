@@ -20,7 +20,9 @@ public interface DentistManager {
 	
 	public List<Dentist> getDentistsOfPatient(int patientId)throws SQLException;
 	
-	public List<Dentist> searchDentistByName (String name, String surname) throws SQLException;
+	public List<Dentist> searchDentistByName (String name) throws SQLException;
+	
+	public List<Dentist> searchDentistBySurname(String surname) throws SQLException;
 	
 	public Dentist searchDentistById (int dentistId) throws SQLException;
 	
@@ -29,4 +31,8 @@ public interface DentistManager {
 	public void editDentistSurname (String surname, int dentistId) throws SQLException;
 	
 	public void editDentistsTurn (String turn, int dentistId) throws SQLException;
+	
+	public void editDentistsSpecialty(String specialty, int dentistId) throws SQLException;
+	
+	public Dentist getDentistByUserId(Integer userId) throws SQLException;
 }

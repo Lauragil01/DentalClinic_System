@@ -11,11 +11,11 @@ public interface MedicationManager {
 	
 	public List<Medication> listofMedications(int treatmentId)throws SQLException;
 	
-	public void editMedicationsName(String mName)throws SQLException;
+	public void editMedicationsName(String mName, int medicationId)throws SQLException;
 	
-	public void editMedicationsDosis(String mDosis)throws SQLException;
+	public void editMedicationsDosis(String mDosis, int medicationId)throws SQLException;
 	
-	public void deleteMedication (int id);
+	public void deleteMedication (int id) throws SQLException;
 	
 	public Medication searchMedicationById (int medicationId) throws SQLException;
 	

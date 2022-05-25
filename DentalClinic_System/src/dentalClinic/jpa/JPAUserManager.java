@@ -20,8 +20,7 @@ public class JPAUserManager implements UserManager{
 		this.connect();
 	}
 	
-	@Override
-	public void connect() {
+	private void connect() {
 		em = Persistence.createEntityManagerFactory("dentalClinic-provider").createEntityManager();
 		em.getTransaction().begin();
 		em.createNativeQuery("PRAGMA foreign_keys=ON").executeUpdate();
@@ -46,8 +45,7 @@ public class JPAUserManager implements UserManager{
 		em.getTransaction().commit();
 	}
 	
-	@Override
-	public void newRole(Role r) {
+	private void newRole(Role r) {
 		em.getTransaction().begin();
 		em.persist(r);
 		em.getTransaction().commit();
@@ -66,10 +64,18 @@ public class JPAUserManager implements UserManager{
 		List<Role> roles = q.getResultList();
 		return roles;
 	}
+	
+	@Override
+	public String checkEmail(String email) {	
+		User u = null;
+		Query q = em.createNativeQuery("SELECT * FROM users WHERE email = ?", User.class);
+		q.setParameter(1, email);
+		email = (String) q.getSingleResult();
+		return email;
+	}
 
 	@Override
 	public User checkPassword(String email, String passwd) {
-		// null user if match not found
 		User u = null;
 		Query q = em.createNativeQuery("SELECT * FROM users WHERE email = ? AND password = ?", User.class);
 		q.setParameter(1, email);

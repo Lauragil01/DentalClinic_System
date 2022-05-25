@@ -26,7 +26,7 @@ public class JDBCAppointmentManager implements AppointmentManager {
 	public JDBCAppointmentManager(JDBCManager m) {
 		this.manager = m;
 	}
-	
+
 	@Override
 	public void addAppointment(Appointment a) throws SQLException {
 		String sql = "INSERT INTO appointments (date, type, time, duration, patientId) VALUES (?,?,?,?,?)";
@@ -43,20 +43,43 @@ public class JDBCAppointmentManager implements AppointmentManager {
 	//public void assignAppointmentTo_PatientDentist(int patientId, int dentistId) throws SQLException{}
 
 	@Override
-	public List<Appointment> listofAppointments(int patientId) throws SQLException {
-		String sql = "SELECT * FROM appointments WHERE patientId=? ORDER BY date ";
+	public List<Appointment> listofAppointments_Patient(int patientId) throws SQLException {
+		Appointment a = null;
+		String sql = "SELECT * FROM appointments WHERE patient_app=? ORDER BY date ";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setInt(1, patientId);
 		ResultSet rs = prep.executeQuery();
 		List <Appointment> appointments = new ArrayList<Appointment>();
 		while (rs.next()) {
-			int id = rs.getInt("id");
+			int id = rs.getInt("appointmentId");
 			Date date = rs.getDate("date");
 			String type = rs.getString ("type");
 			int duration = rs.getInt("duration");
 			Time time = rs.getTime("time");
-			Appointment appointment = new Appointment(id,date,type,duration,time);
-			appointments.add(appointment);		
+			a = new Appointment(id,date,type,duration,time);
+			appointments.add(a);		
+		}
+		prep.close();
+		rs.close();
+		return appointments;
+	}
+	@Override
+	public List<Appointment> listofAppointments_Dentist(int dentistId) throws SQLException {
+		Appointment a = null;
+		String sql = "SELECT * FROM appointments WHERE dentist_app=? ORDER BY date ";
+		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+		prep.setInt(1, dentistId);
+		ResultSet rs = prep.executeQuery();
+		List <Appointment> appointments = new ArrayList<Appointment>();
+		while (rs.next()) {
+			int id = rs.getInt("appointmentId");
+			Date date = rs.getDate("date");
+			String type = rs.getString ("type");
+			int duration = rs.getInt("duration");
+			Time time = rs.getTime("time");
+			a = new Appointment(id,date,type,duration,time);
+			appointments.add(a);
+			
 		}
 		prep.close();
 		rs.close();
@@ -65,7 +88,7 @@ public class JDBCAppointmentManager implements AppointmentManager {
 
 	@Override
 	public void deleteAppointment(int appointmentId) throws SQLException {
-		String sql = "DELETE FROM appointment WHERE id = ?";
+		String sql = "DELETE FROM appointment WHERE appointmentId = ?";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setInt(1, appointmentId);
 		prep.executeUpdate();
@@ -82,13 +105,13 @@ public class JDBCAppointmentManager implements AppointmentManager {
 		ResultSet rs = prep.executeQuery();
 		List<Appointment> appointments = new ArrayList<Appointment>();
 		while(rs.next()){ 
-			int id = rs.getInt("id");
+			int id = rs.getInt("appointmentId");
 			String type = rs.getString("type");
 			int duration = rs.getInt("duration");
 			Time time = rs.getTime("time");
 			int dentistId = rs.getInt("dentistId");
 			dentist = dentistmanager.searchDentistById(dentistId);
-			a = new Appointment(id, type, duration, time, dentist);
+			a = new Appointment(id, date, type, duration, time, dentist);
 			appointments.add(a);
 		}
 		prep.close();
@@ -105,13 +128,14 @@ public class JDBCAppointmentManager implements AppointmentManager {
 		prep.setInt(1, appointmentId);
 		ResultSet rs = prep.executeQuery();
 		while(rs.next()){ 
+			int id = rs.getInt("appointmentId");
 			Date date = rs.getDate("date");
 			String type = rs.getString("type");
 			int duration = rs.getInt("duration");
 			Time time = rs.getTime("time");
 			int dentistId = rs.getInt("dentistId");
 			dentist = dentistmanager.searchDentistById(dentistId);
-			a = new Appointment(date, type, duration, time, dentist);			
+			a = new Appointment(id, date, type, duration, time, dentist);			
 		}
 		prep.close();
 		rs.close();
@@ -124,7 +148,7 @@ public class JDBCAppointmentManager implements AppointmentManager {
 		
 		List<Allergy> allergies = new ArrayList<Allergy>();
 		Patient p = new Patient("a", "b", "m", "c", "0", "k", allergies);
-		Dentist d = new Dentist("Paco", "Garc�a", "tarde", "ortodoncia");
+		Dentist d = new Dentist("Paco", "Garca", "tarde", "ortodoncia");
 		Appointment app = new Appointment("consult", 5, d, p);
 		
 		
