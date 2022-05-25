@@ -27,15 +27,13 @@ public class Dentist implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 6511392629863269824L;
-<<<<<<< HEAD
+
 	
 	@XmlTransient
 	private Integer id;
 	 
 	@XmlAttribute
-=======
 	private Integer dentistId;
->>>>>>> branch 'main' of https://github.com/Lauragil01/DentalClinic_System
 	private String name;
 	@XmlAttribute
 	private String surname;
@@ -43,18 +41,13 @@ public class Dentist implements Serializable{
 	private String turn;
 	@XmlElement
 	private String specialty;
-<<<<<<< HEAD
 	@XmlElement(name = "Patient")
     @XmlElementWrapper(name = "Patients")
 	private List<Patient> patients=null;
 	@XmlElement(name = "Appointment")
     @XmlElementWrapper(name = "Appointments")
 	private List<Appointment> appointments=null;
-=======
-	private List<Patient> patients;
-	private List<Appointment> appointments;
 	private Integer userId;
->>>>>>> branch 'main' of https://github.com/Lauragil01/DentalClinic_System
 	
 	public Dentist() {
 		super();
