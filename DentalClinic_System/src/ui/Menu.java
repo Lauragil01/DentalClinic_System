@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 
 import dentalClinic.pojos.*;
 import jdbc.JDBCDentistManager;
@@ -26,16 +28,20 @@ public class Menu {
 		System.out.println("Welcome to the Dental Clinic System");
 		try {
 			do {
-				System.out.println("1.");
-				System.out.println("2. ");
+				System.out.println("1.Create account");
+				System.out.println("2. Login ");
+				System.out.println("3. Change password ");
 				System.out.println("0. Exit");
 				int choice= Integer.parseInt(reader.readLine());
 				switch(choice) {
 				case 1:
-					//call method
+					createAccount();
 					break;
 				case 2:
-					// call method
+					login();
+					break;
+				case 3:
+					changePassword();
 					break;
 				case 0: 
 					System.exit(0);
@@ -49,12 +55,12 @@ public class Menu {
 
 	}
 
-	private static void createAccount(){
+	private static void createAccount() throws IOException, NoSuchAlgorithmException, SQLException {
 		System.out.println("Email");
 		String email = reader.readLine();
 		int a=0;
 		do {
-			if(checkEmail(email)==null) {
+			if(userManager.checkEmail(email)==null) {
 				System.out.println("Choose another email:");
 			}else {
 				a=1;
@@ -89,8 +95,7 @@ public class Menu {
 			dentistManager.LinkDentistUser(user.getId(), id); 
 		} 
 			
-			
-		};
+	};
 	
 	private static void login() throws Exception{
 		System.out.print("Email:");
@@ -105,6 +110,10 @@ public class Menu {
 		}else if (u.getRole().getName().equals("patient")){
 			patientMenu(u.getId());
 		}
+	}
+	
+	public static void changePassword() {
+		
 	}
 
 	
