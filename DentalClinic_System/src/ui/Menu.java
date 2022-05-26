@@ -12,8 +12,6 @@ import dentalClinic.pojos.*;
 import jdbc.JDBCDentistManager;
 import jdbc.JDBCManager;
 import jdbc.JDBCPatientManager;
-import pojos.users.Role;
-import pojos.users.User;
 import dentalClinic.jpa.*;
 
 public class Menu {
@@ -58,7 +56,7 @@ public class Menu {
 	}
 
 	private static void createAccount() throws IOException, NoSuchAlgorithmException, SQLException {
-		System.out.println("Email");
+		System.out.println("Email:");
 		String email = reader.readLine();
 		int a=0;
 		do {
@@ -114,7 +112,7 @@ public class Menu {
 		}
 	}
 	
-	public static void changePassword() {
+	private static void changePassword() {
 		sc = new Scanner (System.in);
 		try{
 			System.out.println("Username:");
@@ -139,15 +137,207 @@ public class Menu {
 				ex.printStackTrace();
 			}
 	}
+	
 
 	
-	public static void dentistMenu(Integer dentistId) throws Exception {
-		Dentist dentist = new Dentist(dentistManager.getDentistByUserId(dentistId));
+	private static void dentistMenu(int userId) throws Exception {
+		sc = new Scanner (System.in);
+		Dentist dentist = new Dentist(dentistManager.getDentistByUserId(userId));
+		do{ 
+			System.out.println("1. See my patients");
+			System.out.println("2. Consult my appointments");
+			System.out.println("0. Exit");
+			int choice = Integer.parseInt(reader.readLine());;
+		
+			while(choice > 2 || choice < 0) {
+				System.out.println("Please, choose a valid option.");
+				choice= Integer.parseInt(reader.readLine());
+			}
+			switch (choice) {
+			case 1:
+				PatientsList(dentist.getId());
+				break;
+					
+			case 2:
+				DentistAppointments(dentist.getId());
+				break;
+					
+			case 0:
+				return;
+					
+			}
+		}
+		while(true);
+
 	}
 	
-	public static void patientMenu(Integer patientId) throws Exception {
-		Patient patient = new Patient(patientManager.getPatientByUserId(0));
+	private static void PatientsList(Integer id) {
+		// TODO Auto-generated method stub
+		
 	}
+	
+	private static void DentistAppointments (int dentistId) throws Exception {
+		
+		ListofAppointments(dentistId);
+		System.out.println("0. Return");
+		int choice = Integer.parseInt(reader.readLine());;
+		
+		while(choice != 0) {
+			System.out.println("Please, choose a valid option.");
+			choice= Integer.parseInt(reader.readLine());
+		}
+			return;
+		
+	}
+
+	private static void patientMenu(int userId) throws Exception {
+		sc = new Scanner (System.in);
+		Patient patient = new Patient(patientManager.getPatientByUserId(userId));
+		do{ 
+			System.out.println("1. See my profile");
+			System.out.println("2. Consult my appointments");
+			System.out.println("0. Exit");
+			int choice = Integer.parseInt(reader.readLine());;
+		
+			while(choice > 2 || choice < 0) {
+				System.out.println("Please, choose a valid option.");
+				choice= Integer.parseInt(reader.readLine());
+			}
+			switch (choice) {
+			case 1:
+				PatientProfile(patient);
+				break;				
+			case 2:
+				PatientAppointments(patient);	
+				break;				
+			case 0:
+				return;
+					
+			}
+		}
+		while(true);
+		
+	}
+	
+	private static void PatientProfile(Patient patient) throws Exception {
+		sc = new Scanner (System.in);
+		do{ 
+			
+			PatientInformation(patient);
+			System.out.println("1. Modify profile information");
+			System.out.println("2. Consult my treatments");
+			System.out.println("3. Add an allergy");
+			System.out.println("4. Edit an allergy");
+			System.out.println("5. Delete an allergy");
+			System.out.println("0. Return");
+			int choice = Integer.parseInt(reader.readLine());;
+		
+			while(choice > 2 || choice < 0) {
+				System.out.println("Please, choose a valid option.");
+				choice= Integer.parseInt(reader.readLine());
+			}
+			switch (choice) {
+			case 1:
+				ModifyInformation(patient);
+				break;				
+			case 2:
+				ConsultTreatments(patient);	
+				break;
+			case 3:
+				AddAllergy(patient);
+				break;
+			case 4:
+				EditAllergy(patient);
+				break;
+			case 5:
+				DeleteAllergy(patient);
+				break;	
+			case 0:
+				return;
+					
+			}
+		}
+		while(true);
+	}
+	
+	private static void PatientInformation (Patient p) throws Exception {
+		System.out.println(p);
+		System.out.println("Patient " + p.getName() + " " +p.getSurname() + " allergies: ");
+		System.out.println(p.getAllergies());	
+	}
+
+	private static void ModifyInformation(Patient patient) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private static void ConsultTreatments(Patient patient) {
+		System.out.println("Patient " + patient.getName() + " " + patient.getSurname() + " treatments :");
+		System.out.println(patient.getTreatments());
+		//Misma pantalla para patients y dentists???
+	}
+	
+	private static void ListofTreatments(Integer id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private static void AddAllergy(Patient patient) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	private static void EditAllergy(Patient patient) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	private static void DeleteAllergy(Patient patient) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private static void PatientAppointments(Patient patient) throws Exception{
+		sc = new Scanner (System.in);
+		do{ 		
+			ListofAppointments(patient.getId());
+			System.out.println("1. Add an appointment");
+			System.out.println("2. Delete an appointment");
+			System.out.println("0. Return");
+			int choice = Integer.parseInt(reader.readLine());;
+		
+			while(choice > 2 || choice < 0) {
+				System.out.println("Please, choose a valid option.");
+				choice= Integer.parseInt(reader.readLine());
+			}
+			switch (choice) {
+			case 1:
+				AddAppointment(patient);
+				break;				
+			case 2:
+				DeleteAppointment(patient);	
+				break;				
+			case 0:
+				return;
+					
+			}
+		}
+		while(true);
+	}
+	
+	private static void ListofAppointments(int id) throws Exception{
+		// TODO Auto-generated method stub
+	}
+	
+	private static void AddAppointment(Patient p) throws Exception{
+		// TODO Auto-generated method stub
+	}
+	
+	private static void DeleteAppointment(Patient p) throws Exception{
+		// TODO Auto-generated method stub
+	}
+	
+
 }
 
 
