@@ -87,7 +87,19 @@ public class Patient implements Serializable {
 		this.allergies = allergies;
 	}
 
-
+	public Patient(Integer id, String name, String surname, String gender, Date date, String address, String bloodType,
+			String background, List<Allergy> allergies) {
+		super();
+		this.patientId = id;
+		this.name = name;
+		this.surname = surname;
+		this.gender = gender;
+		this.birthDate = date;
+		this.address = address;
+		this.bloodType = bloodType;
+		this.background = background;
+		this.allergies = allergies;
+	}
 
 	//empty constructor
 	public Patient() {

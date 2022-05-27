@@ -152,7 +152,7 @@ public class JDBCManager {
 			
 			Date date1 = new Date(2, 1, 2);
 			Date date2 = new Date(2, 1, 2);
-			//JPAUserManager jpam = new JPAUserManager();
+			JPAUserManager jpam = new JPAUserManager();
 			
 			Dentist d1 = new Dentist(1,"Paco", "Garcia", "tarde", "ortodoncia");
 			Dentist d2 = new Dentist(2,"Juan", "Perez", "tarde", "ortodoncia");
@@ -178,8 +178,8 @@ public class JDBCManager {
 			Allergy a3 = new Allergy("peanuts");
 			Allergy a4 = new Allergy("cat hair");
 			
-			Appointment ap1 = new Appointment(1, date2, "Consult", 30,null);
-			Appointment ap2 = new Appointment(1, date1, "Consult 2", 30,null);
+			//Appointment ap1 = new Appointment(1, date2, "Consult", 30,null);
+			Appointment ap2 = new Appointment(1, date1, "Consult 2", 30, d2);
 			
 
 			List<Medication> meds = new ArrayList<Medication>();
@@ -188,12 +188,18 @@ public class JDBCManager {
 			List<Allergy> allergies = new ArrayList<Allergy>();
 			List<Dentist> dentistsfound = new ArrayList<Dentist>();
 			
+<<<<<<< HEAD
+			/*try {
+=======
 			
 			try {
 				
 				//treats = tm.searchTreatmentbyName("Aparato");
 				//System.out.print(treats);
+>>>>>>> branch 'main' of https://github.com/Lauragil01/DentalClinic_System
 
+<<<<<<< HEAD
+=======
 				am.getAllergiesFromPatient(p4.getId());
 				//Patient p = null;
 				//p = pm.searchPatientById(2);
@@ -207,17 +213,12 @@ public class JDBCManager {
 				//dentistManager.getDentistsOfPatient(p2.getId());
 				//dentistManager.assignDentistPatient(d.getId(), p2.getId());
 				//dentistManager.searchDentistByName(d.getName(), d.getSurname());
+>>>>>>> branch 'main' of https://github.com/Lauragil01/DentalClinic_System
 				
 				
-				//mm2.addTreatment(t2);
-				//m.setTreatment(t);
-				//mm.addMedication(m);
-				//treats = mm2.searchTreatmentbyName("n");
-				//mm.listofMedications(t.getId());
-			}
-			catch(SQLException e) {
+			}catch(SQLException e) {
 				e.printStackTrace();
-			}
+			}*/
 			
 		}
 }
