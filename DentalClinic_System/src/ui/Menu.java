@@ -8,7 +8,14 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.Scanner;
 
+import javax.xml.bind.JAXBException;
+
+import db.pojos.Worker;
+import db.xml.XMLManager;
 import dentalClinic.pojos.*;
+import dentalClinic.xml.manager.Java2Xml;
+import dentalClinic.xml.manager.Xml2Html;
+import dentalClinic.xml.manager.Xml2Java;
 import jdbc.JDBCDentistManager;
 import jdbc.JDBCManager;
 import jdbc.JDBCPatientManager;
@@ -338,6 +345,46 @@ public class Menu {
 	}
 	
 
+	
+	
+	//METHODS FROM XML
+	
+	public static void appointmentToXml(Dentist dentist) throws Exception {
+		Java2Xml.java2XmlAppointment(dentist);
+	}
+	
+	public static void xmlToAppointment(Dentist dentist) {
+		try {
+			Xml2Java.xml2JavaAppointment(); 
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void appointmentXmlToHtml () {
+		Xml2Html.simpleTransform("./xmls/External-Appointment.xml", "./xmls/Appointment-Style.xslt", "./xmls/Appointment.html");
+	}
+	
+	public static void xmlToDentist() {
+		try {
+			Xml2Java.xml2JavaDentist();  
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void dentistToXml() throws JAXBException {
+		try {
+			Java2Xml.java2XmlDentist(); 
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void dentistXmlToHtml () {
+		Xml2Html.simpleTransform("./xmls/External-Dentist.xml", "./xmls/Dentist-Style.xslt", "./xmls/Dentist.html");
+	}
+	
 }
 
 
