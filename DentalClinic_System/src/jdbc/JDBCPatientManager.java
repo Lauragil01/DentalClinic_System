@@ -56,28 +56,28 @@ public class JDBCPatientManager implements PatientManager {
 	}
 	
 	@Override
-	public Patient searchPatientById(int patientId) throws SQLException { //No funciona
+	public Patient searchPatientById(int patientId) throws SQLException { //Checked
 		Patient p = null;
 		String sql = "SELECT * FROM patients WHERE patientId= ?";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setInt(1, patientId);
-		ResultSet rs = prep.executeQuery(sql);
+		ResultSet rs = prep.executeQuery();
 		while (rs.next()) {
 			String name = rs.getString("name");
 			String surname = rs.getString("surname");
 			String gender = rs.getString("gender");
-			Date birthDate = rs.getDate("birthDate");
+			Date birthDate = rs.getDate("dob");
 			String address = rs.getString("address");
 			String bloodType = rs.getString("bloodType");
 			String background = rs.getString("background");
 			p = new Patient(patientId, name, surname, gender, birthDate, address, bloodType, background);
-			p.setAllergies(allergymanager.getAllergiesFromPatient(patientId));
-			p.setTreatments(treatmentmanager.listofTreatments(patientId));
-			p.setAppointments(appointmentmanager.listofAppointments_Patient(patientId));
-			p.setDentists(dentistmanager.getDentistsOfPatient(patientId));
+			//p.setAllergies(allergymanager.getAllergiesFromPatient(patientId));
+			//p.setTreatments(treatmentmanager.listofTreatments(patientId));
+			//p.setAppointments(appointmentmanager.listofAppointments_Patient(patientId));
+			//p.setDentists(dentistmanager.getDentistsOfPatient(patientId));
 		}
-		rs.close();
 		prep.close();
+		rs.close();
 		return p;
 	}
 			
