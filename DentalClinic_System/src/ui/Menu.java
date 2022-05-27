@@ -6,24 +6,42 @@ import java.io.InputStreamReader;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import dentalClinic.pojos.*;
+import jdbc.JDBCAllergyManager;
+import jdbc.JDBCAppointmentManager;
 import jdbc.JDBCDentistManager;
 import jdbc.JDBCManager;
+import jdbc.JDBCMedicationManager;
 import jdbc.JDBCPatientManager;
+import jdbc.JDBCTreatmentManager;
 import dentalClinic.jpa.*;
 
 public class Menu {
 
 	public static JPAUserManager userManager;
+	public static JDBCManager manager;
 	public static JDBCPatientManager patientManager;
 	public static JDBCDentistManager dentistManager;
+	public static JDBCTreatmentManager treatmentManager;
+	public static JDBCAppointmentManager appointmentManager;
+	public static JDBCAllergyManager allergyManager;
+	public static JDBCMedicationManager medicationManager;
 	static Scanner sc = new Scanner(System.in);
 	
 	private static BufferedReader reader = new BufferedReader (new InputStreamReader(System.in));
 	public static void main(String[] args) {
 		userManager = new JPAUserManager();
+		medicationManager = new JDBCMedicationManager(manager);
+		treatmentManager = new JDBCTreatmentManager(manager);
+		appointmentManager = new JDBCAppointmentManager(manager);			
+		allergyManager = new JDBCAllergyManager(manager);
+		dentistManager = new JDBCDentistManager(manager,appointmentManager);
+		JDBCPatientManager pm = new JDBCPatientManager(manager, treatmentManager, medicationManager, appointmentManager, dentistManager, allergyManager);
+		dentistManager.setPatientmanager(pm);
 		
 		System.out.println("Welcome to the Dental Clinic System");
 		try {
@@ -140,30 +158,30 @@ public class Menu {
 	
 
 	
-	private static void dentistMenu(int userId) throws Exception {
+	private static void dentistMenu(User user) throws Exception {
 		sc = new Scanner (System.in);
-		Dentist dentist = new Dentist(dentistManager.getDentistByUserId(userId));
+		Dentist dentist = new Dentist(dentistManager.getDentistByUserId(user.getId()));
 		do{ 
 			System.out.println("1. See my patients");
 			System.out.println("2. Consult my appointments");
 			System.out.println("0. Exit");
 			int choice = Integer.parseInt(reader.readLine());;
-		
-			while(choice > 2 || choice < 0) {
-				System.out.println("Please, choose a valid option.");
-				choice= Integer.parseInt(reader.readLine());
-			}
+			
 			switch (choice) {
 			case 1:
 				PatientsList(dentist.getId());
 				break;
 					
 			case 2:
-				DentistAppointments(dentist.getId());
+				DentistAppointments(dentist);
 				break;
 					
 			case 0:
-				return;
+				System.exit(0);
+				
+			default:
+				System.out.println("Please, choose a valid option.");
+				break;
 					
 			}
 		}
@@ -171,14 +189,16 @@ public class Menu {
 
 	}
 	
-	private static void PatientsList(Integer id) {
-		// TODO Auto-generated method stub
+	private static void PatientsList(Integer dentistId) throws SQLException {
+		List<Patient> patients = new ArrayList<Patient>();
+		patients = patientManager.getPatientsOfDentist(dentistId);
+		System.out.println(patients);
 		
 	}
 	
-	private static void DentistAppointments (int dentistId) throws Exception {
+	private static void DentistAppointments (Dentist dentist) throws Exception {
 		
-		ListofAppointments(dentistId);
+		ListofAppointments();
 		System.out.println("0. Return");
 		int choice = Integer.parseInt(reader.readLine());;
 		
@@ -198,11 +218,6 @@ public class Menu {
 			System.out.println("2. Consult my appointments");
 			System.out.println("0. Exit");
 			int choice = Integer.parseInt(reader.readLine());;
-		
-			while(choice > 2 || choice < 0) {
-				System.out.println("Please, choose a valid option.");
-				choice= Integer.parseInt(reader.readLine());
-			}
 			switch (choice) {
 			case 1:
 				PatientProfile(patient);
@@ -211,7 +226,10 @@ public class Menu {
 				PatientAppointments(patient);	
 				break;				
 			case 0:
-				return;
+				System.exit(0);
+			default:
+				System.out.println("Please, choose a valid option.");
+				break;
 					
 			}
 		}
@@ -232,10 +250,6 @@ public class Menu {
 			System.out.println("0. Return");
 			int choice = Integer.parseInt(reader.readLine());;
 		
-			while(choice > 2 || choice < 0) {
-				System.out.println("Please, choose a valid option.");
-				choice= Integer.parseInt(reader.readLine());
-			}
 			switch (choice) {
 			case 1:
 				ModifyInformation(patient);
@@ -254,6 +268,9 @@ public class Menu {
 				break;	
 			case 0:
 				return;
+			default:
+				System.out.println("Please, choose a valid option.");
+				break;
 					
 			}
 		}
@@ -318,15 +335,15 @@ public class Menu {
 				DeleteAppointment(patient);	
 				break;				
 			case 0:
-				return;
-					
+				return;			
 			}
 		}
 		while(true);
 	}
 	
-	private static void ListofAppointments(int id) throws Exception{
-		// TODO Auto-generated method stub
+	private static void ListofAppointments() throws Exception{
+		if()
+		appointmentManager.listofAppointments_Dentist(id);
 	}
 	
 	private static void AddAppointment(Patient p) throws Exception{

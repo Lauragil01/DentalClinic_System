@@ -215,7 +215,6 @@ public class JDBCDentistManager implements DentistManager {
 		prep.executeUpdate();
 		prep.close();
 	}
-	
 
 	@Override
 	public Dentist getDentistByUserId(Integer userId) throws SQLException {
