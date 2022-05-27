@@ -82,5 +82,9 @@ public class Java2Xml {
 		// Printout
 		marshaller.marshal(dentists, System.out);
 		}
-	} 
+	}
+	
+	public static void main(String[] args) {
+		
+	}
 }

@@ -5,14 +5,25 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.xml.bind.JAXBException;
+
+import db.pojos.Worker;
+import db.xml.XMLManager;
 import dentalClinic.pojos.*;
+<<<<<<< HEAD
 import jdbc.JDBCAllergyManager;
 import jdbc.JDBCAppointmentManager;
+=======
+import dentalClinic.xml.manager.Java2Xml;
+import dentalClinic.xml.manager.Xml2Html;
+import dentalClinic.xml.manager.Xml2Java;
+>>>>>>> branch 'main' of https://github.com/Lauragil01/DentalClinic_System
 import jdbc.JDBCDentistManager;
 import jdbc.JDBCManager;
 import jdbc.JDBCMedicationManager;
@@ -26,10 +37,14 @@ public class Menu {
 	public static JDBCManager manager;
 	public static JDBCPatientManager patientManager;
 	public static JDBCDentistManager dentistManager;
+<<<<<<< HEAD
 	public static JDBCTreatmentManager treatmentManager;
 	public static JDBCAppointmentManager appointmentManager;
 	public static JDBCAllergyManager allergyManager;
 	public static JDBCMedicationManager medicationManager;
+=======
+	public static Appointment appointment;
+>>>>>>> branch 'main' of https://github.com/Lauragil01/DentalClinic_System
 	static Scanner sc = new Scanner(System.in);
 	
 	private static BufferedReader reader = new BufferedReader (new InputStreamReader(System.in));
@@ -250,6 +265,13 @@ public class Menu {
 			System.out.println("0. Return");
 			int choice = Integer.parseInt(reader.readLine());;
 		
+<<<<<<< HEAD
+=======
+			while(choice > 5 || choice < 0) {
+				System.out.println("Please, choose a valid option.");
+				choice= Integer.parseInt(reader.readLine());
+			}
+>>>>>>> branch 'main' of https://github.com/Lauragil01/DentalClinic_System
 			switch (choice) {
 			case 1:
 				ModifyInformation(patient);
@@ -283,8 +305,50 @@ public class Menu {
 		System.out.println(p.getAllergies());	
 	}
 
-	private static void ModifyInformation(Patient patient) {
-		// TODO Auto-generated method stub
+	private static void ModifyInformation(Patient patient) throws NumberFormatException, IOException {
+		System.out.println("1.Name");
+		System.out.println("2.Surname");
+		System.out.println("3.Gender");
+		System.out.println("4.Birth Date");
+		System.out.println("5.Adress");
+		System.out.println("0.Return");
+		int choice = Integer.parseInt(reader.readLine());;
+		
+		while(choice > 5 || choice < 0) {
+			System.out.println("Please, choose a valid option.");
+			choice= Integer.parseInt(reader.readLine());
+		}
+		switch (choice) {
+		case 1:
+			System.out.println("New name:");
+			String newName= reader.readLine();
+			patient.setName(newName);			
+			break;				
+		case 2:
+			System.out.println("New Surname:");
+			String newSurname= reader.readLine();
+			patient.setSurname(newSurname);
+			break;
+		case 3:
+			System.out.println("New gender:");
+			String newGender= reader.readLine();
+			patient.setGender(newGender);
+			break;
+		case 4:
+			System.out.println("New Birth Date (year-month-day):");
+			String string=reader.readLine();
+		    Date date=Date.valueOf(string);
+			patient.setBithDate(date);
+			break;
+		case 5:
+			System.out.println("New adress:");
+			String newAdress= reader.readLine();
+			patient.setAddress(newAdress);
+			break;	
+		case 0:
+			return;
+				
+		}
 		
 	}
 
@@ -297,10 +361,12 @@ public class Menu {
 	private static void ListofTreatments(Integer id) {
 		// TODO Auto-generated method stub
 		
+		
 	}
 
 	private static void AddAllergy(Patient patient) {
 		// TODO Auto-generated method stub
+		
 		
 	}
 	
@@ -341,13 +407,21 @@ public class Menu {
 		while(true);
 	}
 	
+<<<<<<< HEAD
 	private static void ListofAppointments() throws Exception{
 		if()
 		appointmentManager.listofAppointments_Dentist(id);
+=======
+	private static void ListofAppointments(int id) throws Exception{
+		// TODO Auto-generated method stub
+		
+>>>>>>> branch 'main' of https://github.com/Lauragil01/DentalClinic_System
 	}
 	
 	private static void AddAppointment(Patient p) throws Exception{
 		// TODO Auto-generated method stub
+		
+		
 	}
 	
 	private static void DeleteAppointment(Patient p) throws Exception{
@@ -355,6 +429,46 @@ public class Menu {
 	}
 	
 
+	//METHODS FROM XML
+	
+		public static void appointmentToXml(Dentist dentist) throws Exception {
+			Java2Xml.java2XmlAppointment(dentist);
+		}
+		
+		public static void xmlToAppointment(Dentist dentist) {
+			try {
+				Xml2Java.xml2JavaAppointment(); 
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		public static void appointmentXmlToHtml () {
+			Xml2Html.simpleTransform("./xmls/External-Appointment.xml", "./xmls/Appointment-Style.xslt", "./xmls/Appointment.html");
+		}
+		
+		public static void xmlToDentist() {
+			try {
+				Xml2Java.xml2JavaDentist();  
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		public static void dentistToXml() throws JAXBException {
+			try {
+				Java2Xml.java2XmlDentist(); 
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		public static void dentistXmlToHtml () {
+			Xml2Html.simpleTransform("./xmls/External-Dentist.xml", "./xmls/Dentist-Style.xslt", "./xmls/Dentist.html");
+		}
+	
+	
+	
 }
 
 
