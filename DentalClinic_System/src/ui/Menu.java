@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.Scanner;
 
@@ -19,6 +20,7 @@ public class Menu {
 	public static JPAUserManager userManager;
 	public static JDBCPatientManager patientManager;
 	public static JDBCDentistManager dentistManager;
+	public static Appointment appointment;
 	static Scanner sc = new Scanner(System.in);
 	
 	private static BufferedReader reader = new BufferedReader (new InputStreamReader(System.in));
@@ -232,7 +234,7 @@ public class Menu {
 			System.out.println("0. Return");
 			int choice = Integer.parseInt(reader.readLine());;
 		
-			while(choice > 2 || choice < 0) {
+			while(choice > 5 || choice < 0) {
 				System.out.println("Please, choose a valid option.");
 				choice= Integer.parseInt(reader.readLine());
 			}
@@ -266,8 +268,50 @@ public class Menu {
 		System.out.println(p.getAllergies());	
 	}
 
-	private static void ModifyInformation(Patient patient) {
-		// TODO Auto-generated method stub
+	private static void ModifyInformation(Patient patient) throws NumberFormatException, IOException {
+		System.out.println("1.Name");
+		System.out.println("2.Surname");
+		System.out.println("3.Gender");
+		System.out.println("4.Birth Date");
+		System.out.println("5.Adress");
+		System.out.println("0.Return");
+		int choice = Integer.parseInt(reader.readLine());;
+		
+		while(choice > 5 || choice < 0) {
+			System.out.println("Please, choose a valid option.");
+			choice= Integer.parseInt(reader.readLine());
+		}
+		switch (choice) {
+		case 1:
+			System.out.println("New name:");
+			String newName= reader.readLine();
+			patient.setName(newName);			
+			break;				
+		case 2:
+			System.out.println("New Surname:");
+			String newSurname= reader.readLine();
+			patient.setSurname(newSurname);
+			break;
+		case 3:
+			System.out.println("New gender:");
+			String newGender= reader.readLine();
+			patient.setGender(newGender);
+			break;
+		case 4:
+			System.out.println("New Birth Date (year-month-day):");
+			String string=reader.readLine();
+		    Date date=Date.valueOf(string);
+			patient.setBithDate(date);
+			break;
+		case 5:
+			System.out.println("New adress:");
+			String newAdress= reader.readLine();
+			patient.setAddress(newAdress);
+			break;	
+		case 0:
+			return;
+				
+		}
 		
 	}
 
@@ -280,10 +324,12 @@ public class Menu {
 	private static void ListofTreatments(Integer id) {
 		// TODO Auto-generated method stub
 		
+		
 	}
 
 	private static void AddAllergy(Patient patient) {
 		// TODO Auto-generated method stub
+		
 		
 	}
 	
@@ -327,10 +373,13 @@ public class Menu {
 	
 	private static void ListofAppointments(int id) throws Exception{
 		// TODO Auto-generated method stub
+		
 	}
 	
 	private static void AddAppointment(Patient p) throws Exception{
 		// TODO Auto-generated method stub
+		
+		
 	}
 	
 	private static void DeleteAppointment(Patient p) throws Exception{
