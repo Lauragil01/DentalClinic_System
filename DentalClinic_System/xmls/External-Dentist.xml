@@ -44,41 +44,6 @@
         </Appointment>
         </Appointments>
     </Dentist>
-    
-    <Worker workerName="admin" workerSurname="admin" userId="1">
-        <specialtyId>none</specialtyId>
-        <typeWorker>adStaff</typeWorker>
-        <Appointments/>
-    </Worker>
-    <Worker workerName="Angy" workerSurname="Garcia" userId="51">
-        <specialtyId>Urology</specialtyId>
-        <typeWorker>Doctor</typeWorker>
-        <Shifts/>
-    </Worker>
-    <Worker workerName="Alba" workerSurname="Vargas" userId="152">
-        <specialtyId>None</specialtyId>
-        <typeWorker>Administration Staff</typeWorker>
-        <Shifts/>
-    </Worker>
-    <Worker workerName="admin" workerSurname="admin" userId="1">
-        <specialtyId>none</specialtyId>
-        <typeWorker>adStaff</typeWorker>
-        <Shifts/>
-    </Worker>
-    <Worker workerName="Angy" workerSurname="Garcia" userId="51">
-        <specialtyId>Urology</specialtyId>
-        <typeWorker>Doctor</typeWorker>
-        <Shifts/>
-    </Worker>
-    <Worker workerName="admin" workerSurname="admin" userId="1">
-        <specialtyId>none</specialtyId>
-        <typeWorker>adStaff</typeWorker>
-        <Shifts/>
-    </Worker>
-    <Worker workerName="Angy" workerSurname="Garcia" userId="51">
-        <specialtyId>Urology</specialtyId>
-        <typeWorker>Doctor</typeWorker>
-        <Shifts/>
-    </Worker>
 </Dentists>
-
+    
+    

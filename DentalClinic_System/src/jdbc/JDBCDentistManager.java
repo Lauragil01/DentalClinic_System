@@ -184,7 +184,6 @@ public class JDBCDentistManager implements DentistManager {
 		prep.executeUpdate();
 		prep.close();
 	}
-	
 
 	@Override
 	public Dentist getDentistByUserId(Integer userId) throws SQLException {
@@ -200,6 +199,18 @@ public class JDBCDentistManager implements DentistManager {
 		prep.close();
 		rs.close();
 		return dentist;
+	}
+
+
+	@Override
+	public void LinkDentistUser(int dentistId, int userId) throws SQLException {
+		String sql = "UPDATE dentists SET userId = ? WHERE dentistId = ? ";
+		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+		prep.setInt(1, userId);
+		prep.setInt(2, dentistId);
+		prep.executeUpdate();
+		prep.close();
+		
 	}
 	
 }

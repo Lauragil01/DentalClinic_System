@@ -35,4 +35,6 @@ public interface DentistManager {
 	public void editDentistsSpecialty(String specialty, int dentistId) throws SQLException;
 	
 	public Dentist getDentistByUserId(Integer userId) throws SQLException;
+	
+	public void LinkDentistUser (int dentistId, int userId) throws SQLException;
 }

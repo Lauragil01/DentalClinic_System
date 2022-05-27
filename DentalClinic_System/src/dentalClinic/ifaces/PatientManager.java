@@ -32,5 +32,7 @@ public interface PatientManager {
 	
 	public void editPatientsBackground (String background, int patientId) throws SQLException;
 	
-	public Patient getPatientByUserId(int userId)throws SQLException;
+	public Patient getPatientByUserId(int userId) throws SQLException;
+	
+	public void LinkPatientUser (int patientId, int userId) throws SQLException;
  }

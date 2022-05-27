@@ -188,8 +188,32 @@ public class JDBCManager {
 			List<Allergy> allergies = new ArrayList<Allergy>();
 			List<Dentist> dentistsfound = new ArrayList<Dentist>();
 			
+<<<<<<< HEAD
 			/*try {
+=======
+			
+			try {
+				
+				//treats = tm.searchTreatmentbyName("Aparato");
+				//System.out.print(treats);
+>>>>>>> branch 'main' of https://github.com/Lauragil01/DentalClinic_System
 
+<<<<<<< HEAD
+=======
+				am.getAllergiesFromPatient(p4.getId());
+				//Patient p = null;
+				//p = pm.searchPatientById(2);
+				//System.out.print(p);
+				
+				//prueba = dentistManager.searchDentistById(d.getId());
+				//System.out.print(prueba);
+				//dentistManager.editDentistsName(null);
+				//dentistManager.assignDentistPatient(d.getId(), p.getId());	
+				//dentistsfound = dentistManager.searchDentistByName("Paco", "Garcia");
+				//dentistManager.getDentistsOfPatient(p2.getId());
+				//dentistManager.assignDentistPatient(d.getId(), p2.getId());
+				//dentistManager.searchDentistByName(d.getName(), d.getSurname());
+>>>>>>> branch 'main' of https://github.com/Lauragil01/DentalClinic_System
 				
 				
 			}catch(SQLException e) {
