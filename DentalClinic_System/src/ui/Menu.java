@@ -13,17 +13,12 @@ import java.util.Scanner;
 
 import javax.xml.bind.JAXBException;
 
-import db.pojos.Worker;
-import db.xml.XMLManager;
 import dentalClinic.pojos.*;
-<<<<<<< HEAD
 import jdbc.JDBCAllergyManager;
 import jdbc.JDBCAppointmentManager;
-=======
 import dentalClinic.xml.manager.Java2Xml;
 import dentalClinic.xml.manager.Xml2Html;
 import dentalClinic.xml.manager.Xml2Java;
->>>>>>> branch 'main' of https://github.com/Lauragil01/DentalClinic_System
 import jdbc.JDBCDentistManager;
 import jdbc.JDBCManager;
 import jdbc.JDBCMedicationManager;
@@ -37,14 +32,11 @@ public class Menu {
 	public static JDBCManager manager;
 	public static JDBCPatientManager patientManager;
 	public static JDBCDentistManager dentistManager;
-<<<<<<< HEAD
 	public static JDBCTreatmentManager treatmentManager;
 	public static JDBCAppointmentManager appointmentManager;
 	public static JDBCAllergyManager allergyManager;
 	public static JDBCMedicationManager medicationManager;
-=======
 	public static Appointment appointment;
->>>>>>> branch 'main' of https://github.com/Lauragil01/DentalClinic_System
 	static Scanner sc = new Scanner(System.in);
 	
 	private static BufferedReader reader = new BufferedReader (new InputStreamReader(System.in));
@@ -139,9 +131,9 @@ public class Menu {
 		if(u == null) {
 			System.out.print("Incorrect email or password");
 		}else if (u.getRole().getName().equals("dentist")){
-			dentistMenu(u.getId());
+			dentistMenu(u);
 		}else if (u.getRole().getName().equals("patient")){
-			patientMenu(u.getId()); 
+			patientMenu(u); 
 		}
 	}
 	
@@ -225,9 +217,9 @@ public class Menu {
 		
 	}
 
-	private static void patientMenu(int userId) throws Exception {
+	private static void patientMenu(User user) throws Exception {
 		sc = new Scanner (System.in);
-		Patient patient = new Patient(patientManager.getPatientByUserId(userId));
+		Patient patient = new Patient(patientManager.getPatientByUserId(user.getId()));
 		do{ 
 			System.out.println("1. See my profile");
 			System.out.println("2. Consult my appointments");
@@ -264,14 +256,10 @@ public class Menu {
 			System.out.println("5. Delete an allergy");
 			System.out.println("0. Return");
 			int choice = Integer.parseInt(reader.readLine());;
-		
-<<<<<<< HEAD
-=======
 			while(choice > 5 || choice < 0) {
 				System.out.println("Please, choose a valid option.");
 				choice= Integer.parseInt(reader.readLine());
 			}
->>>>>>> branch 'main' of https://github.com/Lauragil01/DentalClinic_System
 			switch (choice) {
 			case 1:
 				ModifyInformation(patient);
@@ -407,15 +395,23 @@ public class Menu {
 		while(true);
 	}
 	
-<<<<<<< HEAD
-	private static void ListofAppointments() throws Exception{
-		if()
-		appointmentManager.listofAppointments_Dentist(id);
-=======
+	private static void ListofAppointments(User u) throws Exception {
+		
+		if(u.getRole().getName().equalsIgnoreCase("patient")){
+			Patient patient = patientManager.getPatientByUserId(u.getId());
+			appointmentManager.listofAppointments(0, patient.getId());
+		}
+		
+		if(u.getRole().getName().equalsIgnoreCase("dentist")){
+			Dentist dentist = dentistManager.getDentistByUserId(u.getId());
+			appointmentManager.listofAppointments(dentist.getId(), 0);
+		}
+		
+	}	
+		
 	private static void ListofAppointments(int id) throws Exception{
 		// TODO Auto-generated method stub
 		
->>>>>>> branch 'main' of https://github.com/Lauragil01/DentalClinic_System
 	}
 	
 	private static void AddAppointment(Patient p) throws Exception{

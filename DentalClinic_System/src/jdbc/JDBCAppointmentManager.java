@@ -42,7 +42,7 @@ public class JDBCAppointmentManager implements AppointmentManager {
 	
 	//public void assignAppointmentTo_PatientDentist(int patientId, int dentistId) throws SQLException{}
 
-	@Override
+	/*@Override
 	public List<Appointment> listofAppointments_Patient(int patientId) throws SQLException {
 		Appointment a = null;
 		String sql = "SELECT * FROM appointments WHERE patient_app=? ORDER BY date ";
@@ -61,14 +61,27 @@ public class JDBCAppointmentManager implements AppointmentManager {
 		}
 		prep.close();
 		rs.close();
-		return appointments;
-	}
+		return appointments
+	}*/
 	@Override
-	public List<Appointment> listofAppointments_Dentist(int dentistId) throws SQLException {
+	public List<Appointment> listofAppointments(int dentistId, int patientId) throws SQLException {
 		Appointment a = null;
-		String sql = "SELECT * FROM appointments WHERE dentist_app=? ORDER BY date ";
-		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
-		prep.setInt(1, dentistId);
+		String sql = "SELECT * FROM appointments WHERE ";
+		String sql2 = null;
+		PreparedStatement prep = null;
+		if (dentistId == 0) {
+			sql2 = "patient_app = ?";
+			String SQL = sql + sql2;
+			prep = manager.getConnection().prepareStatement(SQL);
+			prep.setInt(1, patientId);
+		} 
+		else if (patientId == 0) {
+			sql2 = "dentist_app = ?";
+			String SQL = sql + sql2;
+			prep = manager.getConnection().prepareStatement(SQL);
+			prep.setInt(1, dentistId);
+			
+		}
 		ResultSet rs = prep.executeQuery();
 		List <Appointment> appointments = new ArrayList<Appointment>();
 		while (rs.next()) {
