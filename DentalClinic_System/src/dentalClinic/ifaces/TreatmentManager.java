@@ -14,7 +14,7 @@ public interface TreatmentManager {
 	
 	public List<Treatment> searchTreatmentbyName (String name) throws SQLException;
 	
-	public void deleteTreatment (int treatmentId);
+	public void deleteTreatment (int treatmentId) throws SQLException;
 	
 	public Treatment searchTreatmentById (int treatmentId) throws SQLException;
 	

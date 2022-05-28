@@ -52,22 +52,4 @@ public class JDBCAllergyManager implements AllergyManager {
 		prep.executeUpdate();
 		prep.close();
 	}
-	
-	public static void main(String[] args) {
-		JDBCManager manager = new JDBCManager();
-		JDBCAllergyManager allergyManager = new JDBCAllergyManager(manager);
-		
-		//Patient p = new Patient("a", "b", "m", "c", "0", "k");
-		List<Allergy> allergies = new ArrayList<Allergy>();
-		Patient p2 = new Patient(1, "a", "b", "m", "c", "0", "k", allergies);
-		Allergy a = new Allergy("polen");
-		
-		try {
-			allergyManager.addAllergy(a); 
-			//allergyManager.getAllergiesFromPatient(p2.getId()); 
-			//allergyManager.deleteAllergy(a.getAllergyId()); 
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}
-	}
 }

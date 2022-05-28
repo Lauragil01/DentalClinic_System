@@ -29,7 +29,7 @@ public class JDBCAppointmentManager implements AppointmentManager {
 
 	@Override
 	public void addAppointment(Appointment a) throws SQLException {
-		String sql = "INSERT INTO appointments (date, type, time, duration, patientId) VALUES (?,?,?,?,?)";
+		String sql = "INSERT INTO appointments (date, type, time, duration, patient_app) VALUES (?,?,?,?,?)";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setDate(1, a.getDate());
 		prep.setString(2, a.getType());

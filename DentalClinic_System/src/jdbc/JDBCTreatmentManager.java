@@ -59,12 +59,12 @@ public class JDBCTreatmentManager implements TreatmentManager {
 	}
 	
 	@Override
-	public Treatment searchTreatmentById(int treatmentId) throws SQLException { //No funciona
+	public Treatment searchTreatmentById(int treatmentId) throws SQLException { //Checked
 		Treatment t = null;
 		String sql = "SELECT * FROM treatments WHERE treatmentId = ? ";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setInt(1, treatmentId);
-		ResultSet rs = prep.executeQuery(sql);
+		ResultSet rs = prep.executeQuery();
 		while (rs.next()) {
 			int id = rs.getInt("treatmentId");
 			String name = rs.getString("name");
@@ -80,11 +80,11 @@ public class JDBCTreatmentManager implements TreatmentManager {
 	}
 
 	@Override
-	public List<Treatment> searchTreatmentbyName(String name) throws SQLException {
+	public List<Treatment> searchTreatmentbyName(String name) throws SQLException { //Checked
 		String sql = "SELECT * FROM treatments WHERE name LIKE ? ";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setString(1, name);
-		ResultSet rs = prep.executeQuery(sql);
+		ResultSet rs = prep.executeQuery();
 		List <Treatment> treatments = new ArrayList<Treatment>();
 		while (rs.next()) {
 			int id = rs.getInt("treatmentId");
@@ -101,27 +101,22 @@ public class JDBCTreatmentManager implements TreatmentManager {
 	}
 
 	@Override
-	public void deleteTreatment(int treatmentId) {
-		try {
+	public void deleteTreatment(int treatmentId) throws SQLException { //Checked
 			String sql = "DELETE FROM treatments WHERE treatmentId = ?";
 			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 			prep.setInt(1, treatmentId);
 			prep.executeUpdate();
 			prep.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 	
 	@Override
-	public void editTreatmentsName(String name, int treatmentId) throws SQLException {
-		String sql = "UPDATE patient SET name = ? WHERE treatmentId = ?";
+	public void editTreatmentsName(String name, int treatmentId) throws SQLException { //No funciona 
+		String sql = "UPDATE treatments SET name = ? WHERE treatmentId = ?";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setString(1, name);
 		prep.setInt(2, treatmentId);
 		prep.executeUpdate();
 		prep.close();
-		
 	}
 	
 	@Override
