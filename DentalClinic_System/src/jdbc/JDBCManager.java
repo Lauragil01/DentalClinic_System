@@ -179,7 +179,7 @@ public class JDBCManager {
 			Allergy a4 = new Allergy("cat hair");
 			
 			//Appointment ap1 = new Appointment(1, date2, "Consult", 30,null);
-			Appointment ap2 = new Appointment(1, date1, "Consult 2", 30, d2);
+			Appointment ap2 = new Appointment(1, date1, "Consult 2", 30, null, d2);
 			
 
 			List<Medication> meds = new ArrayList<Medication>();
@@ -188,11 +188,11 @@ public class JDBCManager {
 			List<Allergy> allergies = new ArrayList<Allergy>();
 			List<Dentist> dentistsfound = new ArrayList<Dentist>();
 			
-			/*try {
-				
+			try {
+				ap.addAppointment(ap2);
 			}catch(SQLException e) {
 				e.printStackTrace();
-			}*/
+			}
 			
 		}
 }
