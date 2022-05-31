@@ -85,7 +85,7 @@ public class Menu {
 		String email = reader.readLine();
 		int a=0;
 		do {
-			if(userManager.checkEmail(email)==null) {
+			if(userManager.checkEmail(email)==null) { //no seria !=null?
 				System.out.println("Choose another email:");
 			}else {
 				a=1;
@@ -96,7 +96,7 @@ public class Menu {
 		
 		String password = reader.readLine();
 		System.out.println(userManager.getRoles());
-		System.out.println("Choose your role ID: ");
+		System.out.println("Choose your role ID: "); 
 		Integer id = null;
 		int z=0;
 		do {
@@ -107,7 +107,7 @@ public class Menu {
 				e.printStackTrace();
 				System.out.println("Not a valid role id. Try again.");
 			}
-		} while (a==0);
+		} while (a==0); // no seria z==0
 		Role role = userManager.getRole(id);
 		MessageDigest md = MessageDigest.getInstance("MD5");
 		md.update(password.getBytes());
@@ -130,15 +130,15 @@ public class Menu {
 		User u = userManager.checkPassword(email,password);
 		if(u == null) {
 			System.out.print("Incorrect email or password");
-		}else if (u.getRole().getName().equals("dentist")){
+		}else if (u.getRole().getName().equalsIgnoreCase("dentist")){
 			dentistMenu(u);
-		}else if (u.getRole().getName().equals("patient")){
+		}else if (u.getRole().getName().equalsIgnoreCase("patient")){
 			patientMenu(u); 
 		}
 	}
 	
 	private static void changePassword() {
-		sc = new Scanner (System.in);
+		//sc = new Scanner (System.in);
 		try{
 			System.out.println("Username:");
 			String username = reader.readLine();
@@ -156,7 +156,7 @@ public class Menu {
 				userManager.updateUser(user, hash);
 				System.out.println("Password updated");
 			} else {
-				System.out.println("The password does not match");
+				System.out.println("The passwords do not match");
 			}
 			}catch(Exception ex) {
 				ex.printStackTrace();

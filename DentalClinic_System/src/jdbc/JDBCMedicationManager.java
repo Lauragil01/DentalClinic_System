@@ -40,7 +40,7 @@ public class JDBCMedicationManager implements MedicationManager {
 		String sql = "SELECT * FROM medications WHERE treatment_med=? ";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setInt(1, treatmentId);
-		ResultSet rs = prep.executeQuery(sql);
+		ResultSet rs = prep.executeQuery();
 		List <Medication> medications = new ArrayList<Medication>();
 		while (rs.next()) {
 			int id = rs.getInt("medicationId");

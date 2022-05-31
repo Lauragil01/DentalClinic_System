@@ -52,4 +52,14 @@ public class JDBCAllergyManager implements AllergyManager {
 		prep.executeUpdate();
 		prep.close();
 	}
+	
+	@Override
+	public void assignAllergyPatient(int allergyId, int patientId) throws SQLException { 
+		String sql = "INSERT INTO patient_allergy (patient_pa, allergy_pa) VALUES (?,?)";
+		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+		prep.setInt(1, patientId);
+		prep.setInt(2, allergyId);
+		prep.executeUpdate();
+		prep.close();
+	}
 }

@@ -42,7 +42,7 @@ public class JDBCAppointmentManager implements AppointmentManager {
 	
 	//public void assignAppointmentTo_PatientDentist(int patientId, int dentistId) throws SQLException{}
 
-	/*@Override
+	@Override
 	public List<Appointment> listofAppointments_Patient(int patientId) throws SQLException {
 		Appointment a = null;
 		String sql = "SELECT * FROM appointments WHERE patient_app=? ORDER BY date ";
@@ -61,8 +61,9 @@ public class JDBCAppointmentManager implements AppointmentManager {
 		}
 		prep.close();
 		rs.close();
-		return appointments
-	}*/
+		return appointments;
+	}
+	
 	@Override
 	public List<Appointment> listofAppointments(int dentistId, int patientId) throws SQLException {
 		Appointment a = null;
@@ -153,25 +154,5 @@ public class JDBCAppointmentManager implements AppointmentManager {
 		prep.close();
 		rs.close();
 		return a;
-	}
-	
-	public static void main(String[] args) {
-		JDBCManager manager = new JDBCManager();
-		JDBCAppointmentManager appointmentManager = new JDBCAppointmentManager(manager);
-		
-		List<Allergy> allergies = new ArrayList<Allergy>();
-		Patient p = new Patient("a", "b", "m", "c", "0", "k", allergies);
-		Dentist d = new Dentist("Paco", "Garca", "tarde", "ortodoncia");
-		Appointment app = new Appointment("consult", 5, d, p);
-		
-		
-		try {
-			//appointmentManager.addAppointment(app); 
-			//appointmentManager.listofAppointments(p.getId()); 
-			//appointmentManager.deleteAppointment(app.getId()); 
-			appointmentManager.searchAppointmentById(app.getId());
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}
 	}
 }

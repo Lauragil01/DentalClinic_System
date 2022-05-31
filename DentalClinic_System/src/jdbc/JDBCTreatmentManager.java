@@ -41,7 +41,7 @@ public class JDBCTreatmentManager implements TreatmentManager {
 		String sql = "SELECT * FROM treatments WHERE patient_treat = ?";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setInt(1, patientId);
-		ResultSet rs = prep.executeQuery(sql);
+		ResultSet rs = prep.executeQuery();
 		List <Treatment> treatments = new ArrayList<Treatment>();
 		while (rs.next()) {
 			int id = rs.getInt("treatmentId");
@@ -110,7 +110,7 @@ public class JDBCTreatmentManager implements TreatmentManager {
 	}
 	
 	@Override
-	public void editTreatmentsName(String name, int treatmentId) throws SQLException { //No funciona 
+	public void editTreatmentsName(String name, int treatmentId) throws SQLException { //Checked 
 		String sql = "UPDATE treatments SET name = ? WHERE treatmentId = ?";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setString(1, name);
@@ -127,8 +127,8 @@ public class JDBCTreatmentManager implements TreatmentManager {
 		prep.setInt(2, treatmentId);
 		prep.executeUpdate();
 		prep.close();
-		
 	}
+	
 	@Override
 	public void editTreatmentsFinishDate(Date finish, int treatmentId) throws SQLException {
 		String sql = "UPDATE patient SET finishDate = ? WHERE treatmentId = ?";
@@ -136,9 +136,6 @@ public class JDBCTreatmentManager implements TreatmentManager {
 		prep.setDate(1,finish);
 		prep.setInt(2, treatmentId);
 		prep.executeUpdate();
-		prep.close();
-		
+		prep.close();	
 	}
-	
-
 }

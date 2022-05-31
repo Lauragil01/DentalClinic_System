@@ -48,6 +48,19 @@ public class Treatment implements Serializable {
 		this.finishDate = finishDate;
 		this.patient = patient;
 	}
+	
+	public Treatment(Integer id, String name, String diagnosis, Integer consultDuration, Date startDate, Date finishDate,
+			List<Medication> medications) {
+		super();
+		this.treatmentId = id;
+		this.name = name;
+		this.diagnosis = diagnosis;
+		this.consultDuration = consultDuration;
+		this.startDate = startDate;
+		this.finishDate = finishDate;
+		this.medications = medications;
+	}
+	
 	public Treatment(String name, String diagnosis, Integer consultDuration, Date startDate, Date finishDate,
 			Patient p) {
 		super();

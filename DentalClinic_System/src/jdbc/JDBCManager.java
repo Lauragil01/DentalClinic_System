@@ -2,6 +2,7 @@ package jdbc;
 
 import java.sql.Connection;
 import java.sql.Date;
+import java.sql.Time;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -152,6 +153,7 @@ public class JDBCManager {
 			
 			Date date1 = new Date(2, 1, 2);
 			Date date2 = new Date(2, 1, 2);
+			Time time = new Time(1, 1, 1);
 			JPAUserManager jpam = new JPAUserManager();
 			
 			Dentist d1 = new Dentist(1,"Paco", "Garcia", "tarde", "ortodoncia");
@@ -179,7 +181,7 @@ public class JDBCManager {
 			Allergy a4 = new Allergy("cat hair");
 			
 			//Appointment ap1 = new Appointment(1, date2, "Consult", 30,null);
-			Appointment ap2 = new Appointment(1, date1, "Consult 2", 30, null, d2);
+			Appointment ap2 = new Appointment(1, date1, "Consult 2", 30, time, d2);
 			
 
 			List<Medication> meds = new ArrayList<Medication>();
@@ -189,10 +191,39 @@ public class JDBCManager {
 			List<Dentist> dentistsfound = new ArrayList<Dentist>();
 			
 			try {
-				ap.addAppointment(ap2);
+				/*meds.add(m);
+				t2.setMedications(meds);
+				tm.addTreatment(t2);
+				System.out.println(mm.listofMedications(t2.getId()));
+				
+				treats.add(t2);
+				p1.setTreatments(treats);
+				pm.addPatient(p1);
+				System.out.println(tm.listofTreatments(p1.getId()));*/
+				
+				/*pm.addPatient(p2);
+				dm.addDentist(d1);
+				dm.addDentist(d2);
+				dm.assignDentistPatient(d1.getId(), p2.getId());
+				dm.assignDentistPatient(d2.getId(), p2.getId());
+				System.out.println(dm.getDentistsOfPatient(p2.getId()));*/
+				
+				/*dm.addDentist(d4);
+				pm.addPatient(p4);
+				pm.addPatient(p3);
+				dm.assignDentistPatient(p4.getId(), d4.getId());
+				dm.assignDentistPatient(p3.getId(), d4.getId());
+				System.out.println(pm.getPatientsOfDentist(d4.getId()));*/
+
+				/*am.addAllergy(a4);
+				am.addAllergy(a2);
+				pm.addPatient(p3);
+				am.assignAllergyPatient(a4.getAllergyId(), p3.getId());
+				am.assignAllergyPatient(a2.getAllergyId(), p3.getId());
+				System.out.println(am.getAllergiesFromPatient(p3.getId()));*/
+
 			}catch(SQLException e) {
 				e.printStackTrace();
 			}
-			
 		}
 }
