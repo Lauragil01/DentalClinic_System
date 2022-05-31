@@ -93,7 +93,7 @@ public class JDBCDentistManager implements DentistManager {
 			
 			d = new Dentist(id,name,surname, turn, specialty);
 			d.setPatients(patientmanager.getPatientsOfDentist(id));
-			d.setAppointments(appointmentmanager.listofAppointments_Dentist(id));
+			d.setAppointments(appointmentmanager.listofAppointments(id,0));
 			dentists.add(d);		
 		}
 		prep.close();
@@ -116,7 +116,7 @@ public class JDBCDentistManager implements DentistManager {
 			String specialty = rs.getString("specialty");
 			d = new Dentist(id,name,surname, turn, specialty);
 			d.setPatients(patientmanager.getPatientsOfDentist(id));
-			d.setAppointments(appointmentmanager.listofAppointments_Dentist(id));
+			d.setAppointments(appointmentmanager.listofAppointments(id,0));
 			dentists.add(d);		
 		}
 		prep.close();
@@ -138,7 +138,7 @@ public class JDBCDentistManager implements DentistManager {
 			String specialty = rs.getString("specialty");
 			d = new Dentist(dentistId, name, surname, turn, specialty);
 			d.setPatients(patientmanager.getPatientsOfDentist(dentistId));
-			d.setAppointments(appointmentmanager.listofAppointments_Dentist(dentistId));		
+			d.setAppointments(appointmentmanager.listofAppointments(dentistId,0));		
 		}
 		prep.close();
 		rs.close();
@@ -165,7 +165,7 @@ public class JDBCDentistManager implements DentistManager {
 		prep.close();
 	}
 
-	@Override
+	/*@Override NO UTILIZAR QUE SI NO ES UNA MOVIDA
 	public void editDentistsTurn(String turn, int dentistId) throws SQLException { //Checked
 		String sql = "UPDATE dentists SET turn=? WHERE dentistId = ?";
 		PreparedStatement prep= manager.getConnection().prepareStatement(sql);
@@ -173,7 +173,7 @@ public class JDBCDentistManager implements DentistManager {
 		prep.setInt(2,  dentistId);
 		prep.executeUpdate();
 		prep.close();
-	}
+	}*/
 	
 	@Override
 	public void editDentistsSpecialty(String specialty, int dentistId) throws SQLException { //Checked

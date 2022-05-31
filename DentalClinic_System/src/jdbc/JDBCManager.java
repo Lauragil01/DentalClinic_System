@@ -190,7 +190,7 @@ public class JDBCManager {
 			List<Allergy> allergies = new ArrayList<Allergy>();
 			List<Dentist> dentistsfound = new ArrayList<Dentist>();
 			
-			try {
+			/*try {
 				/*meds.add(m);
 				t2.setMedications(meds);
 				tm.addTreatment(t2);
@@ -220,10 +220,10 @@ public class JDBCManager {
 				pm.addPatient(p3);
 				am.assignAllergyPatient(a4.getAllergyId(), p3.getId());
 				am.assignAllergyPatient(a2.getAllergyId(), p3.getId());
-				System.out.println(am.getAllergiesFromPatient(p3.getId()));*/
+				System.out.println(am.getAllergiesFromPatient(p3.getId()));
 
 			}catch(SQLException e) {
 				e.printStackTrace();
-			}
+			}*/
 		}
 }

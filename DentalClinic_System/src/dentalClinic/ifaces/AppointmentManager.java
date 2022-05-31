@@ -10,8 +10,6 @@ public interface AppointmentManager {
 	
 	public void addAppointment (Appointment a) throws SQLException;
 	
-	public List<Appointment> listofAppointments_Patient(int patientId) throws SQLException;
-	
 	public List<Appointment> listofAppointments(int dentistId, int patientId) throws SQLException;
 	
 	public void deleteAppointment(int appointmentId) throws SQLException;

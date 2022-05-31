@@ -167,20 +167,30 @@ public class Menu {
 	
 	private static void dentistMenu(User user) throws Exception {
 		sc = new Scanner (System.in);
-		Dentist dentist = new Dentist(dentistManager.getDentistByUserId(user.getId()));
+		Dentist dentist = dentistManager.getDentistByUserId(user.getId());
+		
+		System.out.println("Mr/Mrs" + dentist.getName()+ " "+ dentist.getSurname()+ "profile :");
+		System.out.println(dentist);
+		
 		do{ 
-			System.out.println("1. See my patients");
-			System.out.println("2. Consult my appointments");
+			
+			System.out.println("1. Modify my profile");
+			System.out.println("2. Check my patients");
+			System.out.println("3. Consult my appointments");
 			System.out.println("0. Exit");
 			int choice = Integer.parseInt(reader.readLine());;
 			
 			switch (choice) {
 			case 1:
-				PatientsList(dentist.getId());
+				ModifyDentistInfo(dentist);
+				break;
+				
+			case 2:
+				PatientsofDentist(dentist.getId()); 
 				break;
 					
-			case 2:
-				DentistAppointments(dentist);
+			case 3:
+				ListofAppointments(user);
 				break;
 					
 			case 0:
@@ -196,26 +206,238 @@ public class Menu {
 
 	}
 	
-	private static void PatientsList(Integer dentistId) throws SQLException {
+	private static void ModifyDentistInfo(Dentist dentist) throws IOException, SQLException {
+		do {	
+			System.out.println("1.Name");
+			System.out.println("2.Surname");
+			System.out.println("3.Specialty");
+			System.out.println("0.Return");
+			
+			int choice = Integer.parseInt(reader.readLine());;
+		
+			switch (choice) {
+				case 1:{
+					System.out.println("New name:");
+					String newName= reader.readLine();
+					dentistManager.editDentistsName(newName, dentist.getId());	
+					break;
+				}
+				case 2:{
+					System.out.println("New Surname:");
+					String newSurname= reader.readLine();
+					dentistManager.editDentistSurname(newSurname, dentist.getId());	
+					break;
+				}
+				case 3:{
+					System.out.println("New specialty:");
+					String newSpecialty= reader.readLine();
+					dentistManager.editDentistsSpecialty(newSpecialty, dentist.getId());	
+					break;
+				}
+				default:
+					System.out.println("Please, choose a valid option.");
+					break;	
+				case 0:
+					return;
+		    }
+		} while(true);
+		
+	}
+
+	private static void ListofAppointments(User u) throws Exception {
+		
+		if(u.getRole().getName().equalsIgnoreCase("patient")){
+			Patient patient = patientManager.getPatientByUserId(u.getId());
+			appointmentManager.listofAppointments(0, patient.getId());
+			System.out.println("1. Add appointment");
+			System.out.println("2. Delete appointment");
+			int choice = Integer.parseInt(reader.readLine());
+			switch (choice) {
+				case 1:{
+					//POR HACER
+					break;
+				}
+						
+				case 2:{
+					
+					break;
+				}
+				default:
+					System.out.println("Please, choose a valid option.");
+					break;
+			}
+		}
+		
+		if(u.getRole().getName().equalsIgnoreCase("dentist")){
+			Dentist dentist = dentistManager.getDentistByUserId(u.getId());
+			appointmentManager.listofAppointments(dentist.getId(), 0);
+		}
+		
+	}	
+	
+	private static void PatientsofDentist(Integer dentistId) throws SQLException, NumberFormatException, IOException {
+		
+		System.out.println("List all my patients");
 		List<Patient> patients = new ArrayList<Patient>();
 		patients = patientManager.getPatientsOfDentist(dentistId);
-		System.out.println(patients);
+		System.out.println(patients);	
+		
+		do{ 
+			System.out.println("1. Search for a patient by Id");
+			System.out.println("2. Search for a patient by name");
+			System.out.println("3. Search for a patient by surname");
+			System.out.println("0. Exit");
+			int choice = Integer.parseInt(reader.readLine());
+			Patient patient = null;
+			switch (choice) {
+				case 1:{
+					System.out.println("Introduce the Id of the patient:");
+					int patientId = Integer.parseInt(reader.readLine());
+					patient = patientManager.searchPatientById(patientId);
+					break;
+				}
+						
+				case 2:{
+					System.out.println("Introduce the name of the patient:");
+					String name = reader.readLine();
+					patients = patientManager.searchPatientbyName(name);
+					break;
+				}
+				case 3:{
+					System.out.println("Introduce the surname of the patient:");
+					String surname = reader.readLine();
+					patients = patientManager.searchPatientbySurname(surname);
+					break;
+				}		
+				case 0:
+					System.exit(0);
+					
+				default:
+					System.out.println("Please, choose a valid option.");
+					break;
+			}
+			//Only if you search a patient by id
+			if (patient != null) {
+				System.out.println("Mr/Mrs" + patient.getName() + "information :");
+				System.out.println(patient);
+				System.out.println("1. Consult treatments");
+				System.out.println("2. Modify information");
+				int choice2 = Integer.parseInt(reader.readLine());
+				switch (choice) {
+				case 1:
+					ConsultTreatments(patient, 1);
+					break;
+						
+				case 2:
+					ModifyPatientInfo(patient, 1);
+					break;
+						
+				case 0:
+					System.exit(0);
+					
+				default:
+					System.out.println("Please, choose a valid option.");
+					break;
+			    }
+			}
+			
+		}
+		while(true);
+		
+		
+	}
+	// choosedentist is for functions that only dentists can do
+	private static void ConsultTreatments(Patient patient, int choosedentist) throws NumberFormatException, IOException {
+		System.out.println("Patient " + patient.getName() + " " + patient.getSurname() + " treatments :");
+		System.out.println(patient.getTreatments());
+		Treatment t = null;
+		List<Treatment> treatments = new ArrayList<Treatment>();
+		
+		System.out.println("1. Search for a treatment by its id");
+		System.out.println("2. Search for a treatment by its name");
+		
+		
+		if(choosedentist == 1) {
+			System.out.println("1. Add treatment");
+			System.out.println("2. Delete treatment");
+			
+			int choice = Integer.parseInt(reader.readLine());
+			switch (choice) {
+				case 1:
+					AddTreatment();
+					break;
+						
+				case 2:
+					DeleteTreatment();
+					break;
+			}
+		}
 		
 	}
 	
-	private static void DentistAppointments (Dentist dentist) throws Exception {
-		
-		ListofAppointments();
-		System.out.println("0. Return");
-		int choice = Integer.parseInt(reader.readLine());;
-		
-		while(choice != 0) {
-			System.out.println("Please, choose a valid option.");
-			choice= Integer.parseInt(reader.readLine());
-		}
-			return;
+	private static void DeleteTreatment() {
+		// TODO Auto-generated method stub
 		
 	}
+
+	private static void AddTreatment() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private static void ModifyPatientInfo(Patient patient, int choosedentist) throws NumberFormatException, IOException, SQLException {
+		do {	
+			System.out.println("1.Name");
+			System.out.println("2.Surname");
+			System.out.println("3.Gender");
+			System.out.println("4.Adress");
+			if(choosedentist == 1) System.out.println("5.Background");
+			System.out.println("0.Return");
+			
+			int choice = Integer.parseInt(reader.readLine());;
+		
+			switch (choice) {
+				case 1:{
+					System.out.println("New name:");
+					String newName= reader.readLine();
+					patientManager.editPatientsName(newName, patient.getId());		
+					break;
+				}
+				case 2:{
+					System.out.println("New Surname:");
+					String newSurname= reader.readLine();
+					patientManager.editPatientsSurname(newSurname, patient.getId());	
+					break;
+				}
+				case 3:{
+					System.out.println("New gender:");
+					String newGender= reader.readLine();
+					patientManager.editPatientsGender(newGender, patient.getId());	
+					break;
+				}
+				case 4:{
+					System.out.println("New adress:");
+					String newAdress= reader.readLine();
+					patientManager.editPatientsAddress(newAdress, patient.getId());
+					break;
+				}
+				case 5:{
+					if (choosedentist == 1) {
+						System.out.println("New background:");
+						String newBackground= reader.readLine();
+						patientManager.editPatientsBackground(newBackground, patient.getId());
+					}
+				}
+				default:
+					System.out.println("Please, choose a valid option.");
+					break;	
+				case 0:
+					return;
+		    }
+		} while(true);
+		
+	}
+
 
 	private static void patientMenu(User user) throws Exception {
 		sc = new Scanner (System.in);
@@ -230,7 +452,7 @@ public class Menu {
 				PatientProfile(patient);
 				break;				
 			case 2:
-				PatientAppointments(patient);	
+				ListofAppointments(user);
 				break;				
 			case 0:
 				System.exit(0);
@@ -248,7 +470,10 @@ public class Menu {
 		sc = new Scanner (System.in);
 		do{ 
 			
-			PatientInformation(patient);
+			System.out.println(patient);
+			System.out.println("Mr/Mrs " + patient.getName() + " " +patient.getSurname() + " allergies: ");
+			System.out.println(patient.getAllergies());	
+			
 			System.out.println("1. Modify profile information");
 			System.out.println("2. Consult my treatments");
 			System.out.println("3. Add an allergy");
@@ -262,10 +487,10 @@ public class Menu {
 			}
 			switch (choice) {
 			case 1:
-				ModifyInformation(patient);
+				ModifyPatientInfo(patient, 0);
 				break;				
 			case 2:
-				ConsultTreatments(patient);	
+				ConsultTreatments(patient, 0);	//choosedentist = 0 as only dentists can modify
 				break;
 			case 3:
 				AddAllergy(patient);
@@ -287,64 +512,6 @@ public class Menu {
 		while(true);
 	}
 	
-	private static void PatientInformation (Patient p) throws Exception {
-		System.out.println(p);
-		System.out.println("Patient " + p.getName() + " " +p.getSurname() + " allergies: ");
-		System.out.println(p.getAllergies());	
-	}
-
-	private static void ModifyInformation(Patient patient) throws NumberFormatException, IOException {
-		System.out.println("1.Name");
-		System.out.println("2.Surname");
-		System.out.println("3.Gender");
-		System.out.println("4.Birth Date");
-		System.out.println("5.Adress");
-		System.out.println("0.Return");
-		int choice = Integer.parseInt(reader.readLine());;
-		
-		while(choice > 5 || choice < 0) {
-			System.out.println("Please, choose a valid option.");
-			choice= Integer.parseInt(reader.readLine());
-		}
-		switch (choice) {
-		case 1:
-			System.out.println("New name:");
-			String newName= reader.readLine();
-			patient.setName(newName);			
-			break;				
-		case 2:
-			System.out.println("New Surname:");
-			String newSurname= reader.readLine();
-			patient.setSurname(newSurname);
-			break;
-		case 3:
-			System.out.println("New gender:");
-			String newGender= reader.readLine();
-			patient.setGender(newGender);
-			break;
-		case 4:
-			System.out.println("New Birth Date (year-month-day):");
-			String string=reader.readLine();
-		    Date date=Date.valueOf(string);
-			patient.setBithDate(date);
-			break;
-		case 5:
-			System.out.println("New adress:");
-			String newAdress= reader.readLine();
-			patient.setAddress(newAdress);
-			break;	
-		case 0:
-			return;
-				
-		}
-		
-	}
-
-	private static void ConsultTreatments(Patient patient) {
-		System.out.println("Patient " + patient.getName() + " " + patient.getSurname() + " treatments :");
-		System.out.println(patient.getTreatments());
-		//Misma pantalla para patients y dentists???
-	}
 	
 	private static void ListofTreatments(Integer id) {
 		// TODO Auto-generated method stub
@@ -366,53 +533,7 @@ public class Menu {
 	private static void DeleteAllergy(Patient patient) {
 		// TODO Auto-generated method stub
 		
-	}
-
-	private static void PatientAppointments(Patient patient) throws Exception{
-		sc = new Scanner (System.in);
-		do{ 		
-			ListofAppointments(patient.getId());
-			System.out.println("1. Add an appointment");
-			System.out.println("2. Delete an appointment");
-			System.out.println("0. Return");
-			int choice = Integer.parseInt(reader.readLine());;
-		
-			while(choice > 2 || choice < 0) {
-				System.out.println("Please, choose a valid option.");
-				choice= Integer.parseInt(reader.readLine());
-			}
-			switch (choice) {
-			case 1:
-				AddAppointment(patient);
-				break;				
-			case 2:
-				DeleteAppointment(patient);	
-				break;				
-			case 0:
-				return;			
-			}
-		}
-		while(true);
-	}
-	
-	private static void ListofAppointments(User u) throws Exception {
-		
-		if(u.getRole().getName().equalsIgnoreCase("patient")){
-			Patient patient = patientManager.getPatientByUserId(u.getId());
-			appointmentManager.listofAppointments(0, patient.getId());
-		}
-		
-		if(u.getRole().getName().equalsIgnoreCase("dentist")){
-			Dentist dentist = dentistManager.getDentistByUserId(u.getId());
-			appointmentManager.listofAppointments(dentist.getId(), 0);
-		}
-		
 	}	
-		
-	private static void ListofAppointments(int id) throws Exception{
-		// TODO Auto-generated method stub
-		
-	}
 	
 	private static void AddAppointment(Patient p) throws Exception{
 		// TODO Auto-generated method stub
