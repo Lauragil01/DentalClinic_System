@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Dentist>
+<Dentist dentistId="1" dentistName="Pablo" dentistSurname="Garcia">
     <Appointments>
-        <Appointment>
+        <Appointment appointmentId="1">
             <date>2022-06-07</date>
             <duration>30</duration>
             <time>17:00:00</time>
@@ -11,7 +11,7 @@
             	<surname>Puente</surname>
        	 	</Patient>
         </Appointment>
-        <Appointment>
+        <Appointment appointmentId="2">
             <date>2022-06-09</date>
             <duration>30</duration>
             <time>18:30:00</time>
@@ -21,7 +21,7 @@
             	<surname>Defarges</surname>
        	 	</Patient>
         </Appointment>
-        <Appointment>
+        <Appointment appointmentId="3">
             <date>2022-06-10</date>
             <duration>15</duration>
             <time>15:15:00</time>
@@ -31,7 +31,7 @@
             	<surname>Chillon</surname>
        	 	</Patient>
         </Appointment>
-        <Appointment>
+        <Appointment appointmentId="4">
             <date>2022-06-11</date>
             <duration>30</duration>
             <time>12:00:00</time>

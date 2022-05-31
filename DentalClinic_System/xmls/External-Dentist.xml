@@ -1,46 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Dentists>
-    <Dentist dentistId="1" dentistName="Rodrigo" dentistSurname="Garcia" turn="morning" speciality="">
+    <Dentist dentistId="1" dentistName="Pablo" dentistSurname="Garcia" turn="morning" speciality="">
         <Appointments>
             <Appointment>
             <date>2022-06-07</date>
             <duration>30</duration>
             <time>17:00:00</time>
-            <Patient>
-            	<patientId>01</patientId>
-            	<name>Carlota</name>
-            	<surname>Puente</surname>
-       	 	</Patient>
         </Appointment>
         <Appointment>
             <date>2022-06-09</date>
             <duration>30</duration>
             <time>18:30:00</time>
-            <Patient>
-            	<patientId>02</patientId>
-            	<name>Maria</name>
-            	<surname>Defarges</surname>
-       	 	</Patient>
         </Appointment>
         <Appointment>
             <date>2022-06-10</date>
             <duration>15</duration>
             <time>15:15:00</time>
-            <Patient>
-            	<patientId>03</patientId>
-            	<name>Jorge</name>
-            	<surname>Chillon</surname>
-       	 	</Patient>
         </Appointment>
         <Appointment>
             <date>2022-06-11</date>
             <duration>30</duration>
             <time>12:00:00</time>
-            <Patient>
-            	<patientId>04</patientId>
-            	<name>Laura</name>
-            	<surname>Gil</surname>
-       	 	</Patient>
         </Appointment>
         </Appointments>
     </Dentist>
