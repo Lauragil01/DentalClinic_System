@@ -30,7 +30,7 @@ public interface DentistManager {
 	
 	public void editDentistSurname (String surname, int dentistId) throws SQLException;
 	
-	public void editDentistsTurn (String turn, int dentistId) throws SQLException;
+	//public void editDentistsTurn (String turn, int dentistId) throws SQLException;
 	
 	public void editDentistsSpecialty(String specialty, int dentistId) throws SQLException;
 	

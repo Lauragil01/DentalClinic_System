@@ -275,9 +275,9 @@ public class Menu {
 		
 	}	
 	
-	private static void PatientsofDentist(Integer dentistId) throws SQLException, NumberFormatException, IOException {
+	private static void PatientsofDentist(Integer dentistId) throws Exception {
 		
-		System.out.println("List all my patients");
+		System.out.println("---List of my patients---");
 		List<Patient> patients = new ArrayList<Patient>();
 		patients = patientManager.getPatientsOfDentist(dentistId);
 		System.out.println(patients);	
@@ -323,7 +323,7 @@ public class Menu {
 				System.out.println("1. Consult treatments");
 				System.out.println("2. Modify information");
 				int choice2 = Integer.parseInt(reader.readLine());
-				switch (choice) {
+				switch (choice2) {
 				case 1:
 					ConsultTreatments(patient, 1);
 					break;
@@ -347,7 +347,7 @@ public class Menu {
 		
 	}
 	// choosedentist is for functions that only dentists can do
-	private static void ConsultTreatments(Patient patient, int choosedentist) throws NumberFormatException, IOException {
+	private static void ConsultTreatments(Patient patient, int choosedentist) throws Exception {
 		System.out.println("Patient " + patient.getName() + " " + patient.getSurname() + " treatments :");
 		System.out.println(patient.getTreatments());
 		Treatment t = null;
@@ -364,7 +364,7 @@ public class Menu {
 			int choice = Integer.parseInt(reader.readLine());
 			switch (choice) {
 				case 1:
-					AddTreatment();
+					AddTreatment(patient);
 					break;
 						
 				case 2:
@@ -374,15 +374,70 @@ public class Menu {
 		}
 		
 	}
-	
-	private static void DeleteTreatment() {
-		// TODO Auto-generated method stub
-		
-	}
 
-	private static void AddTreatment() {
-		// TODO Auto-generated method stub
-		
+	private static void AddTreatment(Patient p) throws IOException, Exception {
+		System.out.println("Name: ");
+		String name = reader.readLine();
+		System.out.println("Diagnosis: ");
+		String diagnosis = reader.readLine();
+		System.out.println("Start date year-month-day: ");
+		Date startDate = null;
+		try {
+			startDate = Date.valueOf(sc.next());
+		}
+		catch (Exception e) {
+			startDate = null;
+		}
+		while(startDate == null) {
+			System.out.println("Please introduce a valid date: ");
+			try {
+			startDate = Date.valueOf(sc.next());
+			}
+			catch (Exception e1) {
+				startDate = null;
+			}
+		}
+		System.out.println("Finish date year-month-day: ");
+		Date finishDate = null;
+		try{
+			finishDate = Date.valueOf(sc.next());
+		}
+		catch(Exception e2) {
+			finishDate = null;
+		}
+		while(finishDate == null || startDate.after(finishDate)) { //la startDate no puede ser despues que la finishDate
+			System.out.println("Please introduce a valid date: ");
+			try {
+			finishDate = Date.valueOf(sc.next());
+			}
+			catch (Exception e1) {
+				finishDate = null;
+			}
+		}
+		Treatment treat = new Treatment(name, diagnosis, startDate, finishDate, p);
+		treatmentManager.addTreatment(treat);
+	}
+	
+	private static void DeleteTreatment() throws NumberFormatException, IOException {
+		System.out.println("Introduce the ID of the treatment you want to delete: ");
+		int id = Integer.parseInt(reader.readLine());
+		int a = 1;
+		try{
+			treatmentManager.deleteTreatment(id);
+		}
+		catch(SQLException e) {
+			a = 0;
+		}
+		while(a == 0) {
+			try {
+				System.out.println("Introduce a valid ID: ");
+				id = Integer.parseInt(reader.readLine());
+				treatmentManager.deleteTreatment(id);
+			}
+			catch (SQLException e2) {
+				a = 0;
+			}
+		}	
 	}
 
 	private static void ModifyPatientInfo(Patient patient, int choosedentist) throws NumberFormatException, IOException, SQLException {
@@ -477,14 +532,10 @@ public class Menu {
 			System.out.println("1. Modify profile information");
 			System.out.println("2. Consult my treatments");
 			System.out.println("3. Add an allergy");
-			System.out.println("4. Edit an allergy");
-			System.out.println("5. Delete an allergy");
+			System.out.println("4. Delete an allergy");
 			System.out.println("0. Return");
-			int choice = Integer.parseInt(reader.readLine());;
-			while(choice > 5 || choice < 0) {
-				System.out.println("Please, choose a valid option.");
-				choice= Integer.parseInt(reader.readLine());
-			}
+			int choice = Integer.parseInt(reader.readLine());
+			
 			switch (choice) {
 			case 1:
 				ModifyPatientInfo(patient, 0);
@@ -496,9 +547,6 @@ public class Menu {
 				AddAllergy(patient);
 				break;
 			case 4:
-				EditAllergy(patient);
-				break;
-			case 5:
 				DeleteAllergy(patient);
 				break;	
 			case 0:
@@ -519,20 +567,35 @@ public class Menu {
 		
 	}
 
-	private static void AddAllergy(Patient patient) {
-		// TODO Auto-generated method stub
-		
-		
+	private static void AddAllergy(Patient patient) throws IOException, SQLException {
+		System.out.println("Name: ");
+		String name = reader.readLine();
+		System.out.println("Diagnosis: ");
+		Allergy allergy = new Allergy(name);
+		//ASSIGN ???
+		allergyManager.addAllergy(allergy);
 	}
-	
-	private static void EditAllergy(Patient patient) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	private static void DeleteAllergy(Patient patient) {
-		// TODO Auto-generated method stub
-		
+
+	private static void DeleteAllergy(Patient patient) throws NumberFormatException, IOException {
+		System.out.println("Introduce the ID of the allergy you want to delete: ");
+		int id = Integer.parseInt(reader.readLine());
+		int a = 1;
+		try{
+			allergyManager.deleteAllergy(id);;
+		}
+		catch(SQLException e) {
+			a = 0;
+		}
+		while(a == 0) {
+			try {
+				System.out.println("Introduce a valid ID: ");
+				id = Integer.parseInt(reader.readLine());
+				allergyManager.deleteAllergy(id);
+			}
+			catch (SQLException e2) {
+				a = 0;
+			}
+		}
 	}	
 	
 	private static void AddAppointment(Patient p) throws Exception{
@@ -541,8 +604,26 @@ public class Menu {
 		
 	}
 	
-	private static void DeleteAppointment(Patient p) throws Exception{
-		// TODO Auto-generated method stub
+	private static void DeleteAppointment() throws Exception{
+		System.out.println("Introduce the ID of the appointment you want to delete: ");
+		int id = Integer.parseInt(reader.readLine());
+		int a = 1;
+		try{
+			appointmentManager.deleteAppointment(id);
+		}
+		catch(SQLException e) {
+			a = 0;
+		}
+		while(a == 0) {
+			try {
+				System.out.println("Introduce a valid ID: ");
+				id = Integer.parseInt(reader.readLine());
+				appointmentManager.deleteAppointment(id);
+			}
+			catch (SQLException e2) {
+				a = 0;
+			}
+		}
 	}
 	
 

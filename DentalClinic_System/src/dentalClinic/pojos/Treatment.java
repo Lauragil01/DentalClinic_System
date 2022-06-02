@@ -15,7 +15,7 @@ public class Treatment implements Serializable {
 	private Integer treatmentId;
 	private String name;
 	private String diagnosis;
-	private Integer consultDuration;
+	private Integer consultDuration; //Para que
 	private Date startDate;
 	private Date finishDate;
 	//many to one relationship
@@ -27,7 +27,6 @@ public class Treatment implements Serializable {
 		setMedications(new ArrayList<Medication>());
 	}
 	public Treatment(int id, String name, String diagnosis, int duration , Date startDate, Date finishDate){
-		//La startDate no puede ser despues que la finishDate --> exception
 		super();
 		setId(id);
 		setName(name);
@@ -37,13 +36,10 @@ public class Treatment implements Serializable {
 		this.finishDate = finishDate;
 	}
 	
-	public Treatment(Integer id, String name, String diagnosis, Integer consultDuration, Date startDate, Date finishDate,
-			Patient patient) {
+	public Treatment(String name, String diagnosis, Date startDate, Date finishDate, Patient patient) {
 		super();
-		this.treatmentId = id;
 		this.name = name;
 		this.diagnosis = diagnosis;
-		this.consultDuration = consultDuration;
 		this.startDate = startDate;
 		this.finishDate = finishDate;
 		this.patient = patient;
