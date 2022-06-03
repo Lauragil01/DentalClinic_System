@@ -243,38 +243,75 @@ public class Menu {
 		} while(true);
 		
 	}
-
+	//MODIFICAR PARA QUE SALGAN LOS APPOINTMENTS LIBRES A LA HORA DE AÑADIR
 	private static void ListofAppointments(User u) throws Exception {
-		
+		Patient patient = null;
+		Dentist dentist = null;
 		if(u.getRole().getName().equalsIgnoreCase("patient")){
-			Patient patient = patientManager.getPatientByUserId(u.getId());
+			patient = patientManager.getPatientByUserId(u.getId());
 			appointmentManager.listofAppointments(0, patient.getId());
+		}
+		
+		if(u.getRole().getName().equalsIgnoreCase("dentist")){
+			dentist = dentistManager.getDentistByUserId(u.getId());
+			appointmentManager.listofAppointments(dentist.getId(), 0);
+		}
+		do {
 			System.out.println("1. Add appointment");
 			System.out.println("2. Delete appointment");
+			System.out.println("0. Return");
 			int choice = Integer.parseInt(reader.readLine());
 			switch (choice) {
 				case 1:{
-					//POR HACER
+					if (dentist == null)
+					AddAppointment(patient, null);
+					if (patient == null)
+						AddAppointment(null, dentist);
 					break;
 				}
 						
 				case 2:{
-					
+					System.out.println("Introduce the ID of the appointment you want to delete");
+					DeleteAppointment();
 					break;
 				}
+				case 0:
+					return;
 				default:
 					System.out.println("Please, choose a valid option.");
 					break;
+				
 			}
 		}
-		
-		if(u.getRole().getName().equalsIgnoreCase("dentist")){
-			Dentist dentist = dentistManager.getDentistByUserId(u.getId());
-			appointmentManager.listofAppointments(dentist.getId(), 0);
-		}
-		
+		while(true);	
 	}	
 	
+	private static void AddAppointment(Patient patient, Dentist dentist) {
+		// TODO Auto-generated method stub
+		
+	}
+	private static void DeleteAppointment() throws Exception{
+		System.out.println("Introduce the ID of the appointment you want to delete: ");
+		int id = Integer.parseInt(reader.readLine());
+		int a = 1;
+		try{
+			appointmentManager.deleteAppointment(id);
+		}
+		catch(SQLException e) {
+			a = 0;
+		}
+		while(a == 0) {
+			try {
+				System.out.println("Introduce a valid ID: ");
+				id = Integer.parseInt(reader.readLine());
+				appointmentManager.deleteAppointment(id);
+			}
+			catch (SQLException e2) {
+				a = 0;
+			}
+		}
+	}
+
 	private static void PatientsofDentist(Integer dentistId) throws Exception {
 		
 		System.out.println("---List of my patients---");
@@ -318,27 +355,7 @@ public class Menu {
 			}
 			//Only if you search a patient by id
 			if (patient != null) {
-				System.out.println("Mr/Mrs" + patient.getName() + "information :");
-				System.out.println(patient);
-				System.out.println("1. Consult treatments");
-				System.out.println("2. Modify information");
-				int choice2 = Integer.parseInt(reader.readLine());
-				switch (choice2) {
-				case 1:
-					ConsultTreatments(patient, 1);
-					break;
-						
-				case 2:
-					ModifyPatientInfo(patient, 1);
-					break;
-						
-				case 0:
-					System.exit(0);
-					
-				default:
-					System.out.println("Please, choose a valid option.");
-					break;
-			    }
+				PatientProfile(patient, 1); //choosedentist is 1
 			}
 			
 		}
@@ -346,35 +363,201 @@ public class Menu {
 		
 		
 	}
-	// choosedentist is for functions that only dentists can do
-	private static void ConsultTreatments(Patient patient, int choosedentist) throws Exception {
-		System.out.println("Patient " + patient.getName() + " " + patient.getSurname() + " treatments :");
-		System.out.println(patient.getTreatments());
-		Treatment t = null;
-		List<Treatment> treatments = new ArrayList<Treatment>();
-		
-		System.out.println("1. Search for a treatment by its id");
-		System.out.println("2. Search for a treatment by its name");
-		
-		
-		if(choosedentist == 1) {
-			System.out.println("1. Add treatment");
-			System.out.println("2. Delete treatment");
+	private static void PatientProfile(Patient patient, int dentistoptions) throws Exception {
+		sc = new Scanner (System.in);
+		do{ 
 			
+			System.out.println(patient);
+			System.out.println("Mr/Mrs " + patient.getName() + " " +patient.getSurname() + " allergies: ");
+			System.out.println(patient.getAllergies());	
+			
+			System.out.println("1. Modify profile information");
+			System.out.println("2. Consult treatments");
+			if (dentistoptions == 1) {
+				System.out.println("3. Add an allergy");
+				System.out.println("4. Delete an allergy");
+			}
+			System.out.println("0. Return");
 			int choice = Integer.parseInt(reader.readLine());
+			
 			switch (choice) {
-				case 1:
-					AddTreatment(patient);
-					break;
-						
-				case 2:
-					DeleteTreatment();
-					break;
+			case 1:
+				ModifyPatientInfo(patient, dentistoptions);
+				break;				
+			case 2:
+				ConsultTreatments(patient, dentistoptions);
+				break;	
+			case 3:
+				if (dentistoptions == 1) 
+				AddAllergy(patient);
+				break;
+			case 4:
+				if (dentistoptions == 1) 
+				DeleteAllergy(patient);
+				break;
+			case 0:
+				return;
+			default:
+				System.out.println("Please, choose a valid option.");
+				break;
+					
 			}
 		}
+		while(true);
+	}
+	// dentistoptions is for options that only dentists can do
+	private static void ConsultTreatments(Patient patient, int dentistoptions) throws Exception {
+		Treatment treatment = null;
+		List<Treatment> treatments = new ArrayList<Treatment>();
+		List<Treatment> treats = null;
+		System.out.println("Patient " + patient.getName() + " " + patient.getSurname() + " treatments :");
+		System.out.println(patient.getTreatments());
+		
+		do{
+			System.out.println("1. Search for a treatment by its id");
+			System.out.println("2. Search for a treatment by its name");
+		
+			if(dentistoptions == 1) {
+				System.out.println("3. Add treatment");
+				System.out.println("4. Delete treatment");
+			}	
+			int choice = Integer.parseInt(reader.readLine());
+			switch (choice) {
+			case 1:{
+				System.out.println("Introduce the ID of the treatment: ");
+				int id = Integer.parseInt(reader.readLine());
+				treatment = treatmentManager.searchTreatmentById(id);
+				if (treatment != null){
+					treatment.setId(id);
+					System.out.println(treatment);
+					MedicationsofTreatment(treatment, dentistoptions);
+				}
+				else {
+					System.out.println("The ID introduced doesn't correspond to any treatment. ");
+				}
+			    break;	
+			}
+			case 2:{
+				System.out.println("Introduce the name of the treatment: ");
+				String name = reader.readLine();
+				treats = treatmentManager.searchTreatmentbyName(name);
+				if (treats != null){
+					System.out.println(treats);
+				}
+				else {
+					System.out.println("The name introduced doesn't correspond to any treatment. ");
+				}
+				break;
+			}	
+			case 3:
+				if(dentistoptions == 1)
+				AddTreatment(patient);
+				break;
+						
+			case 4:
+				if(dentistoptions == 1)
+				DeleteTreatment();
+				break;
+			case 0:
+				return;
+			default:
+				System.out.println("Please, choose a valid option.");
+				break;
+			}
+		}
+		while(true);
+		}
+		
+	private static void MedicationsofTreatment(Treatment treatment, int dentistoptions) throws SQLException, NumberFormatException, IOException {
+		do {
+			Medication medication = null;
+			List<Medication> meds = null;
+			System.out.println(medicationManager.listofMedications(treatment.getId()));
+			System.out.println("1. Search for a mediation by ID");
+			System.out.println("2. Search for a medication by Name");
+			if (dentistoptions == 1) {
+				System.out.println("3. Add medication");
+				System.out.println("4. Delete medication");
+			}
+			int choice = Integer.parseInt(reader.readLine());
+			switch (choice) {
+			case 1:{
+				System.out.println("Introduce the ID of the medication: ");
+				int id = Integer.parseInt(reader.readLine());
+				medication = medicationManager.searchMedicationById(id);
+				if (medication != null){
+					System.out.println(medication);
+				}
+				else {
+					System.out.println("The ID introduced doesn't correspond to any medication. ");
+				}
+				break;
+			}
+			case 2:{
+				System.out.println("Introduce the name of the medication: ");
+				String name = reader.readLine();
+				meds = medicationManager.searchMedicationbyName(name);
+				if (meds != null){
+					System.out.println(meds);
+				}
+				else {
+					System.out.println("The name introduced doesn't correspond to any medication. ");
+				}
+				break;
+			}	
+			case 3:
+				if(dentistoptions == 1)
+				AddMedication(treatment);
+				break;
+						
+			case 4:
+				if(dentistoptions == 1)
+				DeleteMedication();
+				break;
+			case 0:
+				return;
+			default:
+				System.out.println("Please, choose a valid option.");
+				break;
+			}
+		}
+		while(true);	
+	}
+	
+	private static void AddMedication(Treatment treatment) throws IOException, SQLException {
+		System.out.println("Name: ");
+		String name = reader.readLine();
+		System.out.println("Dosis: ");
+		int dosis = Integer.parseInt(reader.readLine());
+		Medication med = new Medication(name,dosis,treatment);
+		medicationManager.addMedication(med);
 		
 	}
 
+	private static void DeleteMedication() throws NumberFormatException, IOException {
+		System.out.println("Introduce the ID of the medication you want to delete: ");
+		int id = Integer.parseInt(reader.readLine());
+		int a = 1;
+		try{
+			medicationManager.deleteMedication(id);
+		}
+		catch(SQLException e) {
+			a = 0;
+		}
+		while(a == 0) {
+			try {
+				System.out.println("Introduce a valid ID: ");
+				id = Integer.parseInt(reader.readLine());
+				medicationManager.deleteMedication(id);
+			}
+			catch (SQLException e2) {
+				a = 0;
+			}
+		}	
+		
+	}
+
+	
 	private static void AddTreatment(Patient p) throws IOException, Exception {
 		System.out.println("Name: ");
 		String name = reader.readLine();
@@ -440,13 +623,13 @@ public class Menu {
 		}	
 	}
 
-	private static void ModifyPatientInfo(Patient patient, int choosedentist) throws NumberFormatException, IOException, SQLException {
+	private static void ModifyPatientInfo(Patient patient, int dentistoptions) throws NumberFormatException, IOException, SQLException {
 		do {	
 			System.out.println("1.Name");
 			System.out.println("2.Surname");
 			System.out.println("3.Gender");
 			System.out.println("4.Adress");
-			if(choosedentist == 1) System.out.println("5.Background");
+			if(dentistoptions == 1) System.out.println("5.Background");
 			System.out.println("0.Return");
 			
 			int choice = Integer.parseInt(reader.readLine());;
@@ -477,11 +660,12 @@ public class Menu {
 					break;
 				}
 				case 5:{
-					if (choosedentist == 1) {
+					if (dentistoptions == 1) {
 						System.out.println("New background:");
 						String newBackground= reader.readLine();
 						patientManager.editPatientsBackground(newBackground, patient.getId());
 					}
+					break;
 				}
 				default:
 					System.out.println("Please, choose a valid option.");
@@ -504,7 +688,7 @@ public class Menu {
 			int choice = Integer.parseInt(reader.readLine());;
 			switch (choice) {
 			case 1:
-				PatientProfile(patient);
+				PatientProfile(patient, 0); //dentistoptions = 0 so a patient can't do dentist things
 				break;				
 			case 2:
 				ListofAppointments(user);
@@ -520,53 +704,6 @@ public class Menu {
 		while(true);
 		
 	}
-	
-	private static void PatientProfile(Patient patient) throws Exception {
-		sc = new Scanner (System.in);
-		do{ 
-			
-			System.out.println(patient);
-			System.out.println("Mr/Mrs " + patient.getName() + " " +patient.getSurname() + " allergies: ");
-			System.out.println(patient.getAllergies());	
-			
-			System.out.println("1. Modify profile information");
-			System.out.println("2. Consult my treatments");
-			System.out.println("3. Add an allergy");
-			System.out.println("4. Delete an allergy");
-			System.out.println("0. Return");
-			int choice = Integer.parseInt(reader.readLine());
-			
-			switch (choice) {
-			case 1:
-				ModifyPatientInfo(patient, 0);
-				break;				
-			case 2:
-				ConsultTreatments(patient, 0);	//choosedentist = 0 as only dentists can modify
-				break;
-			case 3:
-				AddAllergy(patient);
-				break;
-			case 4:
-				DeleteAllergy(patient);
-				break;	
-			case 0:
-				return;
-			default:
-				System.out.println("Please, choose a valid option.");
-				break;
-					
-			}
-		}
-		while(true);
-	}
-	
-	
-	private static void ListofTreatments(Integer id) {
-		// TODO Auto-generated method stub
-		
-		
-	}
-
 	private static void AddAllergy(Patient patient) throws IOException, SQLException {
 		System.out.println("Name: ");
 		String name = reader.readLine();
@@ -597,34 +734,6 @@ public class Menu {
 			}
 		}
 	}	
-	
-	private static void AddAppointment(Patient p) throws Exception{
-		// TODO Auto-generated method stub
-		
-		
-	}
-	
-	private static void DeleteAppointment() throws Exception{
-		System.out.println("Introduce the ID of the appointment you want to delete: ");
-		int id = Integer.parseInt(reader.readLine());
-		int a = 1;
-		try{
-			appointmentManager.deleteAppointment(id);
-		}
-		catch(SQLException e) {
-			a = 0;
-		}
-		while(a == 0) {
-			try {
-				System.out.println("Introduce a valid ID: ");
-				id = Integer.parseInt(reader.readLine());
-				appointmentManager.deleteAppointment(id);
-			}
-			catch (SQLException e2) {
-				a = 0;
-			}
-		}
-	}
 	
 
 	//METHODS FROM XML
