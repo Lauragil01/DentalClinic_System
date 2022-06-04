@@ -81,46 +81,59 @@ public class Menu {
 	}
 
 	private static void createAccount() throws IOException, NoSuchAlgorithmException, SQLException {
+		System.out.println("--- NEW ACCOUNT ---");
 		System.out.println("Email:");
 		String email = reader.readLine();
-		int a=0;
-		do {
-			if(userManager.checkEmail(email)==null) { //no seria !=null?
-				System.out.println("Choose another email:");
-			}else {
-				a=1;
-			}
-			
-		}while(a==0);
-		System.out.println("Password:");
 		
-		String password = reader.readLine();
-		System.out.println(userManager.getRoles());
-		System.out.println("Choose your role ID: "); 
-		Integer id = null;
-		int z=0;
-		do {
-			try {
-				id = Integer.parseInt(reader.readLine());
-				z=1;
-			} catch (Exception e) {
-				e.printStackTrace();
-				System.out.println("Not a valid role id. Try again.");
+		int a=0;
+			do {
+				if(userManager.checkEmail(email)==null) { //no seria !=null?
+					System.out.println("Choose another email:");
+					email = reader.readLine();
+				}else {
+					a=1;
+				}
+				
 			}
-		} while (a==0); // no seria z==0
-		Role role = userManager.getRole(id);
-		MessageDigest md = MessageDigest.getInstance("MD5");
-		md.update(password.getBytes());
-		byte[] hash = md.digest();
-		User user = new User(email, hash, role);
-		userManager.newUser(user);
-		if(user.getRole().getName().equalsIgnoreCase("patient")) {
-			patientManager.LinkPatientUser(user.getId(), id); 
-		} else if(user.getRole().getName().equalsIgnoreCase("dentist")) {
-			dentistManager.LinkDentistUser(user.getId(), id); 
-		} 
-			
-	};
+			while(a==0);
+			String password = null;
+			do {
+			System.out.println("Password:");
+			password = reader.readLine();
+				if(userManager.checkPassword(email, password) == null) { 
+					System.out.println("The password introduced is not valid, try again.");
+				}
+				else {
+					a=1;
+				}
+				
+			}
+			while(a==0);
+			System.out.println(userManager.getRoles());
+			System.out.println("Choose your role ID: "); 
+			Integer id = null;
+			int z=0;
+			do {
+				try {
+					id = Integer.parseInt(reader.readLine());
+					z=1;
+				} catch (Exception e) {
+					e.printStackTrace();
+					System.out.println("Not a valid role id. Try again.");
+				}
+			} while (z==1); 
+			Role role = userManager.getRole(id);
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			md.update(password.getBytes());
+			byte[] hash = md.digest();
+			User user = new User(email, hash, role);
+			userManager.newUser(user);
+			if(user.getRole().getName().equalsIgnoreCase("patient")) {
+				patientManager.LinkPatientUser(user.getId(), id); 
+			} else if(user.getRole().getName().equalsIgnoreCase("dentist")) {
+				dentistManager.LinkDentistUser(user.getId(), id); 
+		    }
+	}
 	
 	private static void login() throws Exception{
 		System.out.print("Email:");
