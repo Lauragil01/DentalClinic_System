@@ -15,7 +15,6 @@ public class Treatment implements Serializable {
 	private Integer treatmentId;
 	private String name;
 	private String diagnosis;
-	private Integer consultDuration; //Para que
 	private Date startDate;
 	private Date finishDate;
 	//many to one relationship
@@ -26,12 +25,11 @@ public class Treatment implements Serializable {
 		super();
 		setMedications(new ArrayList<Medication>());
 	}
-	public Treatment(int id, String name, String diagnosis, int duration , Date startDate, Date finishDate){
+	public Treatment(int id, String name, String diagnosis, Date startDate, Date finishDate){
 		super();
 		setId(id);
 		setName(name);
 		setDiagnosis(diagnosis);
-		setConsultDuration(duration);
 		this.startDate= startDate;
 		this.finishDate = finishDate;
 	}
@@ -45,34 +43,15 @@ public class Treatment implements Serializable {
 		this.patient = patient;
 	}
 	
-	public Treatment(Integer id, String name, String diagnosis, Integer consultDuration, Date startDate, Date finishDate,
+	public Treatment(Integer id, String name, String diagnosis, Date startDate, Date finishDate,
 			List<Medication> medications) {
 		super();
 		this.treatmentId = id;
 		this.name = name;
 		this.diagnosis = diagnosis;
-		this.consultDuration = consultDuration;
 		this.startDate = startDate;
 		this.finishDate = finishDate;
 		this.medications = medications;
-	}
-	
-	public Treatment(String name, String diagnosis, Integer consultDuration, Date startDate, Date finishDate,
-			Patient p) {
-		super();
-		this.name = name;
-		this.diagnosis = diagnosis;
-		this.consultDuration = consultDuration;
-		this.startDate = startDate;
-		this.finishDate = finishDate;
-	}
-	public Treatment(String name, String diagnosis, Integer consultDuration, Date startDate, Date finishDate) {
-		super();
-		this.name = name;
-		this.diagnosis = diagnosis;
-		this.consultDuration = consultDuration;
-		this.startDate = startDate;
-		this.finishDate = finishDate;
 	}
 	
 	public Integer getId() {
@@ -97,14 +76,6 @@ public class Treatment implements Serializable {
 
 	public void setDiagnosis(String diagnosis) {
 		this.diagnosis = diagnosis;
-	}
-
-	public Integer getConsultDuration() {
-		return consultDuration;
-	}
-
-	public void setConsultDuration(Integer consultDuration) {
-		this.consultDuration = consultDuration;
 	}
 
 	public Date getStartDate() {
@@ -157,7 +128,7 @@ public class Treatment implements Serializable {
 
 	@Override
 	public String toString() {
-		return ("Id: " + treatmentId + "\nName: " + name + "\nDiagnosis: " + diagnosis
-				+ "\nConsultDuration: " + consultDuration + "\nStartDate: " + startDate + "\nFinishDate: " + finishDate);
+		return ("Id: " + treatmentId + "\nName: " + name + "\nDiagnosis: " + diagnosis 
+				+ "\nStartDate: " + startDate + "\nFinishDate: " + finishDate);
 	}	
 }

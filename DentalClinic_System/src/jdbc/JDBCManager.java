@@ -73,7 +73,6 @@ public class JDBCManager {
 				+ "	treatmentId INTEGER PRIMARY KEY AUTOINCREMENT,"
 				+ "	name	TEXT NOT NULL,"
 				+ "	diagnosis	TEXT NOT NULL,"
-				+ "	duration TEXT NOT NULL,"
 				+ "	startDate DATE NOT NULL,"
 				+ "	finishDate DATE NOT NULL,"
 				+ " patient_treat INTEGER REFERENCES patients(patientId) ON DELETE CASCADE"
@@ -167,8 +166,8 @@ public class JDBCManager {
 			Patient p4 = new Patient(4,"Alvaro", "Gomez", "m" ,date2 , "calle", "0", "k");
 			Dentist prueba = new Dentist ();
 			
-			Treatment t = new Treatment(1,"Aparato","d",1,date1,date2);
-			Treatment t2 = new Treatment(2,"Brakets","d",2,date2,date1);
+			Treatment t = new Treatment(1,"Aparato","d",date1,date2);
+			Treatment t2 = new Treatment(2,"Brakets","d",date2,date1);
 			Treatment tprueba = null;
 					
 			Medication m = new Medication (1,"c", 4, t);

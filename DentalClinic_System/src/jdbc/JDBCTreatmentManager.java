@@ -19,13 +19,12 @@ public class JDBCTreatmentManager implements TreatmentManager {
 	}
 	@Override
 	public void addTreatment(Treatment t) throws SQLException { //Checked
-		String sql = "INSERT INTO treatments (name, diagnosis, duration, startDate, finishDate, patient_treat) VALUES (?,?,?,?,?,?)";
+		String sql = "INSERT INTO treatments (name, diagnosis, startDate, finishDate, patient_treat) VALUES (?,?,?,?,?)";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setString(1,t.getName());
 		prep.setString(2, t.getDiagnosis());			
-		prep.setInt(3, t.getConsultDuration());			
-		prep.setDate(4, t.getStartDate());
-		prep.setDate(5, t.getFinishDate());
+		prep.setDate(3, t.getStartDate());
+		prep.setDate(4, t.getFinishDate());
 		if (t.getPatient() == null) {
 			prep.setNull(6, java.sql.Types.INTEGER);
 		}
@@ -47,10 +46,9 @@ public class JDBCTreatmentManager implements TreatmentManager {
 			int id = rs.getInt("treatmentId");
 			String name = rs.getString("name");
 			String diagnosis = rs.getString("diagnosis");
-			int duration = rs.getInt("duration");
 			Date startDate = rs.getDate("startDate");
 			Date finishDate = rs.getDate("finishDate");
-			Treatment treatment = new Treatment(id,name,diagnosis,duration,startDate,finishDate);
+			Treatment treatment = new Treatment(id,name,diagnosis,startDate,finishDate);
 			treatments.add(treatment);		
 		}
 		prep.close();
@@ -79,10 +77,9 @@ public class JDBCTreatmentManager implements TreatmentManager {
 			int id = rs.getInt("treatmentId");
 			String name = rs.getString("name");
 			String diagnosis = rs.getString("diagnosis");
-			int duration = rs.getInt("duration");
 			Date startDate = rs.getDate("startDate");
 			Date finishDate = rs.getDate("finishDate");
-			t = new Treatment(id,name,diagnosis,duration,startDate,finishDate);		
+			t = new Treatment(id,name,diagnosis,startDate,finishDate);		
 		}
 		prep.close();
 		rs.close();
@@ -99,10 +96,9 @@ public class JDBCTreatmentManager implements TreatmentManager {
 		while (rs.next()) {
 			int id = rs.getInt("treatmentId");
 			String diagnosis = rs.getString("diagnosis");
-			int duration = rs.getInt("duration");
 			Date startDate = rs.getDate("startDate");
 			Date finishDate = rs.getDate("finishDate");
-			Treatment treatment = new Treatment(id,name,diagnosis,duration,startDate,finishDate);
+			Treatment treatment = new Treatment(id,name,diagnosis,startDate,finishDate);
 			treatments.add(treatment);		
 		}
 		prep.close();

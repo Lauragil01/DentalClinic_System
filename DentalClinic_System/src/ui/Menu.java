@@ -231,8 +231,6 @@ public class Menu {
 		System.out.println("Specialty: ");
 		String specialty = reader.readLine();
 		Dentist dentist = new Dentist(name,surname,turn,specialty);
-		
-
 		dentistManager.addDentist(dentist);
 		return dentist;
 	}
@@ -311,9 +309,9 @@ public class Menu {
 		sc = new Scanner (System.in);
 		Dentist dentist = dentistManager.getDentistByUserId(user.getId());
 		
-		System.out.println("Mr/Mrs" + dentist.getName()+ " "+ dentist.getSurname()+ "profile :");
+		System.out.println("Mr/Mrs " + dentist.getName()+ " "+ dentist.getSurname()+ " profile :");
 		System.out.println(dentist);
-		
+		System.out.println("\n");
 		do{ 
 			
 			System.out.println("1. Modify my profile");
@@ -375,7 +373,7 @@ public class Menu {
 		
 	}
 	
-	private static void ModifyDentistInfo(Dentist dentist) throws IOException, SQLException {
+	private static void ModifyDentistInfo(Dentist dentist) throws IOException, SQLException { //Checked
 		do {	
 			System.out.println("1.Name");
 			System.out.println("2.Surname");
@@ -533,6 +531,12 @@ public class Menu {
 					System.out.println("Introduce the Id of the patient:");
 					int patientId = Integer.parseInt(reader.readLine());
 					patient = patientManager.searchPatientById(patientId);
+					if (patient == null) {
+						System.out.println("The id introduced doesn't correspond to any of your patients.");
+					}
+					else {
+						System.out.println(patient);
+					}
 					break;
 				}
 						
@@ -540,12 +544,24 @@ public class Menu {
 					System.out.println("Introduce the name of the patient:");
 					String name = reader.readLine();
 					patients = patientManager.searchPatientbyName(name);
+					if (patients == null) {
+						System.out.println("The name introduced doesn't correspond to any of your patients.");
+					}
+					else {
+						System.out.println(patients);
+					}
 					break;
 				}
 				case 3:{
 					System.out.println("Introduce the surname of the patient:");
 					String surname = reader.readLine();
 					patients = patientManager.searchPatientbySurname(surname);
+					if (patients == null) {
+						System.out.println("The surname introduced doesn't correspond to any of your patients.");
+					}
+					else {
+						System.out.println(patients);
+					}
 					break;
 				}		
 				case 0:
@@ -567,10 +583,11 @@ public class Menu {
 	private static void PatientProfile(Patient patient, int dentistoptions) throws Exception {
 		sc = new Scanner (System.in);
 		do{ 
-			
+			System.out.println("\n----- Mr/Mrs " + patient.getName() +" " + patient.getSurname() + " profile -----\n");
 			System.out.println(patient);
-			System.out.println("Mr/Mrs " + patient.getName() + " " +patient.getSurname() + " allergies: ");
+			System.out.println("\n--- Mr/Mrs " + patient.getName() + " " +patient.getSurname() + " allergies ---\n");
 			System.out.println(patient.getAllergies());	
+			System.out.println("\n");
 			
 			System.out.println("1. Modify profile information");
 			System.out.println("2. Consult treatments");
@@ -645,7 +662,7 @@ public class Menu {
 		List<Treatment> treats = null;
 		System.out.println("Patient " + patient.getName() + " " + patient.getSurname() + " treatments :");
 		System.out.println(patient.getTreatments());
-		
+		System.out.println("\n");
 		do{
 			System.out.println("1. Search for a treatment by its id");
 			System.out.println("2. Search for a treatment by its name");
@@ -654,6 +671,7 @@ public class Menu {
 				System.out.println("3. Add treatment");
 				System.out.println("4. Delete treatment");
 			}	
+			System.out.println("0. Return");
 			int choice = Integer.parseInt(reader.readLine());
 			switch (choice) {
 			case 1:{
@@ -964,7 +982,7 @@ public class Menu {
 	
 	
 	
-}
+	}
 
 
 	
