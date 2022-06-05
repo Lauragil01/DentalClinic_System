@@ -157,8 +157,7 @@ public class Treatment implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Treatment [treatmentId=" + treatmentId + ", name=" + name + ", diagnosis=" + diagnosis
-				+ ", consultDuration=" + consultDuration + ", startDate=" + startDate + ", finishDate=" + finishDate
-				+ ", patient=" + patient + ", medications=" + medications + "]";
+		return ("Id: " + treatmentId + "\nName: " + name + "\nDiagnosis: " + diagnosis
+				+ "\nConsultDuration: " + consultDuration + "\nStartDate: " + startDate + "\nFinishDate: " + finishDate);
 	}	
 }

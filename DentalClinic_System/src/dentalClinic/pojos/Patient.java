@@ -194,10 +194,9 @@ public class Patient implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "Patient [id=" + patientId + ", name=" + name + ", surname=" + surname + ", gender=" + gender + ", bithDate="
-				+ birthDate + ", address=" + address + ", bloodType=" + bloodType + ", allergies=" + allergies
-				+ ", blackground=" + background + ", treatments=" + treatments + ", dentists=" + dentists
-				+ ", appointments=" + appointments + "]";
+		return ("Id: " + patientId + "\nName: " + name + "\nSurname: " + surname + "\nGender: " + gender + "\nBirthDate: "
+				+ birthDate + "\nAddress: " + address + "\nBloodType: " + bloodType + "\nAllergies: " + allergies
+				+ "\nBackground: " + background);
 	}
 	
 	//getters and setters

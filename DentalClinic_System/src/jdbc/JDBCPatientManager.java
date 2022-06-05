@@ -209,13 +209,12 @@ public class JDBCPatientManager implements PatientManager {
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setInt(1,userId);
 		ResultSet rs = prep.executeQuery();
-		Patient patient = null;
 		if(rs.next()){
 			int patientId = rs.getInt("patientId");
 			String name = rs.getString("name");
 			String surname = rs.getString("surname");
 			String gender = rs.getString("gender");
-			Date birthDate = rs.getDate("birthDate");
+			Date birthDate = rs.getDate("dob");
 			String address = rs.getString("address");
 			String bloodType = rs.getString("bloodType");
 			String background = rs.getString("background");
@@ -227,7 +226,7 @@ public class JDBCPatientManager implements PatientManager {
 		}
 		prep.close();
 		rs.close();
-		return patient;
+		return p;
 		
 	}
 	@Override

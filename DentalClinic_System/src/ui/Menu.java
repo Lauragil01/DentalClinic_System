@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.persistence.NoResultException;
 import javax.xml.bind.JAXBException;
 
 import dentalClinic.pojos.*;
@@ -44,14 +45,15 @@ public class Menu {
 	
 	private static BufferedReader reader = new BufferedReader (new InputStreamReader(System.in));
 	public static void main(String[] args) {
+		manager = new JDBCManager();
 		userManager = new JPAUserManager();
 		medicationManager = new JDBCMedicationManager(manager);
 		treatmentManager = new JDBCTreatmentManager(manager);
 		appointmentManager = new JDBCAppointmentManager(manager);			
 		allergyManager = new JDBCAllergyManager(manager);
 		dentistManager = new JDBCDentistManager(manager,appointmentManager);
-		JDBCPatientManager pm = new JDBCPatientManager(manager, treatmentManager, medicationManager, appointmentManager, dentistManager, allergyManager);
-		dentistManager.setPatientmanager(pm);
+		patientManager = new JDBCPatientManager(manager, treatmentManager, medicationManager, appointmentManager, dentistManager, allergyManager);
+		dentistManager.setPatientmanager(patientManager);
 		
 		System.out.println("Welcome to the Dental Clinic System");
 		try {
@@ -83,16 +85,16 @@ public class Menu {
 
 	}
 
-	private static void createAccount() throws IOException, NoSuchAlgorithmException, SQLException {
+	private static void createAccount() throws IOException, NoSuchAlgorithmException, SQLException { //Checked
 		System.out.println("--- NEW ACCOUNT ---");
 		System.out.println("Email: ");
 		String email = reader.readLine();
 		
 		while(userManager.checkEmail(email) != null) {
 			System.out.println("The email is already registered. Introduce another email: ");
-			email = reader.readLine();
+			email = reader.readLine();	
 		}
-			
+		
 		System.out.println("Password:");
 		String password = reader.readLine();
 
@@ -103,8 +105,8 @@ public class Menu {
 			try {
 				id = Integer.parseInt(reader.readLine());
 			} 
-			catch (Exception e) {
-				e.printStackTrace();
+			catch (Exception e2) {
+				e2.printStackTrace();
 				System.out.println("Not a valid role id. Try again.");
 			}
 		} 
@@ -131,7 +133,7 @@ public class Menu {
 		System.out.println("Account created.");
 	}
 
-	private static Patient RegisterPatient(User user) throws IOException, SQLException {
+	private static Patient RegisterPatient(User user) throws IOException, SQLException { //Checked
 		System.out.println("--- NEW PATIENT ---");
 		System.out.println("Name: ");
 		String name = reader.readLine();
@@ -139,20 +141,17 @@ public class Menu {
 		String surname = reader.readLine();
 		System.out.println("Gender: ");
 		String gender = reader.readLine();
-		try {
-			if (gender.equalsIgnoreCase("male")) {
-				gender = "Male";
-			} 
-			if  (gender.equalsIgnoreCase("female")){
-				gender = "Female";
-			}
-		} catch (Exception e) {
-			do{
-				System.out.print("Introduce a valid gender (male/female). ");
-				gender = reader.readLine();
-			} while (!(gender.equalsIgnoreCase("male") || gender.equalsIgnoreCase("female")));
-
+		if (gender.equalsIgnoreCase("male")) {
+			gender = "Male";
+		} 
+		if  (gender.equalsIgnoreCase("female")){
+			gender = "Female";
 		}
+		while (!(gender.equalsIgnoreCase("male") || gender.equalsIgnoreCase("female"))) {
+			System.out.print("Introduce a valid gender (male/female): ");
+			gender = reader.readLine();
+		}
+
 		System.out.println("Date of birth (year-month-day): ");
 		Date birthdate = null;
 		try {
@@ -175,27 +174,23 @@ public class Menu {
 		
 		System.out.println("Bloodtype, just the letter (A, B, AB, O): ");
 		String bt = reader.readLine();
-		try {
-			if (bt.equalsIgnoreCase("a")) {
-				bt = "A";
-			} 
-			if  (bt.equalsIgnoreCase("b")){
-				bt = "B";
-			}
-			if  (bt.equalsIgnoreCase("o")){
-				bt = "O";
-			}
-			if  (bt.equalsIgnoreCase("ab")){
-				bt = "AB";
-			}
+				
+		if (bt.equalsIgnoreCase("a")) {
+			bt = "A";
 		} 
-		catch (Exception e3) {
-			do{
-				System.out.print("Introduce a valid bloodtype (A, B, AB, O):  ");
-				bt = reader.readLine();
-			} while (!(bt.equalsIgnoreCase("a") || bt.equalsIgnoreCase("b") || bt.equalsIgnoreCase("o") || bt.equalsIgnoreCase("ab")));
-		
+		if  (bt.equalsIgnoreCase("b")){
+			bt = "B";
 		}
+		if  (bt.equalsIgnoreCase("o")){
+			bt = "O";
+		}
+		if  (bt.equalsIgnoreCase("ab")){
+			bt = "AB";
+		}
+		while (!(bt.equalsIgnoreCase("a") || bt.equalsIgnoreCase("b") || bt.equalsIgnoreCase("o") || bt.equalsIgnoreCase("ab"))) {
+			System.out.print("Introduce a valid bloodtype (A, B, AB, O):  ");
+			bt = reader.readLine();
+			} 
 		
 		System.out.println("Bloodtype, introduce the RH factor (-/+): ");
 		String rh = reader.readLine();
@@ -221,21 +216,18 @@ public class Menu {
 		String surname = reader.readLine();
 		System.out.println("Turn: ");
 		String turn = reader.readLine();
-		try {
-			if (turn.equalsIgnoreCase("morning")) {
-				turn = "Morning";
-			} 
-			if  (turn.equalsIgnoreCase("afternoon")){
-				turn = "Afternoon";
-			}
+		if (turn.equalsIgnoreCase("morning")) {
+			turn = "Morning";
 		} 
-		catch (Exception e) {
-			do{
-				System.out.print("Introduce a valid turn (morning/afternoon). ");
-				turn = reader.readLine();
-			} 
-			while (!(turn.equalsIgnoreCase("morning") || turn.equalsIgnoreCase("afternoon")));
+		if  (turn.equalsIgnoreCase("afternoon")){
+			turn = "Afternoon";
 		}
+
+		while (!(turn.equalsIgnoreCase("morning") || turn.equalsIgnoreCase("afternoon"))) {
+			System.out.print("Introduce a valid turn (morning/afternoon). ");
+			turn = reader.readLine();
+		} 
+		
 		System.out.println("Specialty: ");
 		String specialty = reader.readLine();
 		
