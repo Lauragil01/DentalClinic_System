@@ -70,7 +70,12 @@ public class JPAUserManager implements UserManager{
 		User u = null;
 		Query q = em.createNativeQuery("SELECT * FROM users WHERE email = ?", User.class);
 		q.setParameter(1, email);
-		u = (User) q.getSingleResult();
+		try {
+			u = (User) q.getSingleResult();
+		}
+		catch (NoResultException e) {
+			u = null;
+		}
 		return u;
 	}
 
