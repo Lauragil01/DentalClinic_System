@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Scanner;
 
@@ -245,21 +246,40 @@ public class Menu {
 		return dentist;
 	}
 	
-	/*public static List<Appointment> createDentistsAppointments(Dentist dentist) throws SQLException{
+	public static List<Appointment> createDentistsAppointments(Dentist dentist) throws SQLException{
 		List<Appointment> appointments = new ArrayList();
-		if(dentist.getTurn().equalsIgnoreCase("morning")) {
-			Date date = java.sql.Date.valueOf("2022-06-05");
-			Time time1 = java.sql.Time.valueOf("09:00:00");
-			Appointment a1 = new Appointment(date, 1, time, dentist);
-			dentist.getAppointments().add(a1);
-			appointmentManager.addAppointment(a1);
-			appointments.add(a1);
-			Appointment a2 = new Appointment(date, 1, time, dentist);
-			time.
-			dentist.getAppointments().add(a2);
+		Calendar c = null; 
+		Calendar c1 = null;
+		Calendar c2 = null;
+		Date date = java.sql.Date.valueOf("2022-06-05");
+		c = c.getInstance();
+		c.setTime(date);
+		Time time1 = java.sql.Time.valueOf("09:00:00");
+		c1 = c1.getInstance();
+		c1.setTime(time1);
+		Time time2 = java.sql.Time.valueOf("15:00:00");
+		c2 = c2.getInstance();
+		c2.setTime(time2);
+		for(int i = 0; i<30; i++) { // appointments for a month (30 days)
+			for(int j = 0; j<6; j++) { // from monday to friday
+				c.add(Calendar.DATE, 1); // increments 1 day
+				for(int k = 0; k<6; k++) { // 5 appointments per dentist
+					
+					if(dentist.getTurn().equalsIgnoreCase("morning")) {
+						c1.add(Calendar.MINUTE, 60); // increments 60 minutes = 1 hour
+					}else if(dentist.getTurn().equalsIgnoreCase("afternoon")) {
+						c2.add(Calendar.MINUTE, 60); // increments 60 minutes = 1 hour
+					}
+					Appointment a = new Appointment(date, 1, time2, dentist);
+					dentist.getAppointments().add(a);
+					appointmentManager.addAppointment(a);
+					appointments.add(a);
+				}
+			}
+			c.add(Calendar.DATE, 2); // saturday and sunday
 		}
 		return appointments;
-	}*/
+	}
 	
 	private static void login() throws Exception{
 		System.out.print("Email:");

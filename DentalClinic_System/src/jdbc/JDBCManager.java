@@ -191,16 +191,18 @@ public class JDBCManager {
 			List<Dentist> dentistsfound = new ArrayList<Dentist>();
 			
 			try {
-				tm.addTreatment(t);
+				/*tm.addTreatment(t);
 				mm.addMedication(m2);
 				mm.assignTreatmentToMedication(m2.getId(), t.getId()); 
-				System.out.println(mm.listofMedications(t.getId())); // no funciona */
+				System.out.println(mm.listofMedications(t.getId())); // funciona */
 				
 				
-				/*tm.addTreatment(t);
 				pm.addPatient(p3);
+				tm.addTreatment(t);
+				tm.addTreatment(t2);
 				tm.assignPatientToTreatment(p3.getId(), t.getId());
-				System.out.println(tm.listofTreatments(p3.getId())); // no funciona*/
+				tm.assignPatientToTreatment(p3.getId(), t2.getId());
+				System.out.println(tm.listofTreatments(p3.getId())); // NO funciona*/
 				
 				
 				/*pm.addPatient(p2);

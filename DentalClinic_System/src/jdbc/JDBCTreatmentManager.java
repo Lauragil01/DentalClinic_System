@@ -60,12 +60,12 @@ public class JDBCTreatmentManager implements TreatmentManager {
 	
 	@Override
 	public void assignPatientToTreatment(int patientId, int treatmentId) throws SQLException { 
-		String sql = "INSERT INTO treatments (patient_treat) VALUES (?) WHERE treatmentId = ?";
+		String sql = "UPDATE treatments SET patient_treat = ? WHERE treatmentId = ?";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setInt(1, patientId);
 		prep.setInt(2,  treatmentId);
-	prep.executeUpdate();
-	prep.close();	
+		prep.executeUpdate();
+		prep.close();	
 	}
 	
 	@Override
