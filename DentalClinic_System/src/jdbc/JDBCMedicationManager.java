@@ -55,6 +55,16 @@ public class JDBCMedicationManager implements MedicationManager {
 	}
 	
 	@Override
+	public void assignTreatmentToMedication(int medicationId, int treatmentId) throws SQLException { 
+		String sql = "INSERT INTO medications (treatment_med) VALUES (?) WHERE medicationId = ?";
+		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+		prep.setInt(1, treatmentId);
+		prep.setInt(2,  medicationId);
+	prep.executeUpdate();
+	prep.close();	
+	}
+	
+	@Override
 	public Medication searchMedicationById(int id) throws SQLException { //Checked
 		Medication medication = null;
 		String sql = "SELECT * FROM medications WHERE medicationId = ?";

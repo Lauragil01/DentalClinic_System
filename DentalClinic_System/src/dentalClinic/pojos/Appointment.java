@@ -41,6 +41,14 @@ public class Appointment implements Serializable {
 		super();
 	}
 	
+	public Appointment(Date date, Integer duration, Time time, Dentist dentist) {
+		super();
+		this.date = date;
+		this.duration = duration;
+		this.time = time;
+		this.dentist = dentist;
+	}
+	
 	public Appointment(Integer id, Date date, String type, Integer duration, Time time, Dentist dentist ) {
 		super();
 		this.appointmentId = id;

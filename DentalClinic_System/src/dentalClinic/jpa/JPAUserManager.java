@@ -70,6 +70,7 @@ public class JPAUserManager implements UserManager{
 		User u = null;
 		Query q = em.createNativeQuery("SELECT * FROM users WHERE email = ?", User.class);
 		q.setParameter(1, email);
+<<<<<<< HEAD
 		try {
 			u = (User) q.getSingleResult();
 		}
@@ -77,6 +78,10 @@ public class JPAUserManager implements UserManager{
 			u = null;
 		}
 		return u;	
+=======
+		u = (User) q.getSingleResult();
+		return u;
+>>>>>>> branch 'main' of https://github.com/Lauragil01/DentalClinic_System
 	}
 
 	@Override

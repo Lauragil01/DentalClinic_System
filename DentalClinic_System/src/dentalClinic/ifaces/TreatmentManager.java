@@ -9,6 +9,8 @@ import dentalClinic.pojos.Treatment;
 public interface TreatmentManager {
 	
 	public void addTreatment (Treatment t) throws SQLException;
+	
+	public void assignPatientToTreatment(int patientId, int treatmentId) throws SQLException;
 
 	public List<Treatment> listofTreatments (int patientId) throws SQLException, Exception;
 	
