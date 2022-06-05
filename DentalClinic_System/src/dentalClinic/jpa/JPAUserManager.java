@@ -71,7 +71,7 @@ public class JPAUserManager implements UserManager{
 		Query q = em.createNativeQuery("SELECT * FROM users WHERE email = ?", User.class);
 		q.setParameter(1, email);
 		u = (User) q.getSingleResult();
-		
+		return u;
 	}
 
 	@Override

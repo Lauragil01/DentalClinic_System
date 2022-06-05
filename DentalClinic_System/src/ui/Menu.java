@@ -449,7 +449,7 @@ public class Menu {
 				}
 						
 				case 2:{
-					System.out.println("Introduce the ID of the appointment you want to delete");
+					//System.out.println("Introduce the ID of the appointment you want to delete");
 					DeleteAppointment();
 					break;
 				}
