@@ -154,6 +154,29 @@ public class JDBCPatientManager implements PatientManager {
 	}
 	
 	@Override
+	public List<Patient> getAllPatients () throws SQLException {
+		Patient p = null;
+		String sql = "SELECT * FROM patients ";
+		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+		ResultSet rs = prep.executeQuery();
+		List <Patient> patients = new ArrayList<Patient>();
+		while(rs.next()){
+			int id = rs.getInt("patientId");
+			String name = rs.getString("name");
+			String surname = rs.getString("surname");
+			String gender = rs.getString("gender");
+			Date birthDate = rs.getDate("dob");
+			String address = rs.getString("address");
+			String bloodType = rs.getString("bloodType");
+			String background = rs.getString("background");
+			p= new Patient(id, name, surname, gender, birthDate, address, bloodType, background);
+			patients.add(p);
+		}
+		rs.close();	
+		return patients;
+	}
+	
+	@Override
 	public void editPatientsName(String name, int patientId) throws SQLException { //Checked
 		String sql = "UPDATE patients SET name = ? WHERE patientId = ?";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);

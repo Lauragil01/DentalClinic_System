@@ -35,4 +35,6 @@ public interface PatientManager {
 	public Patient getPatientByUserId(int userId) throws SQLException;
 	
 	public void LinkPatientUser (int patientId, int userId) throws SQLException;
+
+	List<Patient> getAllPatients() throws SQLException;
  }

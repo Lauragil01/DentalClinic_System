@@ -298,7 +298,7 @@ public class Menu {
 	}
 	
 	private static void changePassword() {
-		//sc = new Scanner (System.in);
+		sc = new Scanner (System.in);
 		try{
 			System.out.println("Username:");
 			String username = reader.readLine();
@@ -337,7 +337,7 @@ public class Menu {
 			System.out.println("1. Modify my profile");
 			System.out.println("2. Check my patients");
 			System.out.println("3. Consult my appointments");
-			System.out.println("0. Exit");
+			System.out.println("0. Return");
 			int choice = Integer.parseInt(reader.readLine());;
 			
 			switch (choice) {
@@ -354,7 +354,7 @@ public class Menu {
 				break;
 					
 			case 0:
-				System.exit(0);
+				return;
 				
 			default:
 				System.out.println("Please, choose a valid option.");
@@ -372,7 +372,7 @@ public class Menu {
 		do{ 
 			System.out.println("1. See my profile");
 			System.out.println("2. Consult my appointments");
-			System.out.println("0. Exit");
+			System.out.println("0. Return");
 			int choice = Integer.parseInt(reader.readLine());;
 			switch (choice) {
 			case 1:
@@ -382,7 +382,7 @@ public class Menu {
 				ListofAppointments(user);
 				break;				
 			case 0:
-				System.exit(0);
+				return;
 			default:
 				System.out.println("Please, choose a valid option.");
 				break;
@@ -479,7 +479,7 @@ public class Menu {
 		System.out.println("Please introduce the date for your appointment: ");
 		Date d = java.sql.Date.valueOf(reader.readLine());
 		System.out.println(appointmentManager.searchFreeAppointmentsByDate(d));
-		System.out.println("Please chose the appointment by introducing its id: ");
+		System.out.println("Please choose the appointment by introducing its id: ");
 		int id = Integer.parseInt(reader.readLine());
 		int a = 1;
 		try {
@@ -490,7 +490,7 @@ public class Menu {
 			prep.executeUpdate();
 			prep.close();
 			p.getAppointments().add(appointmentManager.searchAppointmentById(id));
-			System.out.println("Explain birefly the reason for the appointments: ");
+			System.out.println("Explain briefly the reason for the appointment: ");
 			String type = reader.readLine();
 			sql = "UPDATE appointments SET type = ? WHERE appointmentId = ?";
 			prep.setString(1,  type);
@@ -540,14 +540,26 @@ public class Menu {
 		System.out.println(patients);	
 		
 		do{ 
-			System.out.println("1. Search for a patient by Id");
-			System.out.println("2. Search for a patient by name");
-			System.out.println("3. Search for a patient by surname");
+			System.out.println("1. Add a patient to my list");
+			System.out.println("2. Search for a patient by Id");
+			System.out.println("3. Search for a patient by name");
+			System.out.println("4. Search for a patient by surname");
 			System.out.println("0. Exit");
 			int choice = Integer.parseInt(reader.readLine());
 			Patient patient = null;
 			switch (choice) {
-				case 1:{
+				case 1: {
+					System.out.println("List of all patients of the clinic: \n");
+					patients = patientManager.getAllPatients();
+					System.out.println(patients);
+					System.out.println("\nIntroduce the id of the patient you want to add to your list: ");
+					int id = Integer.parseInt(reader.readLine());
+					dentistManager.assignDentistPatient(dentistId, id);
+					System.out.println("The patient has been assigned succesfully.");
+					break;
+				}
+				
+				case 2:{
 					System.out.println("Introduce the Id of the patient:");
 					int patientId = Integer.parseInt(reader.readLine());
 					patient = patientManager.searchPatientById(patientId);
@@ -560,7 +572,7 @@ public class Menu {
 					break;
 				}
 						
-				case 2:{
+				case 3:{
 					System.out.println("Introduce the name of the patient:");
 					String name = reader.readLine();
 					patients = patientManager.searchPatientbyName(name);
@@ -572,7 +584,7 @@ public class Menu {
 					}
 					break;
 				}
-				case 3:{
+				case 4:{
 					System.out.println("Introduce the surname of the patient:");
 					String surname = reader.readLine();
 					patients = patientManager.searchPatientbySurname(surname);

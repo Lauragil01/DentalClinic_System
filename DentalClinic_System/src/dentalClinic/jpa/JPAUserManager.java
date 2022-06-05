@@ -76,11 +76,7 @@ public class JPAUserManager implements UserManager{
 		catch (NoResultException e) {
 			u = null;
 		}
-<<<<<<< HEAD
 		return u;	
-=======
-		return u;
->>>>>>> branch 'main' of https://github.com/Lauragil01/DentalClinic_System
 	}
 
 	@Override
