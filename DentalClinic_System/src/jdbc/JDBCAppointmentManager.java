@@ -39,8 +39,6 @@ public class JDBCAppointmentManager implements AppointmentManager {
 		prep.executeUpdate();
 		prep.close();	
 	}
-	
-	//public void assignAppointmentTo_PatientDentist(int patientId, int dentistId) throws SQLException{}
 
 	
 	@Override
@@ -89,7 +87,7 @@ public class JDBCAppointmentManager implements AppointmentManager {
 
 	@Override
 	public void deleteAppointment(int appointmentId) throws SQLException {
-		String sql = "DELETE FROM appointment WHERE appointmentId = ?";
+		String sql = "UPDATE appointment SET patient_app = NULL WHERE appointmentId = ?";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setInt(1, appointmentId);
 		prep.executeUpdate();
@@ -97,10 +95,10 @@ public class JDBCAppointmentManager implements AppointmentManager {
 	}
 
 	@Override
-	public List<Appointment> searchAppointmentbyDate(Date date) throws SQLException {
+	public List<Appointment> searchFreeAppointmentsByDate(Date date) throws SQLException {
 		Appointment a = null;
 		Dentist dentist = null;
-		String sql = "SELECT * FROM appointments WHERE date = ? ";
+		String sql = "SELECT * FROM appointments WHERE date = ? AND patient_app IS NULL";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setDate(1, date);
 		ResultSet rs = prep.executeQuery();

@@ -193,7 +193,7 @@ public class JDBCDentistManager implements DentistManager {
 		ResultSet rs = prep.executeQuery();
 		Dentist dentist = null;
 		if(rs.next()){
-			dentist = new Dentist (rs.getString("name"), rs.getString("surname"), 
+			dentist = new Dentist (rs.getInt("dentistId"), rs.getString("name"), rs.getString("surname"), 
 					rs.getString("turn"), rs.getString("specialty")); 
 		}
 		prep.close();

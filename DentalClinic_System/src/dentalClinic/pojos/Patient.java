@@ -40,6 +40,20 @@ public class Patient implements Serializable {
 		this.background = background;
 	}
 	
+	public Patient(String name, String surname, String gender, Date birthDate, String address, String bloodType,
+			String background, Integer userId) {
+		super();
+		this.name = name;
+		this.surname = surname;
+		this.gender = gender;
+		this.birthDate = birthDate;
+		this.address = address;
+		this.bloodType = bloodType;
+		this.background = background;
+		this.userId = userId;
+	}
+
+
 	public Patient (Patient p) {
 		this.setName(p.getName());
 		this.setSurname(p.getSurname());
