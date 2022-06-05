@@ -287,7 +287,7 @@ public class Menu {
 				userManager.updateUser(user, hash);
 				System.out.println("Password updated");
 			} else {
-				System.out.println("The passwords do not match");
+				System.out.println("The passwords don't match");
 			}
 			}catch(Exception ex) {
 				ex.printStackTrace();
@@ -335,6 +335,33 @@ public class Menu {
 		}
 		while(true);
 
+	}
+	
+	private static void patientMenu(User user) throws Exception {
+		sc = new Scanner (System.in);
+		Patient patient = new Patient(patientManager.getPatientByUserId(user.getId()));
+		do{ 
+			System.out.println("1. See my profile");
+			System.out.println("2. Consult my appointments");
+			System.out.println("0. Exit");
+			int choice = Integer.parseInt(reader.readLine());;
+			switch (choice) {
+			case 1:
+				PatientProfile(patient, 0); //dentistoptions = 0 so a patient can't do dentist things
+				break;				
+			case 2:
+				ListofAppointments(user);
+				break;				
+			case 0:
+				System.exit(0);
+			default:
+				System.out.println("Please, choose a valid option.");
+				break;
+					
+			}
+		}
+		while(true);
+		
 	}
 	
 	private static void ModifyDentistInfo(Dentist dentist) throws IOException, SQLException {
@@ -482,7 +509,7 @@ public class Menu {
 	}
 
 	private static void PatientsofDentist(Integer dentistId) throws Exception {
-		
+		sc = new Scanner (System.in);
 		System.out.println("---List of my patients---");
 		List<Patient> patients = new ArrayList<Patient>();
 		patients = patientManager.getPatientsOfDentist(dentistId);
@@ -529,9 +556,8 @@ public class Menu {
 			
 		}
 		while(true);
-		
-		
 	}
+	
 	private static void PatientProfile(Patient patient, int dentistoptions) throws Exception {
 		sc = new Scanner (System.in);
 		do{ 
@@ -574,6 +600,38 @@ public class Menu {
 		}
 		while(true);
 	}
+	
+	private static void AddAllergy(Patient patient) throws IOException, SQLException {
+		System.out.println("Name: ");
+		String name = reader.readLine();
+		Allergy allergy = new Allergy(name);
+		allergy.setAllergyId(manager.getLastId());
+		allergyManager.addAllergy(allergy);
+		allergyManager.assignAllergyPatient(allergy.getAllergyId(), patient.getId());
+	}
+
+	private static void DeleteAllergy(Patient patient) throws NumberFormatException, IOException {
+		System.out.println("Introduce the ID of the allergy you want to delete: ");
+		int id = Integer.parseInt(reader.readLine());
+		int a = 1;
+		try{
+			allergyManager.deleteAllergy(id);;
+		}
+		catch(SQLException e) {
+			a = 0;
+		}
+		while(a == 0) {
+			try {
+				System.out.println("Introduce a valid ID: ");
+				id = Integer.parseInt(reader.readLine());
+				allergyManager.deleteAllergy(id);
+			}
+			catch (SQLException e2) {
+				a = 0;
+			}
+		}
+	}	
+	
 	// dentistoptions is for options that only dentists can do
 	private static void ConsultTreatments(Patient patient, int dentistoptions) throws Exception {
 		Treatment treatment = null;
@@ -767,7 +825,7 @@ public class Menu {
 			}
 		}
 		Treatment treat = new Treatment(name, diagnosis, startDate, finishDate, p);
-		treatmentManager.addTreatment(treat);
+		treatmentManager.addTreatment(treat);		
 	}
 	
 	private static void DeleteTreatment() throws NumberFormatException, IOException {
@@ -819,6 +877,19 @@ public class Menu {
 				case 3:{
 					System.out.println("New gender:");
 					String newGender= reader.readLine();
+					try {
+						if (newGender.equalsIgnoreCase("male")) {
+							newGender = "Male";
+						} 
+						if  (newGender.equalsIgnoreCase("female")){
+							newGender = "Female";
+						}
+					} catch (Exception e) {
+						do{
+							System.out.print("Introduce a valid gender (male/female). ");
+							newGender = reader.readLine();
+						} while (!(newGender.equalsIgnoreCase("male") || newGender.equalsIgnoreCase("female")));
+					}
 					patientManager.editPatientsGender(newGender, patient.getId());	
 					break;
 				}
@@ -846,64 +917,6 @@ public class Menu {
 		
 	}
 
-
-	private static void patientMenu(User user) throws Exception {
-		sc = new Scanner (System.in);
-		Patient patient = new Patient(patientManager.getPatientByUserId(user.getId()));
-		do{ 
-			System.out.println("1. See my profile");
-			System.out.println("2. Consult my appointments");
-			System.out.println("0. Exit");
-			int choice = Integer.parseInt(reader.readLine());;
-			switch (choice) {
-			case 1:
-				PatientProfile(patient, 0); //dentistoptions = 0 so a patient can't do dentist things
-				break;				
-			case 2:
-				ListofAppointments(user);
-				break;				
-			case 0:
-				System.exit(0);
-			default:
-				System.out.println("Please, choose a valid option.");
-				break;
-					
-			}
-		}
-		while(true);
-		
-	}
-	private static void AddAllergy(Patient patient) throws IOException, SQLException {
-		System.out.println("Name: ");
-		String name = reader.readLine();
-		Allergy allergy = new Allergy(name);
-		allergy.setAllergyId(manager.getLastId());
-		allergyManager.addAllergy(allergy);
-		allergyManager.assignAllergyPatient(allergy.getAllergyId(), patient.getId());
-	}
-
-	private static void DeleteAllergy(Patient patient) throws NumberFormatException, IOException {
-		System.out.println("Introduce the ID of the allergy you want to delete: ");
-		int id = Integer.parseInt(reader.readLine());
-		int a = 1;
-		try{
-			allergyManager.deleteAllergy(id);;
-		}
-		catch(SQLException e) {
-			a = 0;
-		}
-		while(a == 0) {
-			try {
-				System.out.println("Introduce a valid ID: ");
-				id = Integer.parseInt(reader.readLine());
-				allergyManager.deleteAllergy(id);
-			}
-			catch (SQLException e2) {
-				a = 0;
-			}
-		}
-	}	
-	
 
 	//METHODS FROM XML
 	
