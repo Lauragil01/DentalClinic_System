@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "Dentist")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(propOrder = { "name", "specialty", "appointment"})
+@XmlType(propOrder = {"patients","appointments"})
 
 public class Dentist implements Serializable{
 
@@ -34,12 +34,13 @@ public class Dentist implements Serializable{
 	 
 	@XmlAttribute
 	private Integer dentistId;
+	@XmlAttribute
 	private String name;
 	@XmlAttribute
 	private String surname;
-	@XmlElement
+	@XmlAttribute
 	private String turn;
-	@XmlElement
+	@XmlAttribute
 	private String specialty;
 	@XmlElement(name = "Patient")
     @XmlElementWrapper(name = "Patients")
@@ -47,6 +48,7 @@ public class Dentist implements Serializable{
 	@XmlElement(name = "Appointment")
     @XmlElementWrapper(name = "Appointments")
 	private List<Appointment> appointments=null;
+	@XmlTransient
 	private Integer userId;
 	
 	public Dentist() {

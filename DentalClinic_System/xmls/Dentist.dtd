@@ -1,6 +1,7 @@
 <!DOCTYPE Dentist [
    <!ELEMENT Dentist (Appointments)>
    <!ELEMENT Appointments (Appointment+)> 
+   
    <!ATTLIST Dentist dentistId CDATA #REQUIRED
    					dentistName CDATA #REQUIRED
    					dentistSurname CDATA #REQUIRED

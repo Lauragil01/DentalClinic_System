@@ -1,46 +1,45 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Dentist dentistId="1" dentistName="Pablo" dentistSurname="Garcia">
-    <Appointments>
+<Appointments>
         <Appointment appointmentId="1">
             <date>2022-06-07</date>
+            <type>revision</type>
             <duration>30</duration>
             <time>17:00:00</time>
-            <Patient>
-            	<patientId>01</patientId>
-            	<name>Carlota</name>
-            	<surname>Puente</surname>
-       	 	</Patient>
+            <Dentist dentistId="1" dentistName="Pablo" dentistSurname="Garcia" >
+            	<turn>morning</turn>
+            	<speciality>orthodontist</speciality>
+       	 	</Dentist >
         </Appointment>
         <Appointment appointmentId="2">
             <date>2022-06-09</date>
+            <type>limpieza</type>
             <duration>30</duration>
             <time>18:30:00</time>
-            <Patient>
-            	<patientId>02</patientId>
-            	<name>Maria</name>
-            	<surname>Defarges</surname>
-       	 	</Patient>
+            <Dentist dentistId="2" dentistName="Carlota" dentistSurname="Puente" >
+            	<turn>afternoon</turn>
+            	<speciality>endodontist</speciality>
+       	 	</Dentist >
         </Appointment>
         <Appointment appointmentId="3">
             <date>2022-06-10</date>
+            <type>operación</type>
             <duration>15</duration>
             <time>15:15:00</time>
-            <Patient>
-            	<patientId>03</patientId>
-            	<name>Jorge</name>
-            	<surname>Chillon</surname>
-       	 	</Patient>
+            <Dentist dentistId="3" dentistName="Alonso" dentistSurname="Perez" >
+            	<turn>evening</turn>
+            	<speciality>periodontist</speciality>
+       	 	</Dentist >
         </Appointment>
         <Appointment appointmentId="4">
             <date>2022-06-11</date>
+            <type>medida aparato</type>
             <duration>30</duration>
             <time>12:00:00</time>
-            <Patient>
-            	<patientId>04</patientId>
-            	<name>Laura</name>
-            	<surname>Gil</surname>
-       	 	</Patient>
+            <Dentist dentistId="4" dentistName="Jimena" dentistSurname="Martin" >
+            	<turn>morning</turn>
+            	<speciality>prosthodontist</speciality>
+       	 	</Dentist >
         </Appointment>
-    </Appointments>
-</Dentist>
+</Appointments>
+
 

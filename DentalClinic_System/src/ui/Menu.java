@@ -1,6 +1,7 @@
 package ui;
 
 import java.io.BufferedReader;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.security.MessageDigest;
@@ -16,9 +17,7 @@ import javax.xml.bind.JAXBException;
 import dentalClinic.pojos.*;
 import jdbc.JDBCAllergyManager;
 import jdbc.JDBCAppointmentManager;
-import dentalClinic.xml.manager.Java2Xml;
-import dentalClinic.xml.manager.Xml2Html;
-import dentalClinic.xml.manager.Xml2Java;
+import dentalClinic.xml.manager.XMLManager;
 import jdbc.JDBCDentistManager;
 import jdbc.JDBCManager;
 import jdbc.JDBCMedicationManager;
@@ -38,6 +37,8 @@ public class Menu {
 	public static JDBCMedicationManager medicationManager;
 	public static Appointment appointment;
 	static Scanner sc = new Scanner(System.in);
+
+	static XMLManager xmlManager = new XMLManager();
 	
 	private static BufferedReader reader = new BufferedReader (new InputStreamReader(System.in));
 	public static void main(String[] args) {
@@ -751,40 +752,40 @@ public class Menu {
 
 	//METHODS FROM XML
 	
-		public static void appointmentToXml(Dentist dentist) throws Exception {
-			Java2Xml.java2XmlAppointment(dentist);
-		}
+		/*public static void appointmentToXml(Dentist dentist) throws Exception {
+			xmlManager.java2XmlAppointment(dentist);
+		}*/
 		
-		public static void xmlToAppointment(Dentist dentist) {
+		/*public static void xmlToAppointment(Dentist dentist) {
 			try {
-				Xml2Java.xml2JavaAppointment(); 
+				xmlManager.xml2JavaAppointment(); 
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
-		}
+		}*/
 		
 		public static void appointmentXmlToHtml () {
-			Xml2Html.simpleTransform("./xmls/External-Appointment.xml", "./xmls/Appointment-Style.xslt", "./xmls/Appointment.html");
+			xmlManager.simpleTransform("./xmls/External-Appointment.xml", "./xmls/Appointment-Style.xslt", "./xmls/Appointment.html");
 		}
 		
 		public static void xmlToDentist() {
 			try {
-				Xml2Java.xml2JavaDentist();  
+				xmlManager.xml2JavaDentist();  
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
 		}
 		
-		public static void dentistToXml() throws JAXBException {
+		public static void dentistToXml(Dentists d) throws JAXBException {
 			try {
-				Java2Xml.java2XmlDentist(); 
+				xmlManager.java2XmlDentist(d); 
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
 		}
 		
 		public static void dentistXmlToHtml () {
-			Xml2Html.simpleTransform("./xmls/External-Dentist.xml", "./xmls/Dentist-Style.xslt", "./xmls/Dentist.html");
+			xmlManager.simpleTransform("./xmls/External-Dentist.xml", "./xmls/Dentist-Style.xslt", "./xmls/Dentist.html");
 		}
 	
 	
