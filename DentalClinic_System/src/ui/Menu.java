@@ -237,11 +237,28 @@ public class Menu {
 		}
 		System.out.println("Specialty: ");
 		String specialty = reader.readLine();
-		
 		Dentist dentist = new Dentist(name,surname,turn,specialty);
+		
+
 		dentistManager.addDentist(dentist);
 		return dentist;
 	}
+	
+	/*public static List<Appointment> createDentistsAppointments(Dentist dentist) throws SQLException{
+		List<Appointment> appointments = new ArrayList();
+		if(dentist.getTurn().equalsIgnoreCase("morning")) {
+			Date date = java.sql.Date.valueOf("2022-06-05");
+			Time time1 = java.sql.Time.valueOf("09:00:00");
+			Appointment a1 = new Appointment(date, 1, time, dentist);
+			dentist.getAppointments().add(a1);
+			appointmentManager.addAppointment(a1);
+			appointments.add(a1);
+			Appointment a2 = new Appointment(date, 1, time, dentist);
+			time.
+			dentist.getAppointments().add(a2);
+		}
+		return appointments;
+	}*/
 	
 	private static void login() throws Exception{
 		System.out.print("Email:");
@@ -418,49 +435,7 @@ public class Menu {
 		}
 		while(true);	
 	}	
-	
-	/*private static void AddAppointment(Patient patient, Dentist dentist) throws IOException {
-		// TODO Auto-generated method stub
-		
-		
-		if(dentist == null) {
-			// Hacer
-		}else {
-			    //Cambiar time
-				System.out.println("Type of appointment: ");
-				String type= reader.readLine();
-				
-				System.out.println("Duration of appointment: ");
-				int duration= Integer.parseInt(reader.readLine());
-				
-				
-				System.out.println("Date (year-month-day): ");
-				Date date = null;
-				try {
-					date = Date.valueOf(reader.readLine());
-				}
-				catch (Exception e) {
-					date = null;
-				}
-				while(date == null) {
-					System.out.println("Please introduce a valid date: ");
-					try {
-					date = Date.valueOf(reader.readLine());
-					}
-					catch (Exception e1) {
-						date = null;
-				    }		
-				}
-				
-				System.out.println("Duration of appointment: ");
-				System.out.println("Hour: ");
-				int hour = Integer.parseInt(reader.readLine());
-				System.out.println("Minute: ");
-				int minute = Integer.parseInt(reader.readLine());				
-				Time time = new Time(hour, minute, 0);
-				Appointment a= new Appointment(date,type,duration,time,dentist);
-		}
-	}*/
+
 	
 	private static void makeAnAppointment(Patient p) throws SQLException, IOException{
 		System.out.println("Please introduce the date for your appointment: ");
@@ -477,6 +452,14 @@ public class Menu {
 			prep.executeUpdate();
 			prep.close();
 			p.getAppointments().add(appointmentManager.searchAppointmentById(id));
+			System.out.println("Explain birefly the reason for the appointments: ");
+			String type = reader.readLine();
+			sql = "UPDATE appointments SET type = ? WHERE appointmentId = ?";
+			prep.setString(1,  type);
+			prep.setInt(2,  id);
+			prep.executeUpdate();
+			prep.close();
+			appointmentManager.searchAppointmentById(id).setType(type);
 		} catch (SQLException e) {
 			a = 0;
 		}

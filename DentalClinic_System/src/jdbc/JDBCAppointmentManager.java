@@ -87,9 +87,9 @@ public class JDBCAppointmentManager implements AppointmentManager {
 
 	@Override
 	public void deleteAppointment(int appointmentId) throws SQLException {
-		String sql = "UPDATE appointment SET patient_app = NULL WHERE appointmentId = ?";
+		String sql = "UPDATE appointment SET patient_app = NULL AND SET type = NULL WHERE appointmentId = ?";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
-		prep.setInt(1, appointmentId);
+		prep.setInt(1, appointmentId); 
 		prep.executeUpdate();
 		prep.close();
 	}
