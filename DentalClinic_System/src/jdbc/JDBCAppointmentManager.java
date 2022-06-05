@@ -39,8 +39,6 @@ public class JDBCAppointmentManager implements AppointmentManager {
 		prep.executeUpdate();
 		prep.close();	
 	}
-	
-	//public void assignAppointmentTo_PatientDentist(int patientId, int dentistId) throws SQLException{}
 
 	
 	@Override
