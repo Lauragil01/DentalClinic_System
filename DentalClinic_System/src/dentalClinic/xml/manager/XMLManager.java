@@ -1,6 +1,7 @@
 package dentalClinic.xml.manager;
 
 import java.io.File;
+import java.util.List;
 import java.util.Scanner;
 
 import javax.persistence.EntityManager;
@@ -53,7 +54,7 @@ public class XMLManager {
 		}
 		
 	//LO NECESITO????
-	public void xml2JavaAppointment() throws Exception {
+	/*public void xml2JavaAppointment() throws Exception {
 		//Create the JAXBContext
 				JAXBContext jaxbContext = JAXBContext.newInstance(Dentist.class);
 				// Get the unmarshaller
@@ -91,7 +92,7 @@ public class XMLManager {
 								tx1.commit();
 							}	
 	}
-	
+	*/
 	
 	//XML to HTML
 	/**
@@ -114,10 +115,15 @@ public class XMLManager {
 	//PRUEBAS
 	public static void main(String[] args) {
 		
-		Dentists dentist=new Dentists();
+		Dentist d1= new Dentist(1,"Juan", "García", "tarde", "odontologo");
+		Dentist d2= new Dentist(2,"Juan", "García", "tarde", "odontologo");
+		
+		Dentists dentists=new Dentists();
+		
 		XMLManager xmlManager= new XMLManager();
+		
 		try {
-			xmlManager.java2XmlDentist(dentist); 
+			xmlManager.java2XmlDentist(dentists); 
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -128,11 +134,11 @@ public class XMLManager {
 			e.printStackTrace();
 		}
 		
-		try {
-			xmlManager.xml2JavaAppointment(); 
+		/*try {
+			//xmlManager.xml2JavaAppointment(); 
 		}catch(Exception e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 	
 	

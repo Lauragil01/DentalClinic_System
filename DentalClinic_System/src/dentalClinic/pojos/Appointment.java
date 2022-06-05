@@ -11,7 +11,7 @@ import dentalClinic.xml.utils.SQLDateAdapter;
 
 @XmlRootElement(name = "Appointment")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(propOrder = {"date","type","duration","time"})
+@XmlType(propOrder = {"date","type", "duration","time", "dentist","patient"})
 public class Appointment implements Serializable {
 	
 	/**
@@ -32,9 +32,9 @@ public class Appointment implements Serializable {
 	private Integer duration;
 	@XmlElement
 	private Time time;
-	@XmlTransient
+	@XmlElement
 	private Dentist dentist;
-	@XmlTransient
+	@XmlElement
 	private Patient patient;
 	
 	public Appointment() {

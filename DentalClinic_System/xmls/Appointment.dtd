@@ -1,24 +1,19 @@
 <!DOCTYPE Appointment [
-   <!ELEMENT Appointment (date, type, duration, time, Patient)>
+
+   <!ELEMENT Appointments (Appointment+)> 
+   <!ELEMENT Appointment (date, type, duration, time, Dentist)>
    <!ATTLIST Appointment appointmentId CDATA #REQUIRED>
    <!ELEMENT date (#PCDATA)>
    <!ELEMENT type (#PCDATA)>
    <!ELEMENT duration (#PCDATA)>
    <!ELEMENT time (#PCDATA)>
-   <!ELEMENT Patient (patientId,name,surname)>
-   <!ELEMENT patientId (#PCDATA)>
-   <!ELEMENT name (#PCDATA)>
-   <!ELEMENT surname (#PCDATA)>
-   
-   <!ELEMENT Dentist (Dentist+)>
-   <!ELEMENT Dentist (turn, specialty, Patient)> 			
+   <!ELEMENT Dentist (turn, specialty)> 			
    <!ATTLIST Dentist dentistId CDATA #REQUIRED
    					dentistName CDATA #REQUIRED
    					dentistSurname CDATA #REQUIRED
    <!ELEMENT turn (#PCDATA)>
    <!ELEMENT specialty (#PCDATA)>
-    
- 
 ]>
+
 
 

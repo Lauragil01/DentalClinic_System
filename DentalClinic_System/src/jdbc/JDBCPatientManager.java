@@ -239,7 +239,5 @@ public class JDBCPatientManager implements PatientManager {
 		prep.executeUpdate();
 		prep.close();
 		
-	}
-
-	
+	} 	
 }
