@@ -7,6 +7,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -299,9 +300,47 @@ public class Menu {
 		while(true);	
 	}	
 	
-	private static void AddAppointment(Patient patient, Dentist dentist) {
+	private static void AddAppointment(Patient patient, Dentist dentist) throws IOException {
 		// TODO Auto-generated method stub
 		
+		
+		if(dentist == null) {
+			// Hacer
+		}else {
+			    //Cambiar time
+				System.out.println("Type of appointment: ");
+				String type= reader.readLine();
+				
+				System.out.println("Duration of appointment: ");
+				int duration= Integer.parseInt(reader.readLine());
+				
+				
+				System.out.println("Date year-month-day: ");
+				Date date = null;
+				try {
+					date = Date.valueOf(sc.next());
+				}
+				catch (Exception e) {
+					date = null;
+				}
+				while(date == null) {
+					System.out.println("Please introduce a valid date: ");
+					try {
+					date = Date.valueOf(sc.next());
+					}
+					catch (Exception e1) {
+						date = null;
+					}
+				
+		}
+				System.out.println("Duration of appointment: ");
+				System.out.println("Hour: ");
+				int hour = Integer.parseInt(reader.readLine());
+				System.out.println("Minute: ");
+				int minute = Integer.parseInt(reader.readLine());				
+				Time time = new Time(hour, minute, 0);
+				Appointment a= new Appointment(date,type,duration,time,dentist);
+		}
 	}
 	private static void DeleteAppointment() throws Exception{
 		System.out.println("Introduce the ID of the appointment you want to delete: ");
