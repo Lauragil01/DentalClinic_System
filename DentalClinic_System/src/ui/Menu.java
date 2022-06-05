@@ -83,68 +83,185 @@ public class Menu {
 
 	private static void createAccount() throws IOException, NoSuchAlgorithmException, SQLException {
 		System.out.println("--- NEW ACCOUNT ---");
-		System.out.println("Email:");
+		System.out.println("Email: ");
 		String email = reader.readLine();
 		
-		int a=0;
-			do {
-				if(userManager.checkEmail(email)==null) { //no seria !=null?
-					System.out.println("Choose another email:");
-					email = reader.readLine();
-				}else {
-					a=1;
-				}
-				
+		while(userManager.checkEmail(email) != null) {
+			System.out.println("The email is already registered. Introduce another email: ");
+			email = reader.readLine();
+		}
+			
+		System.out.println("Password:");
+		String password = reader.readLine();
+
+		System.out.println("Choose your role ID: "); 
+		System.out.println(userManager.getRoles());
+		Integer id = null;
+		do {
+			try {
+				id = Integer.parseInt(reader.readLine());
+			} 
+			catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("Not a valid role id. Try again.");
 			}
-			while(a==0);
-			String password = null;
-			do {
-			System.out.println("Password:");
-			password = reader.readLine();
-				if(userManager.checkPassword(email, password) == null) { 
-					System.out.println("The password introduced is not valid, try again.");
-				}
-				else {
-					a=1;
-				}
-				
+		} 
+		while (id == null); 
+			
+		Role role = userManager.getRole(id);
+		MessageDigest md = MessageDigest.getInstance("MD5");
+		md.update(password.getBytes());
+		byte[] hash = md.digest();
+		User user = new User(email, hash, role);
+		userManager.newUser(user);
+		
+		if(user.getRole().getName().equalsIgnoreCase("patient")) {
+			Patient patient = RegisterPatient(user);
+			patient.setId(manager.getLastId());
+			patientManager.LinkPatientUser(patient.getId(), user.getId()); 
+			
+		} 
+		else if(user.getRole().getName().equalsIgnoreCase("dentist")) {
+			Dentist dentist = RegisterDentist(user);
+			dentist.setId(manager.getLastId());
+			dentistManager.LinkDentistUser(dentist.getId(), user.getId());	
+		}
+		System.out.println("Account created.");
+	}
+
+	private static Patient RegisterPatient(User user) throws IOException, SQLException {
+		System.out.println("--- NEW PATIENT ---");
+		System.out.println("Name: ");
+		String name = reader.readLine();
+		System.out.println("Surname: ");
+		String surname = reader.readLine();
+		System.out.println("Gender: ");
+		String gender = reader.readLine();
+		try {
+			if (gender.equalsIgnoreCase("male")) {
+				gender = "Male";
+			} 
+			if  (gender.equalsIgnoreCase("female")){
+				gender = "Female";
 			}
-			while(a==0);
-			System.out.println(userManager.getRoles());
-			System.out.println("Choose your role ID: "); 
-			Integer id = null;
-			int z=0;
-			do {
-				try {
-					id = Integer.parseInt(reader.readLine());
-					z=1;
-				} catch (Exception e) {
-					e.printStackTrace();
-					System.out.println("Not a valid role id. Try again.");
-				}
-			} while (z==1); 
-			Role role = userManager.getRole(id);
-			MessageDigest md = MessageDigest.getInstance("MD5");
-			md.update(password.getBytes());
-			byte[] hash = md.digest();
-			User user = new User(email, hash, role);
-			userManager.newUser(user);
-			if(user.getRole().getName().equalsIgnoreCase("patient")) {
-				patientManager.LinkPatientUser(user.getId(), id); 
-			} else if(user.getRole().getName().equalsIgnoreCase("dentist")) {
-				dentistManager.LinkDentistUser(user.getId(), id); 
-		    }
+		} catch (Exception e) {
+			do{
+				System.out.print("Introduce a valid gender (male/female). ");
+				gender = reader.readLine();
+			} while (!(gender.equalsIgnoreCase("male") || gender.equalsIgnoreCase("female")));
+
+		}
+		System.out.println("Date of birth (year-month-day): ");
+		Date birthdate = null;
+		try {
+			birthdate = Date.valueOf(reader.readLine());
+		}
+		catch (Exception e1) {
+			birthdate = null;
+		}
+		while(birthdate == null) {
+			System.out.println("Please introduce a valid date: ");
+			try {
+			birthdate = Date.valueOf(reader.readLine());
+			}
+			catch (Exception e2) {
+				birthdate = null;
+		    }		
+		}
+		System.out.println("Address: ");
+		String address = reader.readLine();
+		
+		System.out.println("Bloodtype, just the letter (A, B, AB, O): ");
+		String bt = reader.readLine();
+		try {
+			if (bt.equalsIgnoreCase("a")) {
+				bt = "A";
+			} 
+			if  (bt.equalsIgnoreCase("b")){
+				bt = "B";
+			}
+			if  (bt.equalsIgnoreCase("o")){
+				bt = "O";
+			}
+			if  (bt.equalsIgnoreCase("ab")){
+				bt = "AB";
+			}
+		} 
+		catch (Exception e3) {
+			do{
+				System.out.print("Introduce a valid bloodtype (A, B, AB, O):  ");
+				bt = reader.readLine();
+			} while (!(bt.equalsIgnoreCase("a") || bt.equalsIgnoreCase("b") || bt.equalsIgnoreCase("o") || bt.equalsIgnoreCase("ab")));
+		
+		}
+		
+		System.out.println("Bloodtype, introduce the RH factor (-/+): ");
+		String rh = reader.readLine();
+		while(!(rh.equalsIgnoreCase("-") || rh.equalsIgnoreCase("+"))) {
+			System.out.print("Introduce a valid RH factor (-/+): ");
+			rh = reader.readLine();
+		}
+		String bloodtype = bt + " " + rh;
+		
+		System.out.println("Background: ");
+		String background = reader.readLine();
+		
+		Patient patient = new Patient(name,surname, gender, birthdate, address, bloodtype, background, user.getId());
+		patientManager.addPatient(patient);
+		return patient;
+	}
+
+	private static Dentist RegisterDentist(User user) throws IOException, SQLException {
+		System.out.println("--- NEW DENTIST ---");
+		System.out.println("Name: ");
+		String name = reader.readLine();
+		System.out.println("Surname: ");
+		String surname = reader.readLine();
+		System.out.println("Turn: ");
+		String turn = reader.readLine();
+		try {
+			if (turn.equalsIgnoreCase("morning")) {
+				turn = "Morning";
+			} 
+			if  (turn.equalsIgnoreCase("afternoon")){
+				turn = "Afternoon";
+			}
+		} 
+		catch (Exception e) {
+			do{
+				System.out.print("Introduce a valid turn (morning/afternoon). ");
+				turn = reader.readLine();
+			} 
+			while (!(turn.equalsIgnoreCase("morning") || turn.equalsIgnoreCase("afternoon")));
+		}
+		System.out.println("Specialty: ");
+		String specialty = reader.readLine();
+		
+		Dentist dentist = new Dentist(name,surname,turn,specialty);
+		dentistManager.addDentist(dentist);
+		return dentist;
 	}
 	
 	private static void login() throws Exception{
 		System.out.print("Email:");
 		String email = reader.readLine();
+		
+		while(userManager.checkEmail(email) == null) {
+			System.out.println("The email introduced is not registered. Choose another email: ");
+			email = reader.readLine();
+		}
+		
 		System.out.print("Password:");
 		String password = reader.readLine();
+		
+		while (userManager.checkPassword(email, password) == null) { 
+			System.out.println("The password introduced is not valid, try again.");
+			password = reader.readLine();
+		}
+		
 		User u = userManager.checkPassword(email,password);
-		if(u == null) {
-			System.out.print("Incorrect email or password");
-		}else if (u.getRole().getName().equalsIgnoreCase("dentist")){
+		
+		if (u.getRole().getName().equalsIgnoreCase("dentist")){
 			dentistMenu(u);
 		}else if (u.getRole().getName().equalsIgnoreCase("patient")){
 			patientMenu(u); 
@@ -315,10 +432,10 @@ public class Menu {
 				int duration= Integer.parseInt(reader.readLine());
 				
 				
-				System.out.println("Date year-month-day: ");
+				System.out.println("Date (year-month-day): ");
 				Date date = null;
 				try {
-					date = Date.valueOf(sc.next());
+					date = Date.valueOf(reader.readLine());
 				}
 				catch (Exception e) {
 					date = null;
@@ -326,13 +443,13 @@ public class Menu {
 				while(date == null) {
 					System.out.println("Please introduce a valid date: ");
 					try {
-					date = Date.valueOf(sc.next());
+					date = Date.valueOf(reader.readLine());
 					}
 					catch (Exception e1) {
 						date = null;
-					}
+				    }		
+				}
 				
-		}
 				System.out.println("Duration of appointment: ");
 				System.out.println("Hour: ");
 				int hour = Integer.parseInt(reader.readLine());
@@ -759,10 +876,10 @@ public class Menu {
 	private static void AddAllergy(Patient patient) throws IOException, SQLException {
 		System.out.println("Name: ");
 		String name = reader.readLine();
-		System.out.println("Diagnosis: ");
 		Allergy allergy = new Allergy(name);
-		//ASSIGN ???
+		allergy.setAllergyId(manager.getLastId());
 		allergyManager.addAllergy(allergy);
+		allergyManager.assignAllergyPatient(allergy.getAllergyId(), patient.getId());
 	}
 
 	private static void DeleteAllergy(Patient patient) throws NumberFormatException, IOException {

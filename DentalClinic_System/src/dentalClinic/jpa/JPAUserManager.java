@@ -66,12 +66,12 @@ public class JPAUserManager implements UserManager{
 	}
 	
 	@Override
-	public String checkEmail(String email) {	
+	public User checkEmail(String email) {	
 		User u = null;
 		Query q = em.createNativeQuery("SELECT * FROM users WHERE email = ?", User.class);
 		q.setParameter(1, email);
-		email = (String) q.getSingleResult();
-		return email;
+		u = (User) q.getSingleResult();
+		
 	}
 
 	@Override
