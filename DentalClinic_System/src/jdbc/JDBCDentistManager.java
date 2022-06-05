@@ -46,7 +46,7 @@ public class JDBCDentistManager implements DentistManager {
 	}
 	
 	@Override
-	public List<Dentist> getDentistsOfPatient(int patientId) throws SQLException { 
+	public List<Dentist> getDentistsOfPatient(int patientId) throws SQLException { // checked
 		String sql = "SELECT * from dentists AS d JOIN patient_dentist AS pd ON d.dentistId = pd.dentist_pd WHERE pd.patient_pd=?";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setInt(1, patientId);

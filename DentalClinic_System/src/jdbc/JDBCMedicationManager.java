@@ -36,7 +36,7 @@ public class JDBCMedicationManager implements MedicationManager {
 	}
 
 	@Override
-	public List<Medication> listofMedications(int treatmentId) throws SQLException { //No funciona
+	public List<Medication> listofMedications(int treatmentId) throws SQLException { // checked
 		String sql = "SELECT * FROM medications WHERE treatment_med=? ";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setInt(1, treatmentId);
@@ -55,13 +55,13 @@ public class JDBCMedicationManager implements MedicationManager {
 	}
 	
 	@Override
-	public void assignTreatmentToMedication(int medicationId, int treatmentId) throws SQLException { 
-		String sql = "INSERT INTO medications (treatment_med) VALUES (?) WHERE medicationId = ?";
+	public void assignTreatmentToMedication(int medicationId, int treatmentId) throws SQLException { // checked
+		String sql = "UPDATE medications SET treatment_med = ? WHERE medicationId = ?";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setInt(1, treatmentId);
 		prep.setInt(2,  medicationId);
-	prep.executeUpdate();
-	prep.close();	
+		prep.executeUpdate();
+		prep.close();	
 	}
 	
 	@Override
