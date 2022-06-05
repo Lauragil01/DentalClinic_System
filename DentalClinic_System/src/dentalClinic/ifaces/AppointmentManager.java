@@ -16,7 +16,7 @@ public interface AppointmentManager {
 	
 	public Appointment searchAppointmentById (int appointmentId)throws SQLException;
 
-	public List<Appointment> searchAppointmentbyDate(Date date) throws SQLException;
+	public List<Appointment> searchFreeAppointmentsByDate(Date date) throws SQLException;
 	
 
 }

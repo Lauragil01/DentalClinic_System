@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.util.ArrayList;
@@ -421,10 +422,11 @@ public class Menu {
 			int choice = Integer.parseInt(reader.readLine());
 			switch (choice) {
 				case 1:{
-					if (dentist == null)
+					/*if (dentist == null)
 					AddAppointment(patient, null);
 					if (patient == null)
-						AddAppointment(null, dentist);
+						AddAppointment(null, dentist);*/
+					makeAnAppointment(patient);
 					break;
 				}
 						
@@ -444,7 +446,7 @@ public class Menu {
 		while(true);	
 	}	
 	
-	private static void AddAppointment(Patient patient, Dentist dentist) throws IOException {
+	/*private static void AddAppointment(Patient patient, Dentist dentist) throws IOException {
 		// TODO Auto-generated method stub
 		
 		
@@ -485,15 +487,44 @@ public class Menu {
 				Time time = new Time(hour, minute, 0);
 				Appointment a= new Appointment(date,type,duration,time,dentist);
 		}
+	}*/
+	
+	private static void makeAnAppointment(Patient p) throws SQLException, IOException{
+		System.out.println("Please introduce the date for your appointment: ");
+		Date d = java.sql.Date.valueOf(reader.readLine());
+		System.out.println(appointmentManager.searchFreeAppointmentsByDate(d));
+		System.out.println("Please chose the appointment by introducing its id: ");
+		int id = Integer.parseInt(reader.readLine());
+		int a = 1;
+		try {
+			String sql = "UPDATE appointments SET patient_app = ? WHERE appointmentId = ?";
+			PreparedStatement prep= manager.getConnection().prepareStatement(sql);
+			prep.setInt(1, p.getId());
+			prep.setInt(2,  id);
+			prep.executeUpdate();
+			prep.close();
+			p.getAppointments().add(appointmentManager.searchAppointmentById(id));
+		} catch (SQLException e) {
+			a = 0;
+		}
+		while(a==0) {
+			try {
+				System.out.println("Introduce a valid ID: ");
+				id = Integer.parseInt(reader.readLine());
+				appointmentManager.deleteAppointment(id);
+			}catch (SQLException e2) {
+				a = 0;
+			}	
+		}
 	}
-	private static void DeleteAppointment() throws Exception{
+	
+	private static void DeleteAppointment() throws IOException{
 		System.out.println("Introduce the ID of the appointment you want to delete: ");
 		int id = Integer.parseInt(reader.readLine());
 		int a = 1;
 		try{
 			appointmentManager.deleteAppointment(id);
-		}
-		catch(SQLException e) {
+		}catch(SQLException e) {
 			a = 0;
 		}
 		while(a == 0) {
@@ -501,8 +532,7 @@ public class Menu {
 				System.out.println("Introduce a valid ID: ");
 				id = Integer.parseInt(reader.readLine());
 				appointmentManager.deleteAppointment(id);
-			}
-			catch (SQLException e2) {
+			}catch (SQLException e2) {
 				a = 0;
 			}
 		}
