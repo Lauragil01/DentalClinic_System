@@ -190,40 +190,42 @@ public class JDBCManager {
 			List<Allergy> allergies = new ArrayList<Allergy>();
 			List<Dentist> dentistsfound = new ArrayList<Dentist>();
 			
-			/*try {
-				/*meds.add(m);
-				t2.setMedications(meds);
-				tm.addTreatment(t2);
-				System.out.println(mm.listofMedications(t2.getId()));
+			try {
+				tm.addTreatment(t);
+				mm.addMedication(m2);
+				mm.assignTreatmentToMedication(m2.getId(), t.getId()); 
+				System.out.println(mm.listofMedications(t.getId())); // no funciona */
 				
-				treats.add(t2);
-				p1.setTreatments(treats);
-				pm.addPatient(p1);
-				System.out.println(tm.listofTreatments(p1.getId()));*/
+				
+				/*tm.addTreatment(t);
+				pm.addPatient(p3);
+				tm.assignPatientToTreatment(p3.getId(), t.getId());
+				System.out.println(tm.listofTreatments(p3.getId())); // no funciona*/
+				
 				
 				/*pm.addPatient(p2);
 				dm.addDentist(d1);
 				dm.addDentist(d2);
-				dm.assignDentistPatient(d1.getId(), p2.getId());
+				dm.assignDentistPatient(d1.getId(), p2.getId()); 
 				dm.assignDentistPatient(d2.getId(), p2.getId());
-				System.out.println(dm.getDentistsOfPatient(p2.getId()));*/
+				System.out.println(dm.getDentistsOfPatient(p2.getId())); // funciona*/
 				
 				/*dm.addDentist(d4);
+				pm.addPatient(p3);
 				pm.addPatient(p4);
-				pm.addPatient(p3);
-				dm.assignDentistPatient(p4.getId(), d4.getId());
-				dm.assignDentistPatient(p3.getId(), d4.getId());
-				System.out.println(pm.getPatientsOfDentist(d4.getId()));*/
+				dm.assignDentistPatient(d4.getId(), p3.getId()); 
+				dm.assignDentistPatient(d4.getId(), p4.getId());  
+				System.out.println(pm.getPatientsOfDentist(d4.getId())); // funciona*/
 
-				/*am.addAllergy(a4);
+				/*pm.addPatient(p3);
+				am.addAllergy(a4);
 				am.addAllergy(a2);
-				pm.addPatient(p3);
 				am.assignAllergyPatient(a4.getAllergyId(), p3.getId());
-				am.assignAllergyPatient(a2.getAllergyId(), p3.getId());
-				System.out.println(am.getAllergiesFromPatient(p3.getId()));
+				am.assignAllergyPatient(a2.getAllergyId(), p3.getId()); 
+				System.out.println(am.getAllergiesFromPatient(p3.getId())); // fucniona */
 
 			}catch(SQLException e) {
 				e.printStackTrace();
-			}*/
+			}
 		}
 }
