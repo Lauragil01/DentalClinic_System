@@ -56,7 +56,7 @@ public class JDBCPatientManager implements PatientManager {
 	}
 	
 	@Override
-	public Patient searchPatientById(int patientId) throws SQLException { //Checked
+	public Patient searchPatientById(int patientId) throws SQLException { 
 		Patient p = null;
 		String sql = "SELECT * FROM patients WHERE patientId= ?";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
@@ -82,11 +82,12 @@ public class JDBCPatientManager implements PatientManager {
 	}
 			
 	@Override
-	public List<Patient> searchPatientbyName(String name) throws SQLException { //Checked
+	public List<Patient> searchPatientbyName(String name, int dentistId) throws SQLException { 
 		Patient p = null;
-		String sql = "SELECT * FROM patients WHERE name LIKE ?";
+		String sql = "SELECT * FROM patients AS p JOIN patient_dentist AS pd ON p.patientId = pd.patient_pd WHERE p.name LIKE ? AND pd.dentist_pd = ? ";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
-		prep.setString(1,"%" + name + "%");
+		prep.setString(1, name);
+		prep.setInt(2, dentistId);
 		ResultSet rs = prep.executeQuery();
 		List <Patient> patients = new ArrayList<Patient>();
 		while(rs.next()){
@@ -106,11 +107,12 @@ public class JDBCPatientManager implements PatientManager {
 	}
 	
 	@Override
-	public List<Patient> searchPatientbySurname(String surname) throws SQLException { //Checked
+	public List<Patient> searchPatientbySurname(String surname, int dentistId) throws SQLException { 
 		Patient p = null;
-		String sql = "SELECT * FROM patients WHERE surname LIKE ?";
+		String sql = "SELECT * FROM patients AS p JOIN patient_dentist AS pd ON p.patientId = pd.patient_pd WHERE p.surname LIKE ? AND pd.dentist_pd = ? ";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
-		prep.setString(1,"%" + surname + "%");
+		prep.setString(1, surname);
+		prep.setInt(2, dentistId);
 		ResultSet rs = prep.executeQuery();
 		List <Patient> patients = new ArrayList<Patient>();
 		while(rs.next()){

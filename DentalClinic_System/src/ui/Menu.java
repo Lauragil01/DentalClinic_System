@@ -179,13 +179,13 @@ public class Menu {
 		if (bt.equals("a")) {
 			bt = "A";
 		} 
-		if  (bt.equalsIgnoreCase("b")){
+		if  (bt.equals("b")){
 			bt = "B";
 		}
-		if  (bt.equalsIgnoreCase("o")){
+		if  (bt.equals("o")){
 			bt = "O";
 		}
-		if  (bt.equalsIgnoreCase("ab")){
+		if  (bt.equals("ab")){
 			bt = "AB";
 		}
 		while (!(bt.equalsIgnoreCase("a") || bt.equalsIgnoreCase("b") || bt.equalsIgnoreCase("o") || bt.equalsIgnoreCase("ab"))) {
@@ -329,12 +329,13 @@ public class Menu {
 
 	
 	private static void dentistMenu(User user) throws Exception {
-		sc = new Scanner (System.in);
-		Dentist dentist = dentistManager.getDentistByUserId(user.getId());
-		System.out.println("Mr/Mrs " + dentist.getName()+ " "+ dentist.getSurname()+ " profile :");
-		System.out.println(dentist);
-		System.out.println("\n");
+		
 		do{ 
+			sc = new Scanner (System.in);
+			Dentist dentist = dentistManager.getDentistByUserId(user.getId());
+			System.out.println("\nMr/Mrs " + dentist.getName()+ " "+ dentist.getSurname()+ " profile ");
+			System.out.println(dentist);
+			System.out.println("\n");
 			
 			System.out.println("1. Modify my profile");
 			System.out.println("2. Check my patients");
@@ -535,24 +536,25 @@ public class Menu {
 
 	private static void PatientsofDentist(Integer dentistId) throws Exception {
 		sc = new Scanner (System.in);
-		System.out.println("---List of my patients---");
 		List<Patient> patients = new ArrayList<Patient>();
+		System.out.println("\n---List of my patients---");
 		patients = patientManager.getPatientsOfDentist(dentistId);
 		System.out.println(patients);	
 		
-		do{ 
-			System.out.println("1. Add a patient to my list");
+		do {
+			System.out.println("\n1. Add a patient to my list");
 			System.out.println("2. Search for a patient by Id");
 			System.out.println("3. Search for a patient by name");
 			System.out.println("4. Search for a patient by surname");
-			System.out.println("0. Exit");
+			System.out.println("0. Return");
 			int choice = Integer.parseInt(reader.readLine());
 			Patient patient = null;
 			switch (choice) {
 				case 1: {
+					List<Patient> allpatients = new ArrayList<Patient>();
 					System.out.println("List of all patients of the clinic: \n");
-					patients = patientManager.getAllPatients();
-					System.out.println(patients);
+					allpatients = patientManager.getAllPatients();
+					System.out.println(allpatients);
 					System.out.println("\nIntroduce the id of the patient you want to add to your list: ");
 					int id = Integer.parseInt(reader.readLine());
 					dentistManager.assignDentistPatient(dentistId, id);
@@ -574,31 +576,33 @@ public class Menu {
 				}
 						
 				case 3:{
+					List<Patient> searchpatients = new ArrayList<Patient>();
 					System.out.println("Introduce the name of the patient:");
 					String name = reader.readLine();
-					patients = patientManager.searchPatientbyName(name);
-					if (patients == null) {
+					searchpatients = patientManager.searchPatientbyName(name,dentistId);
+					if (searchpatients == null) {
 						System.out.println("The name introduced doesn't correspond to any of your patients.");
 					}
 					else {
-						System.out.println(patients);
+						System.out.println(searchpatients);
 					}
 					break;
 				}
 				case 4:{
+					List<Patient> searchpatients = new ArrayList<Patient>();
 					System.out.println("Introduce the surname of the patient:");
 					String surname = reader.readLine();
-					patients = patientManager.searchPatientbySurname(surname);
-					if (patients == null) {
+					searchpatients = patientManager.searchPatientbySurname(surname, dentistId);
+					if (searchpatients == null) {
 						System.out.println("The surname introduced doesn't correspond to any of your patients.");
 					}
 					else {
-						System.out.println(patients);
+						System.out.println(searchpatients);
 					}
 					break;
 				}		
 				case 0:
-					System.exit(0);
+					return;
 					
 				default:
 					System.out.println("Please, choose a valid option.");

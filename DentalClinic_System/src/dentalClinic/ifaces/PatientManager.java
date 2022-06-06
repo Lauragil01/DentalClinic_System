@@ -14,9 +14,9 @@ public interface PatientManager {
 	
 	public void addPatient (Patient p) throws SQLException; 
 		
-	public List<Patient> searchPatientbyName (String name) throws SQLException;
+	public List<Patient> searchPatientbyName (String name, int dentistId) throws SQLException;
 	
-	public List<Patient> searchPatientbySurname (String surname) throws SQLException;
+	public List<Patient> searchPatientbySurname (String surname, int dentistId) throws SQLException;
 	
 	public Patient searchPatientById(int patientId) throws SQLException, Exception;
 	
@@ -37,4 +37,5 @@ public interface PatientManager {
 	public void LinkPatientUser (int patientId, int userId) throws SQLException;
 
 	List<Patient> getAllPatients() throws SQLException;
+
  }

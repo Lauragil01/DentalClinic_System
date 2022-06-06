@@ -26,10 +26,10 @@ public class JDBCTreatmentManager implements TreatmentManager {
 		prep.setDate(3, t.getStartDate());
 		prep.setDate(4, t.getFinishDate());
 		if (t.getPatient() == null) {
-			prep.setNull(6, java.sql.Types.INTEGER);
+			prep.setNull(5, java.sql.Types.INTEGER);
 		}
 		else {
-			prep.setInt(6, t.getPatient().getId());
+			prep.setInt(5, t.getPatient().getId());
 		}
 		prep.executeUpdate();
 		prep.close();

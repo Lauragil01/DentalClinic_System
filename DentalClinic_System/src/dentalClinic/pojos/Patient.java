@@ -194,9 +194,9 @@ public class Patient implements Serializable {
 	
 	@Override
 	public String toString() {
-		return ("Id: " + patientId + "\nName: " + name + "\nSurname: " + surname + "\nGender: " + gender + "\nBirthDate: "
+		return ("\nId: " + patientId + "\nName: " + name + "\nSurname: " + surname + "\nGender: " + gender + "\nBirthDate: "
 				+ birthDate + "\nAddress: " + address + "\nBloodType: " + bloodType + "\nAllergies: " + allergies
-				+ "\nBackground: " + background);
+				+ "\nBackground: " + background + "\n");
 	}
 	
 	//getters and setters
