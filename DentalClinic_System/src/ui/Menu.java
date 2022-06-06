@@ -176,7 +176,7 @@ public class Menu {
 		System.out.println("Bloodtype, just the letter (A, B, AB, O): ");
 		String bt = reader.readLine();
 				
-		if (bt.equalsIgnoreCase("a")) {
+		if (bt.equals("a")) {
 			bt = "A";
 		} 
 		if  (bt.equalsIgnoreCase("b")){
@@ -204,7 +204,7 @@ public class Menu {
 		System.out.println("Background: ");
 		String background = reader.readLine();
 		
-		Patient patient = new Patient(name,surname, gender, birthdate, address, bloodtype, background, user.getId());
+		Patient patient = new Patient(name,surname, gender, birthdate, address, bloodtype, background);
 		patientManager.addPatient(patient);
 		return patient;
 	}
@@ -263,11 +263,12 @@ public class Menu {
 						c2.add(Calendar.MINUTE, 60); // increments 60 minutes = 1 hour
 						a = new Appointment(date, 1, time2, dentist);
 					}
-					dentist.getAppointments().add(a);
+					
 					appointmentManager.addAppointment(a);
 					appointments.add(a);
 				}
 			}
+			dentist.setAppointments(appointments);
 			c.add(Calendar.DATE, 2); // saturday and sunday
 		}
 		return appointments;
@@ -330,7 +331,6 @@ public class Menu {
 	private static void dentistMenu(User user) throws Exception {
 		sc = new Scanner (System.in);
 		Dentist dentist = dentistManager.getDentistByUserId(user.getId());
-		
 		System.out.println("Mr/Mrs " + dentist.getName()+ " "+ dentist.getSurname()+ " profile :");
 		System.out.println(dentist);
 		System.out.println("\n");
@@ -370,7 +370,7 @@ public class Menu {
 	
 	private static void patientMenu(User user) throws Exception {
 		sc = new Scanner (System.in);
-		Patient patient = new Patient(patientManager.getPatientByUserId(user.getId()));
+		Patient patient = patientManager.getPatientByUserId(user.getId());
 		do{ 
 			System.out.println("1. See my profile");
 			System.out.println("2. Consult my appointments");
@@ -633,7 +633,7 @@ public class Menu {
 			
 			switch (choice) {
 			case 1:
-				ModifyPatientInfo(patient, dentistoptions);
+				ModifyPatientInfo(patient, dentistoptions); //Checked
 				break;				
 			case 2:
 				ConsultTreatments(patient, dentistoptions);
@@ -691,7 +691,6 @@ public class Menu {
 	// dentistoptions is for options that only dentists can do
 	private static void ConsultTreatments(Patient patient, int dentistoptions) throws Exception {
 		Treatment treatment = null;
-		List<Treatment> treatments = new ArrayList<Treatment>();
 		List<Treatment> treats = null;
 		System.out.println("Patient " + patient.getName() + " " + patient.getSurname() + " treatments :");
 		System.out.println(patient.getTreatments());
