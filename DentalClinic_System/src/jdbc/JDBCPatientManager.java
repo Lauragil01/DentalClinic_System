@@ -71,10 +71,10 @@ public class JDBCPatientManager implements PatientManager {
 			String bloodType = rs.getString("bloodType");
 			String background = rs.getString("background");
 			p = new Patient(patientId, name, surname, gender, birthDate, address, bloodType, background);
-			//p.setAllergies(allergymanager.getAllergiesFromPatient(patientId));
-			//p.setTreatments(treatmentmanager.listofTreatments(patientId));
-			//p.setAppointments(appointmentmanager.listofAppointments_Patient(patientId));
-			//p.setDentists(dentistmanager.getDentistsOfPatient(patientId));
+			p.setAllergies(allergymanager.getAllergiesFromPatient(patientId));
+			p.setTreatments(treatmentmanager.listofTreatments(patientId));
+			p.setAppointments(appointmentmanager.listofAppointments(0,patientId));
+			p.setDentists(dentistmanager.getDentistsOfPatient(patientId));
 		}
 		prep.close();
 		rs.close();

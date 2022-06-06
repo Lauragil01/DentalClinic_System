@@ -69,7 +69,7 @@ public class JDBCTreatmentManager implements TreatmentManager {
 	@Override
 	public Treatment searchTreatmentById(int treatmentId) throws SQLException { //Checked
 		Treatment t = null;
-		String sql = "SELECT * FROM treatments WHERE treatmentId = ? ";
+		String sql = "SELECT * FROM treatments WHERE treatmentId = ?";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setInt(1, treatmentId);
 		ResultSet rs = prep.executeQuery();
@@ -87,8 +87,8 @@ public class JDBCTreatmentManager implements TreatmentManager {
 	}
 
 	@Override
-	public List<Treatment> searchTreatmentbyName(String name) throws SQLException { //Checked
-		String sql = "SELECT * FROM treatments WHERE name LIKE ? ";
+	public List<Treatment> searchTreatmentbyName(String name, int patientId) throws SQLException { //Checked
+		String sql = "SELECT * FROM treatments WHERE name LIKE ? AND patient_treat = ?";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setString(1, name);
 		ResultSet rs = prep.executeQuery();

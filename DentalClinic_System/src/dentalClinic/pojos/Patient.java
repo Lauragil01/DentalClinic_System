@@ -38,6 +38,8 @@ public class Patient implements Serializable {
 		this.address = address;
 		this.bloodType = bloodType;
 		this.background = background;
+		//this.allergies = new ArrayList<Allergy>();
+		//this.treatments = new ArrayList<Treatment>();
 	}
 	
 	public Patient(String name, String surname, String gender, Date birthDate, String address, String bloodType,

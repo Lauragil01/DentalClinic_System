@@ -563,6 +563,9 @@ public class Menu {
 				}
 				
 				case 2:{
+					System.out.println("\n---List of my patients---");
+					patients = patientManager.getPatientsOfDentist(dentistId);
+					System.out.println(patients);
 					System.out.println("Introduce the Id of the patient:");
 					int patientId = Integer.parseInt(reader.readLine());
 					patient = patientManager.searchPatientById(patientId);
@@ -642,10 +645,12 @@ public class Menu {
 			case 2:
 				ConsultTreatments(patient, dentistoptions);
 				break;	
-			case 3:
+			case 3:{
 				if (dentistoptions == 1) 
-				AddAllergy(patient);
+				//Allergy allergy = AddAllergy(patient);
+				//patient.getAllergies().add(allergy);
 				break;
+			}
 			case 4:
 				if (dentistoptions == 1) 
 				DeleteAllergy(patient);
@@ -661,13 +666,14 @@ public class Menu {
 		while(true);
 	}
 	
-	private static void AddAllergy(Patient patient) throws IOException, SQLException {
+	private static Allergy AddAllergy(Patient patient) throws IOException, SQLException {
 		System.out.println("Name: ");
 		String name = reader.readLine();
 		Allergy allergy = new Allergy(name);
 		allergy.setAllergyId(manager.getLastId());
 		allergyManager.addAllergy(allergy);
 		allergyManager.assignAllergyPatient(allergy.getAllergyId(), patient.getId());
+		return allergy;
 	}
 
 	private static void DeleteAllergy(Patient patient) throws NumberFormatException, IOException {
@@ -696,10 +702,12 @@ public class Menu {
 	private static void ConsultTreatments(Patient patient, int dentistoptions) throws Exception {
 		Treatment treatment = null;
 		List<Treatment> treats = null;
-		System.out.println("Patient " + patient.getName() + " " + patient.getSurname() + " treatments :");
-		System.out.println(patient.getTreatments());
-		System.out.println("\n");
+		
 		do{
+			System.out.println("\nPatient " + patient.getName() + " " + patient.getSurname() + " treatments :");
+			System.out.println(patient.getTreatments());
+			System.out.println("\n");
+			
 			System.out.println("1. Search for a treatment by its id");
 			System.out.println("2. Search for a treatment by its name");
 		
@@ -709,6 +717,7 @@ public class Menu {
 			}	
 			System.out.println("0. Return");
 			int choice = Integer.parseInt(reader.readLine());
+			
 			switch (choice) {
 			case 1:{
 				System.out.println("Introduce the ID of the treatment: ");
@@ -727,8 +736,8 @@ public class Menu {
 			case 2:{
 				System.out.println("Introduce the name of the treatment: ");
 				String name = reader.readLine();
-				treats = treatmentManager.searchTreatmentbyName(name);
-				if (treats != null){
+				treats = treatmentManager.searchTreatmentbyName(name, patient.getId());
+				if (treats != null) {
 					System.out.println(treats);
 				}
 				else {
@@ -736,10 +745,12 @@ public class Menu {
 				}
 				break;
 			}	
-			case 3:
+			case 3:{
 				if(dentistoptions == 1)
-				AddTreatment(patient);
+				treatment = AddTreatment(patient);
+				patient.getTreatments().add(treatment);
 				break;
+			}
 						
 			case 4:
 				if(dentistoptions == 1)
@@ -845,7 +856,7 @@ public class Menu {
 	}
 
 	
-	private static void AddTreatment(Patient p) throws IOException, Exception {
+	private static Treatment AddTreatment(Patient p) throws IOException, Exception {
 		System.out.println("Name: ");
 		String name = reader.readLine();
 		System.out.println("Diagnosis: ");
@@ -885,7 +896,9 @@ public class Menu {
 			}
 		}
 		Treatment treat = new Treatment(name, diagnosis, startDate, finishDate, p);
-		treatmentManager.addTreatment(treat);		
+		treatmentManager.addTreatment(treat);
+		treat.setId(manager.getLastId());
+		return treat;
 	}
 	
 	private static void DeleteTreatment() throws NumberFormatException, IOException {
