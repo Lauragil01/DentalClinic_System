@@ -8,7 +8,7 @@ import dentalClinic.pojos.Appointment;
 
 public interface AppointmentManager {
 	
-	public void addAppointment (Appointment a) throws SQLException;
+	public void addAppointment (Appointment a, int dentistId) throws SQLException;
 	
 	public List<Appointment> listofAppointments(int dentistId, int patientId) throws SQLException;
 	
@@ -17,6 +17,6 @@ public interface AppointmentManager {
 	public Appointment searchAppointmentById (int appointmentId)throws SQLException;
 
 	public List<Appointment> searchFreeAppointmentsByDate(Date date) throws SQLException;
-	
+
 
 }

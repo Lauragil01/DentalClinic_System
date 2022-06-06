@@ -232,8 +232,9 @@ public class Menu {
 		System.out.println("Specialty: ");
 		String specialty = reader.readLine();
 		Dentist dentist = new Dentist(name,surname,turn,specialty);
-		createDentistsAppointments(dentist);
 		dentistManager.addDentist(dentist);
+		dentist.setId(manager.getLastId());
+		createDentistsAppointments(dentist);
 		return dentist;
 	}
 	
@@ -264,7 +265,7 @@ public class Menu {
 						a = new Appointment(date, 1, time2, dentist);
 					}
 					
-					appointmentManager.addAppointment(a);
+					appointmentManager.addAppointment(a, dentist.getId());
 					appointments.add(a);
 				}
 			}
@@ -645,12 +646,10 @@ public class Menu {
 			case 2:
 				ConsultTreatments(patient, dentistoptions);
 				break;	
-			case 3:{
+			case 3:
 				if (dentistoptions == 1) 
-				//Allergy allergy = AddAllergy(patient);
-				//patient.getAllergies().add(allergy);
+					AddAllergy(patient);;
 				break;
-			}
 			case 4:
 				if (dentistoptions == 1) 
 				DeleteAllergy(patient);
@@ -666,14 +665,13 @@ public class Menu {
 		while(true);
 	}
 	
-	private static Allergy AddAllergy(Patient patient) throws IOException, SQLException {
+	private static void AddAllergy(Patient patient) throws IOException, SQLException {
 		System.out.println("Name: ");
 		String name = reader.readLine();
 		Allergy allergy = new Allergy(name);
 		allergy.setAllergyId(manager.getLastId());
 		allergyManager.addAllergy(allergy);
 		allergyManager.assignAllergyPatient(allergy.getAllergyId(), patient.getId());
-		return allergy;
 	}
 
 	private static void DeleteAllergy(Patient patient) throws NumberFormatException, IOException {
