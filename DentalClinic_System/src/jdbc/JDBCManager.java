@@ -175,9 +175,9 @@ public class JDBCManager {
 			Medication search = null;
 			
 			Allergy a = new Allergy("polen");
-			Allergy a2 = new Allergy("gluten");
+			Allergy a2 = new Allergy(2, "gluten");
 			Allergy a3 = new Allergy("peanuts");
-			Allergy a4 = new Allergy("cat hair");
+			Allergy a4 = new Allergy(4, "cat hair");
 			
 			//Appointment ap1 = new Appointment(1, date2, "Consult", 30,null);
 			Appointment ap2 = new Appointment(1, date1, "Consult 2", 30, time, d2);
@@ -196,12 +196,12 @@ public class JDBCManager {
 				System.out.println(mm.listofMedications(t.getId())); // funciona */
 				
 				
-				pm.addPatient(p3);
+				/*pm.addPatient(p3);
 				tm.addTreatment(t);
 				tm.addTreatment(t2);
 				tm.assignPatientToTreatment(p3.getId(), t.getId());
 				tm.assignPatientToTreatment(p3.getId(), t2.getId());
-				System.out.println(tm.listofTreatments(p3.getId())); // NO funciona*/
+				System.out.println(tm.listofTreatments(p3.getId())); // funciona*/
 				
 				
 				/*pm.addPatient(p2);
@@ -218,12 +218,12 @@ public class JDBCManager {
 				dm.assignDentistPatient(d4.getId(), p4.getId());  
 				System.out.println(pm.getPatientsOfDentist(d4.getId())); // funciona*/
 
-				/*pm.addPatient(p3);
+				pm.addPatient(p3);
 				am.addAllergy(a4);
 				am.addAllergy(a2);
 				am.assignAllergyPatient(a4.getAllergyId(), p3.getId());
 				am.assignAllergyPatient(a2.getAllergyId(), p3.getId()); 
-				System.out.println(am.getAllergiesFromPatient(p3.getId())); // fucniona */
+				System.out.println(am.getAllergiesFromPatient(p3.getId())); // NO funciona */
 
 			}catch(SQLException e) {
 				e.printStackTrace();

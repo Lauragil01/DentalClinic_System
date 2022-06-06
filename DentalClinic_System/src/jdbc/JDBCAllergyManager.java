@@ -34,7 +34,7 @@ public class JDBCAllergyManager implements AllergyManager {
 		ResultSet rs = prep.executeQuery();
 		List <Allergy> allergies = new ArrayList<Allergy>();
 		while (rs.next()) {
-			int id = rs.getInt("id");
+			int id = rs.getInt("allergyId");
 			String name = rs.getString("name");
 			Allergy allergy = new Allergy(id,name);
 			allergies.add(allergy);		
