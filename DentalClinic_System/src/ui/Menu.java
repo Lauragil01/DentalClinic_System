@@ -232,11 +232,13 @@ public class Menu {
 		System.out.println("Specialty: ");
 		String specialty = reader.readLine();
 		Dentist dentist = new Dentist(name,surname,turn,specialty);
+		createDentistsAppointments(dentist);
 		dentistManager.addDentist(dentist);
 		return dentist;
 	}
 	
 	public static List<Appointment> createDentistsAppointments(Dentist dentist) throws SQLException{
+		Appointment a = null;
 		List<Appointment> appointments = new ArrayList();
 		Calendar c = null; 
 		Calendar c1 = null;
@@ -251,16 +253,16 @@ public class Menu {
 		c2 = c2.getInstance();
 		c2.setTime(time2);
 		for(int i = 0; i<30; i++) { // appointments for a month (30 days)
-			for(int j = 0; j<6; j++) { // from monday to friday
+			for(int j = 0; j<5; j++) { // from monday to friday
 				c.add(Calendar.DATE, 1); // increments 1 day
-				for(int k = 0; k<6; k++) { // 5 appointments per dentist
-					
+				for(int k = 0; k<5; k++) { // 5 appointments per dentist
 					if(dentist.getTurn().equalsIgnoreCase("morning")) {
 						c1.add(Calendar.MINUTE, 60); // increments 60 minutes = 1 hour
+						a = new Appointment(date, 1, time1, dentist);
 					}else if(dentist.getTurn().equalsIgnoreCase("afternoon")) {
 						c2.add(Calendar.MINUTE, 60); // increments 60 minutes = 1 hour
+						a = new Appointment(date, 1, time2, dentist);
 					}
-					Appointment a = new Appointment(date, 1, time2, dentist);
 					dentist.getAppointments().add(a);
 					appointmentManager.addAppointment(a);
 					appointments.add(a);
@@ -502,13 +504,12 @@ public class Menu {
 			a = 0;
 		}
 		while(a==0) {
-			try {
+			/*try {
 				System.out.println("Introduce a valid ID: ");
 				id = Integer.parseInt(reader.readLine());
-				appointmentManager.deleteAppointment(id);
 			}catch (SQLException e2) {
 				a = 0;
-			}	
+			}*/	
 		}
 	}
 	
