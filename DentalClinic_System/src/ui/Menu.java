@@ -8,6 +8,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.util.ArrayList;
@@ -234,45 +235,55 @@ public class Menu {
 		Dentist dentist = new Dentist(name,surname,turn,specialty);
 		dentistManager.addDentist(dentist);
 		dentist.setId(manager.getLastId());
-		//dentist.setAppointments(createDentistsAppointments(dentist));
 		return dentist;
 	}
 	
-	public static List<Appointment> createDentistsAppointments(Dentist dentist) throws SQLException{
+	public static void AssignAppointmentsToDentist(Dentist dentist) throws SQLException{
 		Appointment a = null;
-		List<Appointment> appointments = new ArrayList();
-		Calendar c = null; 
-		Calendar c1 = null;
-		Calendar c2 = null;
-		Date date = java.sql.Date.valueOf("2022-06-05");
-		c = c.getInstance();
-		c.setTime(date);
-		Time time1 = java.sql.Time.valueOf("09:00:00");
-		c1 = c1.getInstance();
-		c1.setTime(time1);
-		Time time2 = java.sql.Time.valueOf("15:00:00");
-		c2 = c2.getInstance();
-		c2.setTime(time2);
-		for(int i = 0; i<30; i++) { // appointments for a month (30 days)
-			for(int j = 0; j<5; j++) { // from monday to friday
-				c.add(Calendar.DATE, 1); // increments 1 day
-				for(int k = 0; k<5; k++) { // 5 appointments per dentist
-					if(dentist.getTurn().equalsIgnoreCase("morning")) {
-						c1.add(Calendar.MINUTE, 60); // increments 60 minutes = 1 hour
-						a = new Appointment(date, 1, time1, dentist);
-					}else if(dentist.getTurn().equalsIgnoreCase("afternoon")) {
-						c2.add(Calendar.MINUTE, 60); // increments 60 minutes = 1 hour
-						a = new Appointment(date, 1, time2, dentist);
+		Date date = null;
+		Time time = null;
+		if(dentist.getAppointments() != null) {
+			System.out.println("Your appointments have already been assigned");
+		}else {
+			for(int i = 1; i < 32; i++) { // one month
+				date = incrementDaysInSQL(i);
+				if(dentist.getTurn().equalsIgnoreCase("morning")) {
+					for(int j = 1; j < 6; j++) { // 5 appointments in the morning (1 hour each)
+						time = incrementHoursInSQL(j);
 					}
-					
-					appointmentManager.addAppointment(a, dentist.getId());
-					appointments.add(a);
+				}else if(dentist.getTurn().equalsIgnoreCase("afternoon")) {
+					for(int k = 7; k < 12; k++) { // 5 appointments in the afternoon (1 hour each)
+						time = incrementHoursInSQL(k);
+					}
 				}
+				a = new Appointment(date, 1, time, dentist);
+				dentist.getAppointments().add(a);
+				appointmentManager.addAppointment(a, dentist.getId());
 			}
-			//dentist.setAppointments(appointments,);
-			c.add(Calendar.DATE, 2); // saturday and sunday
 		}
-		return appointments;
+	}
+	
+	public static Date incrementDaysInSQL(int i) throws SQLException{
+		String sql = "DECLARE @date date = '2022-06-07';"
+				+ "SELECT DATEADD (day, ?, @date);";
+		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+		prep.setInt(1, i);
+		ResultSet rs = prep.executeQuery();
+		Date date = null;
+		date = rs.getDate(sql);
+		rs.close();
+		return date;
+	}
+	public static Time incrementHoursInSQL(int k) throws SQLException{
+		String sql = "DECLARE @time time = '08:00:00';"
+				+ "SELECT TIMEADD (hour, ?, @time);";
+		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+		prep.setInt(1, k);
+		ResultSet rs = prep.executeQuery();
+		Time time = null;
+		time = rs.getTime(sql);
+		rs.close();
+		return time;
 	}
 	
 	private static void login() throws Exception{
@@ -340,9 +351,10 @@ public class Menu {
 			
 			System.out.println("1. Modify my profile");
 			System.out.println("2. Check my patients");
-			System.out.println("3. Consult my appointments");
+			System.out.println("3. Assign my appointments for this month");
+			System.out.println("4. Consult my appointments");
 			System.out.println("0. Return");
-			int choice = Integer.parseInt(reader.readLine());;
+			int choice = Integer.parseInt(reader.readLine());
 			
 			switch (choice) {
 			case 1:
@@ -352,8 +364,12 @@ public class Menu {
 			case 2:
 				PatientsofDentist(dentist.getId()); 
 				break;
-					
+			
 			case 3:
+				AssignAppointmentsToDentist(dentist);
+				break;	
+				
+			case 4:
 				ListofAppointments(user);
 				break;
 					
