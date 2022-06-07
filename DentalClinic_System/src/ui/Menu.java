@@ -705,7 +705,7 @@ public class Menu {
 		List<Treatment> treats = null;
 		
 		do{
-			System.out.println("\nPatient " + patient.getName() + " " + patient.getSurname() + " treatments :");
+			System.out.println("\n---Patient " + patient.getName() + " " + patient.getSurname() + " treatments---");
 			System.out.println(patient.getTreatments());
 			System.out.println("\n");
 			
@@ -778,6 +778,7 @@ public class Menu {
 				System.out.println("3. Add medication");
 				System.out.println("4. Delete medication");
 			}
+			System.out.println("0. Return");
 			int choice = Integer.parseInt(reader.readLine());
 			switch (choice) {
 			case 1:{
@@ -827,7 +828,16 @@ public class Menu {
 		System.out.println("Name: ");
 		String name = reader.readLine();
 		System.out.println("Dosis: ");
-		int dosis = Integer.parseInt(reader.readLine());
+		int dosis = 0;
+		try { 
+			dosis = Integer.parseInt(reader.readLine());
+		}
+		catch(NumberFormatException e) {
+			System.out.println("Introduce a number of dosis.");
+			while(dosis == 0) {
+				dosis = Integer.parseInt(reader.readLine());
+			}
+		}
 		Medication med = new Medication(name,dosis,treatment);
 		medicationManager.addMedication(med);
 		

@@ -128,7 +128,7 @@ public class Treatment implements Serializable {
 
 	@Override
 	public String toString() {
-		return ("Id: " + treatmentId + "\nName: " + name + "\nDiagnosis: " + diagnosis 
+		return ("\nId: " + treatmentId + "\nName: " + name + "\nDiagnosis: " + diagnosis 
 				+ "\nStartDate: " + startDate + "\nFinishDate: " + finishDate);
 	}	
 }
