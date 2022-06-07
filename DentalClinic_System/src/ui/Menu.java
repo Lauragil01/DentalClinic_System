@@ -121,20 +121,20 @@ public class Menu {
 		userManager.newUser(user);
 		
 		if(user.getRole().getName().equalsIgnoreCase("patient")) {
-			Patient patient = RegisterPatient(user);
+			Patient patient = RegisterPatient();
 			patient.setId(manager.getLastId());
 			patientManager.LinkPatientUser(patient.getId(), user.getId()); 
 			
 		} 
 		else if(user.getRole().getName().equalsIgnoreCase("dentist")) {
-			Dentist dentist = RegisterDentist(user);
+			Dentist dentist = RegisterDentist();
 			dentist.setId(manager.getLastId());
 			dentistManager.LinkDentistUser(dentist.getId(), user.getId());	
 		}
 		System.out.println("Account created.");
 	}
 
-	private static Patient RegisterPatient(User user) throws IOException, SQLException { //Checked
+	private static Patient RegisterPatient() throws IOException, SQLException { 
 		System.out.println("--- NEW PATIENT ---");
 		System.out.println("Name: ");
 		String name = reader.readLine();
@@ -209,7 +209,7 @@ public class Menu {
 		return patient;
 	}
 
-	private static Dentist RegisterDentist(User user) throws IOException, SQLException {
+	private static Dentist RegisterDentist() throws IOException, SQLException {
 		System.out.println("--- NEW DENTIST ---");
 		System.out.println("Name: ");
 		String name = reader.readLine();
@@ -234,7 +234,7 @@ public class Menu {
 		Dentist dentist = new Dentist(name,surname,turn,specialty);
 		dentistManager.addDentist(dentist);
 		dentist.setId(manager.getLastId());
-		dentist.setAppointments(createDentistsAppointments(dentist));
+		//dentist.setAppointments(createDentistsAppointments(dentist));
 		return dentist;
 	}
 	
@@ -269,7 +269,7 @@ public class Menu {
 					appointments.add(a);
 				}
 			}
-			//dentist.setAppointments(appointments);
+			//dentist.setAppointments(appointments,);
 			c.add(Calendar.DATE, 2); // saturday and sunday
 		}
 		return appointments;
@@ -669,9 +669,11 @@ public class Menu {
 		System.out.println("Name: ");
 		String name = reader.readLine();
 		Allergy allergy = new Allergy(name);
-		allergy.setAllergyId(manager.getLastId());
 		allergyManager.addAllergy(allergy);
+		allergy.setAllergyId(manager.getLastId());
 		allergyManager.assignAllergyPatient(allergy.getAllergyId(), patient.getId());
+		patient.getAllergies().add(allergy);
+		System.out.println("The allergy was added succesfully");
 	}
 
 	private static void DeleteAllergy(Patient patient) throws NumberFormatException, IOException {
@@ -694,6 +696,7 @@ public class Menu {
 				a = 0;
 			}
 		}
+		System.out.println("The allergy was deleted succesfully");
 	}	
 	
 	// dentistoptions is for options that only dentists can do
@@ -896,6 +899,7 @@ public class Menu {
 		Treatment treat = new Treatment(name, diagnosis, startDate, finishDate, p);
 		treatmentManager.addTreatment(treat);
 		treat.setId(manager.getLastId());
+		System.out.println("The treatment was added succesfully");
 		return treat;
 	}
 	
@@ -918,7 +922,8 @@ public class Menu {
 			catch (SQLException e2) {
 				a = 0;
 			}
-		}	
+		}
+		System.out.println("The treatment was deleted succesfully");
 	}
 
 	private static void ModifyPatientInfo(Patient patient, int dentistoptions) throws NumberFormatException, IOException, SQLException {

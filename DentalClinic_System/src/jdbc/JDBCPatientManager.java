@@ -234,21 +234,6 @@ public class JDBCPatientManager implements PatientManager {
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setInt(1,userId);
 		ResultSet rs = prep.executeQuery();
-		/*if(rs.next()){
-			Integer patientId = rs.getInt("patientId");
-			String name = rs.getString("name");
-			String surname = rs.getString("surname");
-			String gender = rs.getString("gender");
-			Date birthDate = rs.getDate("dob");
-			String address = rs.getString("address");
-			String bloodType = rs.getString("bloodType");
-			String background = rs.getString("background");
-			p= new Patient(patientId, name, surname, gender, birthDate, address, bloodType, background);
-			p.setAllergies(allergymanager.getAllergiesFromPatient(patientId));
-			p.setTreatments(treatmentmanager.listofTreatments(patientId));
-			p.setAppointments(appointmentmanager.listofAppointments(0,patientId));
-			p.setDentists(dentistmanager.getDentistsOfPatient(patientId));
-		}*/
 		if(rs.next()){
 			p= new Patient(rs.getInt("patientId"), rs.getString("name"), rs.getString("surname"), rs.getString("gender"), 
 					rs.getDate("dob"), rs.getString("address"), rs.getString("bloodType"), rs.getString("background"));

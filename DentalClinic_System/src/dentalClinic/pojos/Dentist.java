@@ -90,6 +90,7 @@ public class Dentist implements Serializable{
 		this.specialty = specialty;
 		this.patients = patients;
 	}
+	
 
 	public Dentist(Integer id, String turn, String specialty) {
 		super();
@@ -97,6 +98,7 @@ public class Dentist implements Serializable{
 		this.turn = turn;
 		this.specialty = specialty;
 	}
+
 
 	public Integer getId() {
 		return dentistId;
