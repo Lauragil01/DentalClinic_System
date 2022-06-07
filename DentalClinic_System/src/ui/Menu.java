@@ -11,12 +11,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Scanner;
 
 import javax.persistence.NoResultException;
+import javax.swing.text.DateFormatter;
 import javax.xml.bind.JAXBException;
 
 import dentalClinic.pojos.*;
@@ -238,52 +242,44 @@ public class Menu {
 		return dentist;
 	}
 	
-	public static void AssignAppointmentsToDentist(Dentist dentist) throws SQLException{
+	public static void AssignAppointmentsToDentist(Dentist dentist) throws SQLException, IOException{ 
+		// TODOS: 
+			// saturday and sunday ??
+			// dentist.getAppointments() --> null ??
+		 	// exceptions for date format
+			// comprobar bien
+			// métodos de appointments de patient y dentist
+		System.out.println("Please enter the start date of you appointments assignment: ('dd-MM-yyyy')");
+		String ds = reader.readLine();
+		DateTimeFormatter f = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+		LocalDate d = LocalDate.parse(ds, f);
+		LocalTime t = LocalTime.of(9, 00);
 		Appointment a = null;
-		Date date = null;
-		Time time = null;
 		if(dentist.getAppointments() != null) {
 			System.out.println("Your appointments have already been assigned");
 		}else {
 			for(int i = 1; i < 32; i++) { // one month
-				date = incrementDaysInSQL(i);
+				d.plusDays(i);
 				if(dentist.getTurn().equalsIgnoreCase("morning")) {
-					for(int j = 1; j < 6; j++) { // 5 appointments in the morning (1 hour each)
-						time = incrementHoursInSQL(j);
+					for(int j = 0; j < 5; j++) { // 5 appointments in the morning (1 hour each)
+						t.plusHours(j);
+						Date d1 = Date.valueOf(d);
+						Time t1 = Time.valueOf(t);
+						a = new Appointment(d1, 1, t1, dentist);
+						appointmentManager.addAppointment(a, dentist.getId());
 					}
 				}else if(dentist.getTurn().equalsIgnoreCase("afternoon")) {
-					for(int k = 7; k < 12; k++) { // 5 appointments in the afternoon (1 hour each)
-						time = incrementHoursInSQL(k);
+					for(int k = 6; k < 12; k++) { // 5 appointments in the afternoon (1 hour each)
+						t.plusHours(k);
+						Date d1 = Date.valueOf(d);
+						Time t1 = Time.valueOf(t);
+						a = new Appointment(d1, 1, t1, dentist);
+						appointmentManager.addAppointment(a, dentist.getId());
 					}
 				}
-				a = new Appointment(date, 1, time, dentist);
-				dentist.getAppointments().add(a);
-				appointmentManager.addAppointment(a, dentist.getId());
+				//dentist.getAppointments().add(a);
 			}
 		}
-	}
-	
-	public static Date incrementDaysInSQL(int i) throws SQLException{
-		String sql = "DECLARE @date date = '2022-06-07';"
-				+ "SELECT DATEADD (day, ?, @date);";
-		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
-		prep.setInt(1, i);
-		ResultSet rs = prep.executeQuery();
-		Date date = null;
-		date = rs.getDate(sql);
-		rs.close();
-		return date;
-	}
-	public static Time incrementHoursInSQL(int k) throws SQLException{
-		String sql = "DECLARE @time time = '08:00:00';"
-				+ "SELECT TIMEADD (hour, ?, @time);";
-		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
-		prep.setInt(1, k);
-		ResultSet rs = prep.executeQuery();
-		Time time = null;
-		time = rs.getTime(sql);
-		rs.close();
-		return time;
 	}
 	
 	private static void login() throws Exception{
