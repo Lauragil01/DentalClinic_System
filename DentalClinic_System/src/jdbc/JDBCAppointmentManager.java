@@ -28,19 +28,16 @@ public class JDBCAppointmentManager implements AppointmentManager {
 	}
 
 	@Override
-	public void addAppointment(Appointment a, int dentistId) throws SQLException {
-		String sql = "INSERT INTO appointments (date, type, time, duration, dentist_app) VALUES (?,?,?,?,?)";
+	public void addAppointment(Appointment a, int dentistId) throws SQLException { // checked
+		String sql = "INSERT INTO appointments (date, time, duration, dentist_app) VALUES (?,?,?,?)";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setDate(1, a.getDate());
-		prep.setString(2, a.getType());
-		prep.setTime(3, a.getTime());
-		prep.setInt(4, a.getDuration());
-		prep.setInt(5, dentistId);
+		prep.setTime(2, a.getTime());
+		prep.setInt(3, a.getDuration());
+		prep.setInt(4, dentistId);
 		prep.executeUpdate();
 		prep.close();	
 	}
-	
-
 	
 	@Override
 	public List<Appointment> listofAppointments(int dentistId, int patientId) throws SQLException {
@@ -87,8 +84,8 @@ public class JDBCAppointmentManager implements AppointmentManager {
 	}
 
 	@Override
-	public void deleteAppointment(int appointmentId) throws SQLException {
-		String sql = "UPDATE appointment SET patient_app = NULL AND SET type = NULL WHERE appointmentId = ?";
+	public void deleteAppointment(int appointmentId) throws SQLException { 
+		String sql = "UPDATE appointments SET patient_app = NULL AND type = NULL WHERE appointmentId = ?";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setInt(1, appointmentId); 
 		prep.executeUpdate();
@@ -106,12 +103,11 @@ public class JDBCAppointmentManager implements AppointmentManager {
 		List<Appointment> appointments = new ArrayList<Appointment>();
 		while(rs.next()){ 
 			int id = rs.getInt("appointmentId");
-			String type = rs.getString("type");
 			int duration = rs.getInt("duration");
 			Time time = rs.getTime("time");
-			int dentistId = rs.getInt("dentistId");
+			int dentistId = rs.getInt("dentist_app");
 			dentist = dentistmanager.searchDentistById(dentistId);
-			a = new Appointment(id, date, type, duration, time, dentist);
+			a = new Appointment(id, date, duration, time, dentist);
 			appointments.add(a);
 		}
 		prep.close();
@@ -123,19 +119,18 @@ public class JDBCAppointmentManager implements AppointmentManager {
 	public Appointment searchAppointmentById(int appointmentId) throws SQLException {
 		Appointment a = null; 
 		Dentist dentist = null;
-		String sql = "SELECT * FROM appointments WHERE date = ? ";
+		String sql = "SELECT * FROM appointments WHERE appointmentId = ? ";
 		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		prep.setInt(1, appointmentId);
 		ResultSet rs = prep.executeQuery();
 		while(rs.next()){ 
 			int id = rs.getInt("appointmentId");
 			Date date = rs.getDate("date");
-			String type = rs.getString("type");
 			int duration = rs.getInt("duration");
 			Time time = rs.getTime("time");
-			int dentistId = rs.getInt("dentistId");
+			int dentistId = rs.getInt("dentist_app");
 			dentist = dentistmanager.searchDentistById(dentistId);
-			a = new Appointment(id, date, type, duration, time, dentist);			
+			a = new Appointment(id, date, duration, time, dentist);			
 		}
 		prep.close();
 		rs.close();

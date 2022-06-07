@@ -89,10 +89,10 @@ public class JDBCManager {
 				stmt.executeUpdate(sql);
 				sql = "CREATE TABLE appointments ("
 				+ "	appointmentId	INTEGER PRIMARY KEY AUTOINCREMENT,"
-				+ "	type	TEXT NOT NULL,"
+				+ "	type TEXT NULL,"
 				+ " date DATE NOT NULL,"
 				+ " time DATE NOT NULL,"
-				+ " dentist TEXT NOT NULL,"
+				//+ " dentist TEXT NOT NULL,"
 				+ " duration INTEGER NOT NULL,"
 				+ "	patient_app INTEGER REFERENCES patients(patientId) ON DELETE CASCADE,"
 				+ "	dentist_app INTEGER REFERENCES dentists(dentistId) ON DELETE CASCADE"
@@ -139,4 +139,29 @@ public class JDBCManager {
 			return lastId;	
 		}
 
+		public static void main(String[] args) {
+			JDBCManager m = new JDBCManager();
+			JPAUserManager um = new JPAUserManager();
+			JDBCAppointmentManager am = new JDBCAppointmentManager(m);
+			JDBCDentistManager dm = new JDBCDentistManager(m, am);
+			
+			Date date = java.sql.Date.valueOf("2022-06-05");
+			Time time1 = java.sql.Time.valueOf("09:00:00");
+			Dentist d = new Dentist(1, "a", "b", "morning", "ortodoncia");
+			Appointment a = new Appointment(1, date, "kk", 1, time1, d);
+			Appointment a2 = new Appointment(date, "kk", 1, time1, d);
+			
+			try {
+				//dm.addDentist(d);
+				//am.addAppointment(a, d.getId());
+				//am.deleteAppointment(a.getId());
+				//System.out.println(am.searchAppointmentById(a.getId()));
+				System.out.println(am.searchFreeAppointmentsByDate(date));
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
+			
+			
+		}
+		
 }

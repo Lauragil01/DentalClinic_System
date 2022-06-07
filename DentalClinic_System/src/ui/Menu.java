@@ -234,7 +234,7 @@ public class Menu {
 		Dentist dentist = new Dentist(name,surname,turn,specialty);
 		dentistManager.addDentist(dentist);
 		dentist.setId(manager.getLastId());
-		createDentistsAppointments(dentist);
+		dentist.setAppointments(createDentistsAppointments(dentist));
 		return dentist;
 	}
 	
@@ -269,7 +269,7 @@ public class Menu {
 					appointments.add(a);
 				}
 			}
-			dentist.setAppointments(appointments);
+			//dentist.setAppointments(appointments);
 			c.add(Calendar.DATE, 2); // saturday and sunday
 		}
 		return appointments;
