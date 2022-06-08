@@ -255,34 +255,41 @@ public class Menu {
 		if(dentist.getAppointments() != null) {
 			System.out.println("Your appointments have already been assigned");
 		}
-		for(int i = 0; i < 31; i++) { // one month
+		
+		if(dentist.getTurn().equalsIgnoreCase("morning")) {
+			for(int i = 0; i < 31; i++) { // one month
 				d = d.plusDays(1);
 				if(w == DayOfWeek.SATURDAY){
 					d = d.plusDays(2);
 					i++;
 					i++;
-				} if(dentist.getTurn().equalsIgnoreCase("morning")) {
-					t2 = t;
-					for(int j = 0; j < 5; j++) { // 5 appointments in the morning (1 hour each)
-						t2 = t2.plusHours(1);
-						Date d1 = Date.valueOf(d);
-						Time t1 = Time.valueOf(t2);
-						a = new Appointment(d1, 1, t1, dentist);
-						appointmentManager.addAppointment(a, dentist.getId());
-					}
-				} else if(dentist.getTurn().equalsIgnoreCase("afternoon")) {
-					t2 = t.plusHours(6);
-					for(int k = 0; k < 5; k++) { // 5 appointments in the afternoon (1 hour each)
-						t2 = t2.plusHours(1);
-						Date d1 = Date.valueOf(d);
-						Time t1 = Time.valueOf(t2);
-						a = new Appointment(d1, 1, t1, dentist);
-						appointmentManager.addAppointment(a, dentist.getId());
-					}
+				}t2 = t;
+				for(int j = 0; j < 5; j++) { // 5 appointments in the morning (1 hour each)
+					t2 = t2.plusHours(1);
+					Date d1 = Date.valueOf(d);
+					Time t1 = Time.valueOf(t2);
+					a = new Appointment(d1, 1, t1, dentist);
+					appointmentManager.addAppointment(a, dentist.getId());
 				}
-				//dentist.getAppointments().add(a);
+			}
+		}else if(dentist.getTurn().equalsIgnoreCase("afternoon")) {
+			for(int i = 0; i < 31; i++) { // one month
+				d = d.plusDays(1);
+				if(w == DayOfWeek.SATURDAY){
+				d = d.plusDays(2);
+				i++;
+				i++;
+				}t2 = t.plusHours(6);
+				for(int k = 0; k < 5; k++) { // 5 appointments in the afternoon (1 hour each)
+					t2 = t2.plusHours(1);
+					Date d1 = Date.valueOf(d);
+					Time t1 = Time.valueOf(t2);
+					a = new Appointment(d1, 1, t1, dentist);
+					appointmentManager.addAppointment(a, dentist.getId());
+				}
 			}
 		}
+	}
 	
 	private static void login() throws Exception{
 		System.out.print("Email:");
