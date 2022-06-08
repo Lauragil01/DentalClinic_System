@@ -341,6 +341,9 @@ public class Menu {
 			System.out.println("1. Modify my profile");
 			System.out.println("2. Check my patients");
 			System.out.println("3. Consult my appointments");
+			System.out.println("4. Convert dentist to XML");
+			System.out.println("5. Convert XML to Dentist");
+			System.out.println("6. Convert XML file to HTML");
 			System.out.println("0. Return");
 			int choice = Integer.parseInt(reader.readLine());;
 			
@@ -357,6 +360,19 @@ public class Menu {
 				ListofAppointments(user);
 				break;
 					
+			case 4:
+				dentistToXml(dentist);
+				break;
+				
+			case 5: 
+				xmlToDentist();
+				break;
+				
+			case 6: 
+				dentistXmlToHtml();  //appointmentXmlToHtml();
+				break;
+				
+		
 			case 0:
 				return;
 				
@@ -1011,6 +1027,9 @@ public class Menu {
 		public static void appointmentXmlToHtml () {
 			xmlManager.simpleTransform("./xmls/External-Appointment.xml", "./xmls/Appointment-Style.xslt", "./xmls/Appointment.html");
 		}
+	/*nuevo*/	public static void dentistXmlToHtml () {
+			xmlManager.simpleTransform("./xmls/External-Dentist.xml", "./xmls/Dentist-Style.xslt", "./xmls/Dentist.html");
+		}
 		
 		public static void xmlToDentist() {
 			try {
@@ -1020,7 +1039,7 @@ public class Menu {
 			}
 		}
 		
-		public static void dentistToXml(Dentists d) throws JAXBException {
+		public static void dentistToXml(Dentist d) throws JAXBException {
 			try {
 				xmlManager.java2XmlDentist(d); 
 			}catch(Exception e) {
@@ -1028,10 +1047,7 @@ public class Menu {
 			}
 		}
 		
-		public static void dentistXmlToHtml () {
-			xmlManager.simpleTransform("./xmls/External-Dentist.xml", "./xmls/Dentist-Style.xslt", "./xmls/Dentist.html");
-		}
-	
+		
 	
 	
 	}
