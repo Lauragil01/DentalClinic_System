@@ -59,7 +59,6 @@ public class Menu {
 		appointmentManager = new JDBCAppointmentManager(manager);			
 		allergyManager = new JDBCAllergyManager(manager);
 		dentistManager = new JDBCDentistManager(manager,appointmentManager);
-		appointmentManager.setDentistManager(dentistManager);
 		patientManager = new JDBCPatientManager(manager, treatmentManager, medicationManager, appointmentManager, dentistManager, allergyManager);
 		dentistManager.setPatientmanager(patientManager);
 		
@@ -471,7 +470,7 @@ public class Menu {
 			appointmentManager.listofAppointments(dentist.getId(), 0);
 		}*/
 		patient = patientManager.getPatientByUserId(u.getId());
-		System.out.println(appointmentManager.listofAppointments(0, patient.getId()));
+		appointmentManager.listofAppointments(0, patient.getId());
 		do {
 			System.out.println("1. Add appointment");
 			System.out.println("2. Delete appointment");
@@ -525,7 +524,7 @@ public class Menu {
 			prep.setInt(2,  id);
 			prep.executeUpdate();
 			prep.close();
-			//p.getAppointments().add(appointmentManager.searchAppointmentById(id));
+			p.getAppointments().add(appointmentManager.searchAppointmentById(id));
 			System.out.println("Explain briefly the reason for the appointment: ");
 			String type = reader.readLine();
 			sql = "UPDATE appointments SET type = ? WHERE appointmentId = ?";
