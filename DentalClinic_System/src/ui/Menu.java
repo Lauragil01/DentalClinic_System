@@ -247,10 +247,30 @@ public class Menu {
 		if(appointmentManager.listofAppointments(dentist.getId(), 0).isEmpty() == false) {
 			System.out.println("Your appointments have already been assigned for this month");
 		}else {
-			System.out.println("Please enter the start date of you appointments assignment: ('dd-MM-yyyy')");
+
+			System.out.println("Please introduce the date for your appointments assignment: 'dd-MM-yyyy");
 			String ds = reader.readLine();
-			DateTimeFormatter f = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-			LocalDate d = LocalDate.parse(ds, f);
+			DateTimeFormatter f = null;
+			LocalDate d;
+			Date date = null;
+			try {
+				f = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+				d = LocalDate.parse(ds, f);
+				date = Date.valueOf(d);
+			}catch(Exception e) {
+				date = null;
+			}
+			while(date == null) {
+				System.out.println("Please introduce a valid date: ");
+				try {
+					date = Date.valueOf(reader.readLine());
+				}
+				catch (Exception e2) {
+					date = null;
+			    }		
+			}
+				
+			d = LocalDate.parse(ds, f);
 			LocalTime t = LocalTime.of(8, 00);
 			LocalTime t2;
 			DayOfWeek w = d.getDayOfWeek();
