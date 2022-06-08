@@ -26,6 +26,10 @@ public class JDBCAppointmentManager implements AppointmentManager {
 	public JDBCAppointmentManager(JDBCManager m) {
 		this.manager = m;
 	}
+	
+	public void setDentistManager(JDBCDentistManager dentistmanager) {
+		this.dentistmanager = dentistmanager;
+	}
 
 	@Override
 	public void addAppointment(Appointment a, int dentistId) throws SQLException { // checked
