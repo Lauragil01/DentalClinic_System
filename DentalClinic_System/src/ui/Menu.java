@@ -529,10 +529,11 @@ public class Menu {
 			System.out.println("Explain briefly the reason for the appointment: ");
 			String type = reader.readLine();
 			sql = "UPDATE appointments SET type = ? WHERE appointmentId = ?";
-			prep.setString(1,  type);
-			prep.setInt(2,  id);
-			prep.executeUpdate();
-			prep.close();
+			PreparedStatement prep2 = manager.getConnection().prepareStatement(sql);
+			prep2.setString(1,  type);
+			prep2.setInt(2,  id);
+			prep2.executeUpdate();
+			prep2.close();
 			appointmentManager.searchAppointmentById(id).setType(type);
 		} catch (SQLException e) {
 			a = 0;
