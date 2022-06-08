@@ -502,6 +502,7 @@ public class Menu {
 					if(appointmentManager.listofAppointments(0, patient.getId()).isEmpty()) {
 						System.out.println("There are no appointments to be deleted");
 					}else {
+						System.out.println(appointmentManager.listofAppointments(0, patient.getId()));
 						DeleteAppointment();
 					}
 					
@@ -548,10 +549,10 @@ public class Menu {
 		}
 		System.out.println("Please choose the appointment by introducing its id: ");
 		int id = Integer.parseInt(reader.readLine());
-		do {
+		while(appointmentManager.searchAppointmentById(id) == null) {
 			System.out.println("Invalid id, please try again");
 			id = Integer.parseInt(reader.readLine());
-		}while(appointmentManager.searchAppointmentById(id) == null);
+		}
 		int a = 1;
 		try {
 			String sql = "UPDATE appointments SET patient_app = ? WHERE appointmentId = ?";
@@ -588,10 +589,10 @@ public class Menu {
 		System.out.println("Introduce the ID of the appointment you want to delete: ");
 		int id = Integer.parseInt(reader.readLine());
 		try{
-			do {
+			while(appointmentManager.searchAppointmentById(id) == null) {
 				System.out.println("Invalid id, please try again");
 				id = Integer.parseInt(reader.readLine());
-			}while(appointmentManager.searchAppointmentById(id) == null);
+			}
 			a = 1;
 			appointmentManager.deleteAppointment(id);
 		}catch(SQLException e) {
