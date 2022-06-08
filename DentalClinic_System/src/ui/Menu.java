@@ -590,7 +590,12 @@ public class Menu {
 					System.out.println(allpatients);
 					System.out.println("\nIntroduce the id of the patient you want to add to your list: ");
 					int id = Integer.parseInt(reader.readLine());
+					try {
 					dentistManager.assignDentistPatient(dentistId, id);
+					}
+					catch(SQLException e) {
+						System.out.println("\nThe id introduced doesn't correspond to any patient");
+					}
 					System.out.println("The patient has been assigned succesfully.");
 					break;
 				}
