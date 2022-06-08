@@ -251,31 +251,34 @@ public class Menu {
 		String ds = reader.readLine();
 		DateTimeFormatter f = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 		LocalDate d = LocalDate.parse(ds, f);
-		LocalTime t = LocalTime.of(9, 00);
+		LocalTime t = LocalTime.of(8, 00);
+		LocalTime t2;
 		DayOfWeek w = d.getDayOfWeek();
 		Appointment a = null;
 		if(dentist.getAppointments() != null) {
 			System.out.println("Your appointments have already been assigned");
 		}else {
-			for(int i = 1; i < 32; i++) { // one month
-				d.plusDays(i);
+			for(int i = 0; i < 31; i++) { // one month
+				d = d.plusDays(1);
 				if(w == DayOfWeek.SATURDAY){
-					d.plusDays(2);
+					d = d.plusDays(2);
 					i++;
 					i++;
 				} else if(dentist.getTurn().equalsIgnoreCase("morning")) {
+					t2 = t;
 					for(int j = 0; j < 5; j++) { // 5 appointments in the morning (1 hour each)
-						t.plusHours(j);
+						t2 = t2.plusHours(1);
 						Date d1 = Date.valueOf(d);
-						Time t1 = Time.valueOf(t);
+						Time t1 = Time.valueOf(t2);
 						a = new Appointment(d1, 1, t1, dentist);
 						appointmentManager.addAppointment(a, dentist.getId());
 					}
 				}	else if(dentist.getTurn().equalsIgnoreCase("afternoon")) {
-					for(int k = 6; k < 12; k++) { // 5 appointments in the afternoon (1 hour each)
-						t.plusHours(k);
+					t2 = t.plusHours(6);
+					for(int k = 0; k < 5; k++) { // 5 appointments in the afternoon (1 hour each)
+						t2 = t2.plusHours(1);
 						Date d1 = Date.valueOf(d);
-						Time t1 = Time.valueOf(t);
+						Time t1 = Time.valueOf(t2);
 						a = new Appointment(d1, 1, t1, dentist);
 						appointmentManager.addAppointment(a, dentist.getId());
 					}
@@ -351,7 +354,7 @@ public class Menu {
 			System.out.println("1. Modify my profile");
 			System.out.println("2. Check my patients");
 			System.out.println("3. Assign my appointments for this month");
-			System.out.println("4. Consult my appointments");
+			System.out.println("4. Consult my appointments"); // only see them
 			System.out.println("0. Return");
 			int choice = Integer.parseInt(reader.readLine());
 			
@@ -369,7 +372,8 @@ public class Menu {
 				break;	
 				
 			case 4:
-				ListofAppointments(user);
+				System.out.println(appointmentManager.listofAppointments(dentist.getId(), 0));
+				//ListofAppointments(user);
 				break;
 					
 			case 0:
@@ -390,7 +394,7 @@ public class Menu {
 		Patient patient = patientManager.getPatientByUserId(user.getId());
 		do{ 
 			System.out.println("1. See my profile");
-			System.out.println("2. Consult my appointments");
+			System.out.println("2. Consult my appointments"); // make and delete appointment
 			System.out.println("0. Return");
 			int choice = Integer.parseInt(reader.readLine());;
 			switch (choice) {
@@ -450,18 +454,20 @@ public class Menu {
 		
 	}
 	//MODIFICAR PARA QUE SALGAN LOS APPOINTMENTS LIBRES A LA HORA DE AÑADIR
-	private static void ListofAppointments(User u) throws Exception {
+	private static void ListofAppointments(User u) throws Exception { 
 		Patient patient = null;
-		Dentist dentist = null;
-		if(u.getRole().getName().equalsIgnoreCase("patient")){
+		//Dentist dentist = null;
+		/*if(u.getRole().getName().equalsIgnoreCase("patient")){
 			patient = patientManager.getPatientByUserId(u.getId());
 			appointmentManager.listofAppointments(0, patient.getId());
-		}
+		}/*
 		
-		if(u.getRole().getName().equalsIgnoreCase("dentist")){
+		/*if(u.getRole().getName().equalsIgnoreCase("dentist")){
 			dentist = dentistManager.getDentistByUserId(u.getId());
 			appointmentManager.listofAppointments(dentist.getId(), 0);
-		}
+		}*/
+		patient = patientManager.getPatientByUserId(u.getId());
+		appointmentManager.listofAppointments(0, patient.getId());
 		do {
 			System.out.println("1. Add appointment");
 			System.out.println("2. Delete appointment");

@@ -19,5 +19,5 @@ public interface AppointmentManager {
 
 	public List<Appointment> searchFreeAppointmentsByDate(Date date) throws SQLException;
 
-
+	public void addAppointmentWithType(Appointment a, int dentistId) throws SQLException;
 }
