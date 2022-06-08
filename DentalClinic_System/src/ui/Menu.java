@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -244,23 +245,25 @@ public class Menu {
 	
 	public static void AssignAppointmentsToDentist(Dentist dentist) throws SQLException, IOException{ 
 		// TODOS: 
-			// saturday and sunday ??
 			// dentist.getAppointments() --> null ??
 		 	// exceptions for date format
-			// comprobar bien
-			// métodos de appointments de patient y dentist
 		System.out.println("Please enter the start date of you appointments assignment: ('dd-MM-yyyy')");
 		String ds = reader.readLine();
 		DateTimeFormatter f = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 		LocalDate d = LocalDate.parse(ds, f);
 		LocalTime t = LocalTime.of(9, 00);
+		DayOfWeek w = d.getDayOfWeek();
 		Appointment a = null;
 		if(dentist.getAppointments() != null) {
 			System.out.println("Your appointments have already been assigned");
 		}else {
 			for(int i = 1; i < 32; i++) { // one month
 				d.plusDays(i);
-				if(dentist.getTurn().equalsIgnoreCase("morning")) {
+				if(w == DayOfWeek.SATURDAY){
+					d.plusDays(2);
+					i++;
+					i++;
+				} else if(dentist.getTurn().equalsIgnoreCase("morning")) {
 					for(int j = 0; j < 5; j++) { // 5 appointments in the morning (1 hour each)
 						t.plusHours(j);
 						Date d1 = Date.valueOf(d);
@@ -268,7 +271,7 @@ public class Menu {
 						a = new Appointment(d1, 1, t1, dentist);
 						appointmentManager.addAppointment(a, dentist.getId());
 					}
-				}else if(dentist.getTurn().equalsIgnoreCase("afternoon")) {
+				}	else if(dentist.getTurn().equalsIgnoreCase("afternoon")) {
 					for(int k = 6; k < 12; k++) { // 5 appointments in the afternoon (1 hour each)
 						t.plusHours(k);
 						Date d1 = Date.valueOf(d);
@@ -492,9 +495,13 @@ public class Menu {
 
 	
 	private static void makeAnAppointment(Patient p) throws SQLException, IOException{
-		System.out.println("Please introduce the date for your appointment: ");
-		Date d = java.sql.Date.valueOf(reader.readLine());
-		System.out.println(appointmentManager.searchFreeAppointmentsByDate(d));
+		System.out.println("Please introduce the date for your appointment: 'dd-MM-yyyy");
+		String ds = reader.readLine();
+		DateTimeFormatter f = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+		LocalDate d = LocalDate.parse(ds, f);
+		Date date = Date.valueOf(d);
+				
+		System.out.println(appointmentManager.searchFreeAppointmentsByDate(date));
 		System.out.println("Please choose the appointment by introducing its id: ");
 		int id = Integer.parseInt(reader.readLine());
 		int a = 1;
