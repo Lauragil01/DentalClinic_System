@@ -16,7 +16,7 @@ import dentalClinic.pojos.Patient;
 
 public class JDBCAppointmentManager implements AppointmentManager {
 	private JDBCManager manager;
-	private JDBCDentistManager dentistmanager = new JDBCDentistManager(manager);
+	private JDBCDentistManager dentistmanager;
 
 	public JDBCAppointmentManager(JDBCManager m, JDBCDentistManager dentistmanager) {
 		this.manager = m;
@@ -35,19 +35,6 @@ public class JDBCAppointmentManager implements AppointmentManager {
 		prep.setTime(2, a.getTime());
 		prep.setInt(3, a.getDuration());
 		prep.setInt(4, dentistId);
-		prep.executeUpdate();
-		prep.close();	
-	}
-	
-	@Override
-	public void addAppointmentWithType(Appointment a, int dentistId) throws SQLException { // checked
-		String sql = "INSERT INTO appointments (type, date, time, duration, dentist_app) VALUES (?,?,?,?,?)";
-		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
-		prep.setString(1, a.getType());
-		prep.setDate(2, a.getDate());
-		prep.setTime(3, a.getTime());
-		prep.setInt(4, a.getDuration());
-		prep.setInt(5, dentistId);
 		prep.executeUpdate();
 		prep.close();	
 	}

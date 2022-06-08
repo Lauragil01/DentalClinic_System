@@ -244,9 +244,6 @@ public class Menu {
 	}
 	
 	public static void AssignAppointmentsToDentist(Dentist dentist) throws SQLException, IOException{ 
-		// TODOS: 
-			// dentist.getAppointments() --> null ??
-		 	// exceptions for date format
 		System.out.println("Please enter the start date of you appointments assignment: ('dd-MM-yyyy')");
 		String ds = reader.readLine();
 		DateTimeFormatter f = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -257,14 +254,14 @@ public class Menu {
 		Appointment a = null;
 		if(dentist.getAppointments() != null) {
 			System.out.println("Your appointments have already been assigned");
-		}else {
-			for(int i = 0; i < 31; i++) { // one month
+		}
+		for(int i = 0; i < 31; i++) { // one month
 				d = d.plusDays(1);
 				if(w == DayOfWeek.SATURDAY){
 					d = d.plusDays(2);
 					i++;
 					i++;
-				} else if(dentist.getTurn().equalsIgnoreCase("morning")) {
+				} if(dentist.getTurn().equalsIgnoreCase("morning")) {
 					t2 = t;
 					for(int j = 0; j < 5; j++) { // 5 appointments in the morning (1 hour each)
 						t2 = t2.plusHours(1);
@@ -273,7 +270,7 @@ public class Menu {
 						a = new Appointment(d1, 1, t1, dentist);
 						appointmentManager.addAppointment(a, dentist.getId());
 					}
-				}	else if(dentist.getTurn().equalsIgnoreCase("afternoon")) {
+				} else if(dentist.getTurn().equalsIgnoreCase("afternoon")) {
 					t2 = t.plusHours(6);
 					for(int k = 0; k < 5; k++) { // 5 appointments in the afternoon (1 hour each)
 						t2 = t2.plusHours(1);
@@ -286,7 +283,6 @@ public class Menu {
 				//dentist.getAppointments().add(a);
 			}
 		}
-	}
 	
 	private static void login() throws Exception{
 		System.out.print("Email:");
@@ -508,6 +504,9 @@ public class Menu {
 		Date date = Date.valueOf(d);
 				
 		System.out.println(appointmentManager.searchFreeAppointmentsByDate(date));
+		if(appointmentManager.searchFreeAppointmentsByDate(date) == null) {
+			System.out.println("There are no appointments available for this date");
+		}
 		System.out.println("Please choose the appointment by introducing its id: ");
 		int id = Integer.parseInt(reader.readLine());
 		int a = 1;
