@@ -8,14 +8,20 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Scanner;
 
 import javax.persistence.NoResultException;
+import javax.swing.text.DateFormatter;
 import javax.xml.bind.JAXBException;
 
 import dentalClinic.pojos.*;
@@ -53,6 +59,7 @@ public class Menu {
 		appointmentManager = new JDBCAppointmentManager(manager);			
 		allergyManager = new JDBCAllergyManager(manager);
 		dentistManager = new JDBCDentistManager(manager,appointmentManager);
+		appointmentManager.setDentistManager(dentistManager);
 		patientManager = new JDBCPatientManager(manager, treatmentManager, medicationManager, appointmentManager, dentistManager, allergyManager);
 		dentistManager.setPatientmanager(patientManager);
 		
@@ -234,45 +241,60 @@ public class Menu {
 		Dentist dentist = new Dentist(name,surname,turn,specialty);
 		dentistManager.addDentist(dentist);
 		dentist.setId(manager.getLastId());
-		//dentist.setAppointments(createDentistsAppointments(dentist));
 		return dentist;
 	}
 	
-	public static List<Appointment> createDentistsAppointments(Dentist dentist) throws SQLException{
-		Appointment a = null;
-		List<Appointment> appointments = new ArrayList();
-		Calendar c = null; 
-		Calendar c1 = null;
-		Calendar c2 = null;
-		Date date = java.sql.Date.valueOf("2022-06-05");
-		c = c.getInstance();
-		c.setTime(date);
-		Time time1 = java.sql.Time.valueOf("09:00:00");
-		c1 = c1.getInstance();
-		c1.setTime(time1);
-		Time time2 = java.sql.Time.valueOf("15:00:00");
-		c2 = c2.getInstance();
-		c2.setTime(time2);
-		for(int i = 0; i<30; i++) { // appointments for a month (30 days)
-			for(int j = 0; j<5; j++) { // from monday to friday
-				c.add(Calendar.DATE, 1); // increments 1 day
-				for(int k = 0; k<5; k++) { // 5 appointments per dentist
-					if(dentist.getTurn().equalsIgnoreCase("morning")) {
-						c1.add(Calendar.MINUTE, 60); // increments 60 minutes = 1 hour
-						a = new Appointment(date, 1, time1, dentist);
-					}else if(dentist.getTurn().equalsIgnoreCase("afternoon")) {
-						c2.add(Calendar.MINUTE, 60); // increments 60 minutes = 1 hour
-						a = new Appointment(date, 1, time2, dentist);
+	public static void AssignAppointmentsToDentist(Dentist dentist) throws SQLException, IOException{ 
+		if(appointmentManager.listofAppointments(dentist.getId(), 0).isEmpty() == false) {
+			System.out.println("Your appointments have already been assigned for this month");
+		}else {
+			System.out.println("Please enter the start date of you appointments assignment: ('dd-MM-yyyy')");
+			String ds = reader.readLine();
+			DateTimeFormatter f = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+			LocalDate d = LocalDate.parse(ds, f);
+			LocalTime t = LocalTime.of(8, 00);
+			LocalTime t2;
+			DayOfWeek w = d.getDayOfWeek();
+			Appointment a = null;
+			//if(dentist.getAppointments() != null) {
+				//System.out.println("Your appointments have already been assigned");
+			//}
+			
+			
+			if(dentist.getTurn().equalsIgnoreCase("morning")) {
+				for(int i = 0; i < 31; i++) { // one month
+					d = d.plusDays(1);
+					if(w == DayOfWeek.SATURDAY){
+						d = d.plusDays(2);
+						i++;
+						i++;
+					}t2 = t;
+					for(int j = 0; j < 5; j++) { // 5 appointments in the morning (1 hour each)
+						t2 = t2.plusHours(1);
+						Date d1 = Date.valueOf(d);
+						Time t1 = Time.valueOf(t2);
+						a = new Appointment(d1, 1, t1, dentist);
+						appointmentManager.addAppointment(a, dentist.getId());
 					}
-					
-					appointmentManager.addAppointment(a, dentist.getId());
-					appointments.add(a);
+				}
+			}else if(dentist.getTurn().equalsIgnoreCase("afternoon")) {
+				for(int i = 0; i < 31; i++) { // one month
+					d = d.plusDays(1);
+					if(w == DayOfWeek.SATURDAY){
+					d = d.plusDays(2);
+					i++;
+					i++;
+					}t2 = t.plusHours(6);
+					for(int k = 0; k < 5; k++) { // 5 appointments in the afternoon (1 hour each)
+						t2 = t2.plusHours(1);
+						Date d1 = Date.valueOf(d);
+						Time t1 = Time.valueOf(t2);
+						a = new Appointment(d1, 1, t1, dentist);
+						appointmentManager.addAppointment(a, dentist.getId());
+					}
 				}
 			}
-			//dentist.setAppointments(appointments,);
-			c.add(Calendar.DATE, 2); // saturday and sunday
 		}
-		return appointments;
 	}
 	
 	private static void login() throws Exception{
@@ -340,12 +362,13 @@ public class Menu {
 			
 			System.out.println("1. Modify my profile");
 			System.out.println("2. Check my patients");
-			System.out.println("3. Consult my appointments");
-			System.out.println("4. Convert dentist to XML");
-			System.out.println("5. Convert XML to Dentist");
-			System.out.println("6. Convert XML file to HTML");
+			System.out.println("3. Assign my appointments for this month");
+			System.out.println("4. Consult my appointments"); // only see them
+			System.out.println("5. Convert dentist to XML");
+			System.out.println("6. Convert XML to Dentist");
+			System.out.println("7. Convert XML file to HTML");
 			System.out.println("0. Return");
-			int choice = Integer.parseInt(reader.readLine());;
+			int choice = Integer.parseInt(reader.readLine());
 			
 			switch (choice) {
 			case 1:
@@ -355,20 +378,28 @@ public class Menu {
 			case 2:
 				PatientsofDentist(dentist.getId()); 
 				break;
-					
+			
 			case 3:
-				ListofAppointments(user);
+				AssignAppointmentsToDentist(dentist);
+				break;	
+				
+			case 4:
+				System.out.println(appointmentManager.listofAppointments(dentist.getId(), 0));
+				if(appointmentManager.listofAppointments(dentist.getId(), 0).isEmpty()) {
+					System.out.println("Your appointments have not been assigned yet");
+				}
+				//ListofAppointments(user);
 				break;
 					
-			case 4:
+			case 5:
 				dentistToXml(dentist);
 				break;
 				
-			case 5: 
+			case 6: 
 				xmlToDentist();
 				break;
 				
-			case 6: 
+			case 7: 
 				dentistXmlToHtml();  //appointmentXmlToHtml();
 				break;
 				
@@ -391,7 +422,7 @@ public class Menu {
 		Patient patient = patientManager.getPatientByUserId(user.getId());
 		do{ 
 			System.out.println("1. See my profile");
-			System.out.println("2. Consult my appointments");
+			System.out.println("2. Consult my appointments"); // make and delete appointment
 			System.out.println("0. Return");
 			int choice = Integer.parseInt(reader.readLine());;
 			switch (choice) {
@@ -451,17 +482,22 @@ public class Menu {
 		
 	}
 	//MODIFICAR PARA QUE SALGAN LOS APPOINTMENTS LIBRES A LA HORA DE AÑADIR
-	private static void ListofAppointments(User u) throws Exception {
+	private static void ListofAppointments(User u) throws Exception { 
 		Patient patient = null;
-		Dentist dentist = null;
-		if(u.getRole().getName().equalsIgnoreCase("patient")){
+		//Dentist dentist = null;
+		/*if(u.getRole().getName().equalsIgnoreCase("patient")){
 			patient = patientManager.getPatientByUserId(u.getId());
 			appointmentManager.listofAppointments(0, patient.getId());
-		}
+		}/*
 		
-		if(u.getRole().getName().equalsIgnoreCase("dentist")){
+		/*if(u.getRole().getName().equalsIgnoreCase("dentist")){
 			dentist = dentistManager.getDentistByUserId(u.getId());
 			appointmentManager.listofAppointments(dentist.getId(), 0);
+		}*/
+		patient = patientManager.getPatientByUserId(u.getId());
+		System.out.println(appointmentManager.listofAppointments(0, patient.getId()));
+		if(appointmentManager.listofAppointments(0, patient.getId()).isEmpty()) {
+			System.out.println("You don't have any appointments yet");
 		}
 		do {
 			System.out.println("1. Add appointment");
@@ -479,8 +515,13 @@ public class Menu {
 				}
 						
 				case 2:{
-					//System.out.println("Introduce the ID of the appointment you want to delete");
-					DeleteAppointment();
+					if(appointmentManager.listofAppointments(0, patient.getId()).isEmpty()) {
+						System.out.println("There are no appointments to be deleted");
+					}else {
+						System.out.println(appointmentManager.listofAppointments(0, patient.getId()));
+						DeleteAppointment();
+					}
+					
 					break;
 				}
 				case 0:
@@ -496,11 +537,38 @@ public class Menu {
 
 	
 	private static void makeAnAppointment(Patient p) throws SQLException, IOException{
-		System.out.println("Please introduce the date for your appointment: ");
-		Date d = java.sql.Date.valueOf(reader.readLine());
-		System.out.println(appointmentManager.searchFreeAppointmentsByDate(d));
+		System.out.println("Please introduce the date for your appointment: 'dd-MM-yyyy");
+		String ds = reader.readLine();
+		DateTimeFormatter f;
+		LocalDate d;
+		Date date = null;
+		try {
+			f = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+			d = LocalDate.parse(ds, f);
+			date = Date.valueOf(d);
+		}catch(Exception e) {
+			date = null;
+		}
+		while(date == null) {
+			System.out.println("Please introduce a valid date: ");
+			try {
+				date = Date.valueOf(reader.readLine());
+			}
+			catch (Exception e2) {
+				date = null;
+		    }		
+		}
+				
+		System.out.println(appointmentManager.searchFreeAppointmentsByDate(date));
+		if(appointmentManager.searchFreeAppointmentsByDate(date).isEmpty()) {
+			System.out.println("There are no appointments available for this date");
+		}
 		System.out.println("Please choose the appointment by introducing its id: ");
 		int id = Integer.parseInt(reader.readLine());
+		while(appointmentManager.searchAppointmentById(id) == null) {
+			System.out.println("Invalid id, please try again");
+			id = Integer.parseInt(reader.readLine());
+		}
 		int a = 1;
 		try {
 			String sql = "UPDATE appointments SET patient_app = ? WHERE appointmentId = ?";
@@ -509,14 +577,15 @@ public class Menu {
 			prep.setInt(2,  id);
 			prep.executeUpdate();
 			prep.close();
-			p.getAppointments().add(appointmentManager.searchAppointmentById(id));
+			//p.getAppointments().add(appointmentManager.searchAppointmentById(id));
 			System.out.println("Explain briefly the reason for the appointment: ");
 			String type = reader.readLine();
 			sql = "UPDATE appointments SET type = ? WHERE appointmentId = ?";
-			prep.setString(1,  type);
-			prep.setInt(2,  id);
-			prep.executeUpdate();
-			prep.close();
+			PreparedStatement prep2 = manager.getConnection().prepareStatement(sql);
+			prep2.setString(1,  type);
+			prep2.setInt(2,  id);
+			prep2.executeUpdate();
+			prep2.close();
 			appointmentManager.searchAppointmentById(id).setType(type);
 		} catch (SQLException e) {
 			a = 0;
@@ -532,10 +601,15 @@ public class Menu {
 	}
 	
 	private static void DeleteAppointment() throws IOException{
+		int a;
 		System.out.println("Introduce the ID of the appointment you want to delete: ");
 		int id = Integer.parseInt(reader.readLine());
-		int a = 1;
 		try{
+			while(appointmentManager.searchAppointmentById(id) == null) {
+				System.out.println("Invalid id, please try again");
+				id = Integer.parseInt(reader.readLine());
+			}
+			a = 1;
 			appointmentManager.deleteAppointment(id);
 		}catch(SQLException e) {
 			a = 0;
@@ -721,7 +795,7 @@ public class Menu {
 		List<Treatment> treats = null;
 		
 		do{
-			System.out.println("\nPatient " + patient.getName() + " " + patient.getSurname() + " treatments :");
+			System.out.println("\n---Patient " + patient.getName() + " " + patient.getSurname() + " treatments---");
 			System.out.println(patient.getTreatments());
 			System.out.println("\n");
 			
@@ -794,6 +868,7 @@ public class Menu {
 				System.out.println("3. Add medication");
 				System.out.println("4. Delete medication");
 			}
+			System.out.println("0. Return");
 			int choice = Integer.parseInt(reader.readLine());
 			switch (choice) {
 			case 1:{
@@ -843,7 +918,16 @@ public class Menu {
 		System.out.println("Name: ");
 		String name = reader.readLine();
 		System.out.println("Dosis: ");
-		int dosis = Integer.parseInt(reader.readLine());
+		int dosis = 0;
+		try { 
+			dosis = Integer.parseInt(reader.readLine());
+		}
+		catch(NumberFormatException e) {
+			System.out.println("Introduce a number of dosis.");
+			while(dosis == 0) {
+				dosis = Integer.parseInt(reader.readLine());
+			}
+		}
 		Medication med = new Medication(name,dosis,treatment);
 		medicationManager.addMedication(med);
 		

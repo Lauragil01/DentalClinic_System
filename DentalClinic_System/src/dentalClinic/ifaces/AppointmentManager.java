@@ -18,6 +18,4 @@ public interface AppointmentManager {
 	public Appointment searchAppointmentById (int appointmentId)throws SQLException;
 
 	public List<Appointment> searchFreeAppointmentsByDate(Date date) throws SQLException;
-
-
 }

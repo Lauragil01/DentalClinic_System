@@ -153,10 +153,11 @@ public class JDBCManager {
 			
 			try {
 				//dm.addDentist(d);
-				//am.addAppointment(a, d.getId());
+				//am.addAppointmentWithType(a, d.getId());
+				am.deleteAppointment(a.getId());
 				//am.deleteAppointment(a.getId());
 				//System.out.println(am.searchAppointmentById(a.getId()));
-				System.out.println(am.searchFreeAppointmentsByDate(date));
+				//System.out.println(am.searchFreeAppointmentsByDate(date));
 			}catch(SQLException e) {
 				e.printStackTrace();
 			}

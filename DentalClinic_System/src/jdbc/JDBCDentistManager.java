@@ -27,6 +27,9 @@ public class JDBCDentistManager implements DentistManager {
 		this.appointmentmanager = am;
 	}
 	
+	public JDBCDentistManager(JDBCManager m) {
+		this.manager = m;
+	}
 
 	public void setPatientmanager(JDBCPatientManager patientmanager) {
 		this.patientmanager = patientmanager;

@@ -85,7 +85,7 @@ public class Medication implements Serializable {
 
 	@Override
 	public String toString() {
-		return ("Id: " + medicationId + "\nName: " + name + "\nDosis: " + dosis + "\nTreatment: " + treatment);
+		return ("\nId: " + medicationId + "\nName: " + name + "\nDosis: " + dosis + "\nTreatment: " + treatment);
 	}
 	
 	

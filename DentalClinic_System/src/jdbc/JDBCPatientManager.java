@@ -238,6 +238,7 @@ public class JDBCPatientManager implements PatientManager {
 			p= new Patient(rs.getInt("patientId"), rs.getString("name"), rs.getString("surname"), rs.getString("gender"), 
 					rs.getDate("dob"), rs.getString("address"), rs.getString("bloodType"), rs.getString("background"));
 			p.setAllergies(allergymanager.getAllergiesFromPatient(p.getId()));
+			p.setTreatments(treatmentmanager.listofTreatments(p.getId()));
 		}
 		prep.close();
 		rs.close();

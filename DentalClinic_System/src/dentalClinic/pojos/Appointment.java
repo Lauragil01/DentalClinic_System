@@ -190,7 +190,7 @@ public class Appointment implements Serializable {
 
 	@Override
 	public String toString() {
-		return ("Id: " + appointmentId + "\nDate: " + date + "\nType: " + type + "\nDuration: " + duration + "\nTime: "
+		return ("\nId: " + appointmentId + "\nDate: " + date + "\nType: " + type + "\nDuration: " + duration + "\nTime: "
 				+ time + "\nDentist: " + dentist + "\nPatient: " + patient );
 	}
 	
