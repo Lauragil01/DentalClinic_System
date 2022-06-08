@@ -10,7 +10,6 @@
 		<p>Type:<xsl:value-of select="/appointment/@type"/></p>
 		<p>Duration:<xsl:value-of select="/appointment/@duration"/></p>
 		<p>Time:<xsl:value-of select="/appointment/@time"/></p>
-		<p>Patient:<xsl:value-of select="/appointment/@patient"/></p>
 	</body>
 	</html>
 </xsl:template>

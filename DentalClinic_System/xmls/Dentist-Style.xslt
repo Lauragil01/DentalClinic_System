@@ -19,14 +19,12 @@
       <th>Type</th>
       <th>Duration</th>
       <th>Time</th>
-      <th>Dentist</th>
       <xsl:for-each select="Dentist/Appointments/Appointment">
       <xsl:sort select="@appointmentId" />
 	        <td><xsl:value-of select="date" /></td>
 	        <td><xsl:value-of select="type" /></td>
 	        <td><xsl:value-of select="duration" /></td>
 	        <td><xsl:value-of select="time" /></td>
-	        <td><xsl:value-of select="dentist" /></td>
       </xsl:for-each>
       </Appointments>
     </table>

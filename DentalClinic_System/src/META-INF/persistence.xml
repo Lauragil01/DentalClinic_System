@@ -12,6 +12,8 @@
 		<!-- Entity Class -->
 		<class>dentalClinic.pojos.User</class>
 		<class>dentalClinic.pojos.Role</class>
+		<class>dentalClinic.pojos.Dentist</class> 
+		<class>db.pojos.Appointment</class> 
  
 		<properties>	
 			<!-- Connection properties -->

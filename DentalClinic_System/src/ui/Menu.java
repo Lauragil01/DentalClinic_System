@@ -244,48 +244,53 @@ public class Menu {
 	}
 	
 	public static void AssignAppointmentsToDentist(Dentist dentist) throws SQLException, IOException{ 
-		System.out.println("Please enter the start date of you appointments assignment: ('dd-MM-yyyy')");
-		String ds = reader.readLine();
-		DateTimeFormatter f = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-		LocalDate d = LocalDate.parse(ds, f);
-		LocalTime t = LocalTime.of(8, 00);
-		LocalTime t2;
-		DayOfWeek w = d.getDayOfWeek();
-		Appointment a = null;
-		if(dentist.getAppointments() != null) {
-			System.out.println("Your appointments have already been assigned");
-		}
-		
-		if(dentist.getTurn().equalsIgnoreCase("morning")) {
-			for(int i = 0; i < 31; i++) { // one month
-				d = d.plusDays(1);
-				if(w == DayOfWeek.SATURDAY){
+		if(appointmentManager.listofAppointments(dentist.getId(), 0).isEmpty() == false) {
+			System.out.println("Your appointments have already been assigned for this month");
+		}else {
+			System.out.println("Please enter the start date of you appointments assignment: ('dd-MM-yyyy')");
+			String ds = reader.readLine();
+			DateTimeFormatter f = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+			LocalDate d = LocalDate.parse(ds, f);
+			LocalTime t = LocalTime.of(8, 00);
+			LocalTime t2;
+			DayOfWeek w = d.getDayOfWeek();
+			Appointment a = null;
+			//if(dentist.getAppointments() != null) {
+				//System.out.println("Your appointments have already been assigned");
+			//}
+			
+			
+			if(dentist.getTurn().equalsIgnoreCase("morning")) {
+				for(int i = 0; i < 31; i++) { // one month
+					d = d.plusDays(1);
+					if(w == DayOfWeek.SATURDAY){
+						d = d.plusDays(2);
+						i++;
+						i++;
+					}t2 = t;
+					for(int j = 0; j < 5; j++) { // 5 appointments in the morning (1 hour each)
+						t2 = t2.plusHours(1);
+						Date d1 = Date.valueOf(d);
+						Time t1 = Time.valueOf(t2);
+						a = new Appointment(d1, 1, t1, dentist);
+						appointmentManager.addAppointment(a, dentist.getId());
+					}
+				}
+			}else if(dentist.getTurn().equalsIgnoreCase("afternoon")) {
+				for(int i = 0; i < 31; i++) { // one month
+					d = d.plusDays(1);
+					if(w == DayOfWeek.SATURDAY){
 					d = d.plusDays(2);
 					i++;
 					i++;
-				}t2 = t;
-				for(int j = 0; j < 5; j++) { // 5 appointments in the morning (1 hour each)
-					t2 = t2.plusHours(1);
-					Date d1 = Date.valueOf(d);
-					Time t1 = Time.valueOf(t2);
-					a = new Appointment(d1, 1, t1, dentist);
-					appointmentManager.addAppointment(a, dentist.getId());
-				}
-			}
-		}else if(dentist.getTurn().equalsIgnoreCase("afternoon")) {
-			for(int i = 0; i < 31; i++) { // one month
-				d = d.plusDays(1);
-				if(w == DayOfWeek.SATURDAY){
-				d = d.plusDays(2);
-				i++;
-				i++;
-				}t2 = t.plusHours(6);
-				for(int k = 0; k < 5; k++) { // 5 appointments in the afternoon (1 hour each)
-					t2 = t2.plusHours(1);
-					Date d1 = Date.valueOf(d);
-					Time t1 = Time.valueOf(t2);
-					a = new Appointment(d1, 1, t1, dentist);
-					appointmentManager.addAppointment(a, dentist.getId());
+					}t2 = t.plusHours(6);
+					for(int k = 0; k < 5; k++) { // 5 appointments in the afternoon (1 hour each)
+						t2 = t2.plusHours(1);
+						Date d1 = Date.valueOf(d);
+						Time t1 = Time.valueOf(t2);
+						a = new Appointment(d1, 1, t1, dentist);
+						appointmentManager.addAppointment(a, dentist.getId());
+					}
 				}
 			}
 		}
@@ -358,6 +363,9 @@ public class Menu {
 			System.out.println("2. Check my patients");
 			System.out.println("3. Assign my appointments for this month");
 			System.out.println("4. Consult my appointments"); // only see them
+			System.out.println("5. Convert dentist to XML");
+			System.out.println("6. Convert XML to Dentist");
+			System.out.println("7. Convert XML file to HTML");
 			System.out.println("0. Return");
 			int choice = Integer.parseInt(reader.readLine());
 			
@@ -376,9 +384,25 @@ public class Menu {
 				
 			case 4:
 				System.out.println(appointmentManager.listofAppointments(dentist.getId(), 0));
+				if(appointmentManager.listofAppointments(dentist.getId(), 0).isEmpty()) {
+					System.out.println("Your appointments have not been assigned yet");
+				}
 				//ListofAppointments(user);
 				break;
 					
+			case 5:
+				dentistToXml(dentist);
+				break;
+				
+			case 6: 
+				xmlToDentist();
+				break;
+				
+			case 7: 
+				dentistXmlToHtml();  //appointmentXmlToHtml();
+				break;
+				
+		
 			case 0:
 				return;
 				
@@ -470,7 +494,10 @@ public class Menu {
 			appointmentManager.listofAppointments(dentist.getId(), 0);
 		}*/
 		patient = patientManager.getPatientByUserId(u.getId());
-		appointmentManager.listofAppointments(0, patient.getId());
+		System.out.println(appointmentManager.listofAppointments(0, patient.getId()));
+		if(appointmentManager.listofAppointments(0, patient.getId()).isEmpty()) {
+			System.out.println("You don't have any appointments yet");
+		}
 		do {
 			System.out.println("1. Add appointment");
 			System.out.println("2. Delete appointment");
@@ -487,8 +514,13 @@ public class Menu {
 				}
 						
 				case 2:{
-					//System.out.println("Introduce the ID of the appointment you want to delete");
-					DeleteAppointment();
+					if(appointmentManager.listofAppointments(0, patient.getId()).isEmpty()) {
+						System.out.println("There are no appointments to be deleted");
+					}else {
+						System.out.println(appointmentManager.listofAppointments(0, patient.getId()));
+						DeleteAppointment();
+					}
+					
 					break;
 				}
 				case 0:
@@ -506,16 +538,36 @@ public class Menu {
 	private static void makeAnAppointment(Patient p) throws SQLException, IOException{
 		System.out.println("Please introduce the date for your appointment: 'dd-MM-yyyy");
 		String ds = reader.readLine();
-		DateTimeFormatter f = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-		LocalDate d = LocalDate.parse(ds, f);
-		Date date = Date.valueOf(d);
+		DateTimeFormatter f;
+		LocalDate d;
+		Date date = null;
+		try {
+			f = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+			d = LocalDate.parse(ds, f);
+			date = Date.valueOf(d);
+		}catch(Exception e) {
+			date = null;
+		}
+		while(date == null) {
+			System.out.println("Please introduce a valid date: ");
+			try {
+				date = Date.valueOf(reader.readLine());
+			}
+			catch (Exception e2) {
+				date = null;
+		    }		
+		}
 				
 		System.out.println(appointmentManager.searchFreeAppointmentsByDate(date));
-		if(appointmentManager.searchFreeAppointmentsByDate(date) == null) {
+		if(appointmentManager.searchFreeAppointmentsByDate(date).isEmpty()) {
 			System.out.println("There are no appointments available for this date");
 		}
 		System.out.println("Please choose the appointment by introducing its id: ");
 		int id = Integer.parseInt(reader.readLine());
+		while(appointmentManager.searchAppointmentById(id) == null) {
+			System.out.println("Invalid id, please try again");
+			id = Integer.parseInt(reader.readLine());
+		}
 		int a = 1;
 		try {
 			String sql = "UPDATE appointments SET patient_app = ? WHERE appointmentId = ?";
@@ -548,10 +600,15 @@ public class Menu {
 	}
 	
 	private static void DeleteAppointment() throws IOException{
+		int a;
 		System.out.println("Introduce the ID of the appointment you want to delete: ");
 		int id = Integer.parseInt(reader.readLine());
-		int a = 1;
 		try{
+			while(appointmentManager.searchAppointmentById(id) == null) {
+				System.out.println("Invalid id, please try again");
+				id = Integer.parseInt(reader.readLine());
+			}
+			a = 1;
 			appointmentManager.deleteAppointment(id);
 		}catch(SQLException e) {
 			a = 0;
@@ -1058,6 +1115,9 @@ public class Menu {
 		public static void appointmentXmlToHtml () {
 			xmlManager.simpleTransform("./xmls/External-Appointment.xml", "./xmls/Appointment-Style.xslt", "./xmls/Appointment.html");
 		}
+	/*nuevo*/	public static void dentistXmlToHtml () {
+			xmlManager.simpleTransform("./xmls/External-Dentist.xml", "./xmls/Dentist-Style.xslt", "./xmls/Dentist.html");
+		}
 		
 		public static void xmlToDentist() {
 			try {
@@ -1067,7 +1127,7 @@ public class Menu {
 			}
 		}
 		
-		public static void dentistToXml(Dentists d) throws JAXBException {
+		public static void dentistToXml(Dentist d) throws JAXBException {
 			try {
 				xmlManager.java2XmlDentist(d); 
 			}catch(Exception e) {
@@ -1075,10 +1135,7 @@ public class Menu {
 			}
 		}
 		
-		public static void dentistXmlToHtml () {
-			xmlManager.simpleTransform("./xmls/External-Dentist.xml", "./xmls/Dentist-Style.xslt", "./xmls/Dentist.html");
-		}
-	
+		
 	
 	
 	}

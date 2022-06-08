@@ -25,10 +25,10 @@ public class XMLManager {
 	private static EntityManager em;
 	static Scanner sc = new Scanner(System.in);
 	
-	public void java2XmlDentist(Dentists d) throws Exception {
+	public void java2XmlDentist(Dentist d) throws Exception {
 		
 		// Create the JAXBContext
-		JAXBContext jaxbContext = JAXBContext.newInstance(Dentists.class);
+		JAXBContext jaxbContext = JAXBContext.newInstance(Dentist.class);
 		// Get the marshaller
 		Marshaller marshaller = jaxbContext.createMarshaller();
 		
@@ -41,7 +41,7 @@ public class XMLManager {
 		marshaller.marshal(d, file);
 		}
 	
-	public Dentists xml2JavaDentist() throws Exception {
+	public Dentist xml2JavaDentist() throws Exception {
 		//Create the JAXBContext
 		JAXBContext jaxbContext = JAXBContext.newInstance(Dentists.class);
 		// Get the unmarshaller
@@ -49,8 +49,8 @@ public class XMLManager {
 
 		// Use the Unmarshaller to unmarshall the XML document from a file
 		File file = new File("./xmls/External-Dentist.xml");
-		Dentists dentists=(Dentists)unmarshaller.unmarshal(file);
-			return dentists;
+		Dentist dentist=(Dentist)unmarshaller.unmarshal(file);
+			return dentist;
 		}
 		
 	//LO NECESITO????
@@ -116,14 +116,14 @@ public class XMLManager {
 	public static void main(String[] args) {
 		
 		Dentist d1= new Dentist(1,"Juan", "García", "tarde", "odontologo");
-		Dentist d2= new Dentist(2,"Juan", "García", "tarde", "odontologo");
+		Dentist d2= new Dentist(2,"Marta", "García", "tarde", "odontologo");
 		
-		Dentists dentists=new Dentists();
+		Dentist dentist=new Dentist();
 		
 		XMLManager xmlManager= new XMLManager();
 		
 		try {
-			xmlManager.java2XmlDentist(dentists); 
+			xmlManager.java2XmlDentist(dentist); 
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
